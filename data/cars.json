@@ -1,0 +1,92 @@
+{
+  "cars": [
+    {
+      "id": "car_starter",
+      "name": "Rookie Racer",
+      "base_stats": {
+        "max_hp": 100,
+        "hp_regen": 1.0,
+        "max_speed": 500,
+        "boost_speed": 750,
+        "engine_power": 400,
+        "steer_angle": 15.0,
+        "traction_normal": 0.75,
+        "traction_drift": 0.05,
+        "slip_speed": 300,
+        "nitro_max": 100.0,
+        "nitro_accumulation_rate": 10.0,
+        "nitro_drain_rate": 25.0,
+        "nitro_damage": 30.0,
+        "armor": 0,
+        "weapon_slots": 4
+      },
+      "unlock_condition": "none"
+    },
+    {
+      "id": "car_speed",
+      "name": "Lightning",
+      "base_stats": {
+        "max_hp": 70,
+        "hp_regen": 0.5,
+        "max_speed": 650,
+        "boost_speed": 950,
+        "engine_power": 500,
+        "steer_angle": 18.0,
+        "traction_normal": 0.65,
+        "traction_drift": 0.03,
+        "slip_speed": 250,
+        "nitro_max": 120.0,
+        "nitro_accumulation_rate": 15.0,
+        "nitro_drain_rate": 30.0,
+        "nitro_damage": 20.0,
+        "armor": 0,
+        "weapon_slots": 4
+      },
+      "unlock_condition": "wave_5_clear"
+    },
+    {
+      "id": "car_tank",
+      "name": "Heavy Hauler",
+      "base_stats": {
+        "max_hp": 150,
+        "hp_regen": 2.0,
+        "max_speed": 400,
+        "boost_speed": 600,
+        "engine_power": 350,
+        "steer_angle": 12.0,
+        "traction_normal": 0.8,
+        "traction_drift": 0.08,
+        "slip_speed": 250,
+        "nitro_max": 80.0,
+        "nitro_accumulation_rate": 8.0,
+        "nitro_drain_rate": 20.0,
+        "nitro_damage": 50.0,
+        "armor": 3,
+        "weapon_slots": 4
+      },
+      "unlock_condition": "wave_10_clear"
+    },
+    {
+      "id": "car_drift",
+      "name": "Drift King",
+      "base_stats": {
+        "max_hp": 80,
+        "hp_regen": 1.0,
+        "max_speed": 550,
+        "boost_speed": 850,
+        "engine_power": 450,
+        "steer_angle": 20.0,
+        "traction_normal": 0.6,
+        "traction_drift": 0.02,
+        "slip_speed": 200,
+        "nitro_max": 150.0,
+        "nitro_accumulation_rate": 20.0,
+        "nitro_drain_rate": 35.0,
+        "nitro_damage": 40.0,
+        "armor": 0,
+        "weapon_slots": 4
+      },
+      "unlock_condition": "wave_15_clear"
+    }
+  ]
+}

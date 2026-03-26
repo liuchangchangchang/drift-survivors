@@ -1,0 +1,76 @@
+{
+  "enemies": [
+    {
+      "id": "enemy_basic",
+      "name": "Crawler",
+      "type": "regular",
+      "base_stats": { "max_hp": 20, "speed": 80, "contact_damage": 5, "material_drop": 1 },
+      "scale_per_wave": { "hp_multiplier": 1.15, "speed_multiplier": 1.02, "damage_multiplier": 1.1 },
+      "min_wave": 1,
+      "size": "small"
+    },
+    {
+      "id": "enemy_fast",
+      "name": "Dasher",
+      "type": "regular",
+      "base_stats": { "max_hp": 12, "speed": 150, "contact_damage": 3, "material_drop": 1 },
+      "scale_per_wave": { "hp_multiplier": 1.12, "speed_multiplier": 1.03, "damage_multiplier": 1.08 },
+      "min_wave": 2,
+      "size": "small"
+    },
+    {
+      "id": "enemy_ranged",
+      "name": "Spitter",
+      "type": "regular",
+      "base_stats": { "max_hp": 15, "speed": 60, "contact_damage": 2, "material_drop": 2 },
+      "scale_per_wave": { "hp_multiplier": 1.15, "speed_multiplier": 1.01, "damage_multiplier": 1.12 },
+      "min_wave": 3,
+      "size": "small"
+    },
+    {
+      "id": "enemy_heavy",
+      "name": "Stomper",
+      "type": "regular",
+      "base_stats": { "max_hp": 50, "speed": 45, "contact_damage": 10, "material_drop": 3 },
+      "scale_per_wave": { "hp_multiplier": 1.18, "speed_multiplier": 1.01, "damage_multiplier": 1.12 },
+      "min_wave": 5,
+      "size": "medium"
+    },
+    {
+      "id": "enemy_swarm",
+      "name": "Buzzer",
+      "type": "regular",
+      "base_stats": { "max_hp": 8, "speed": 120, "contact_damage": 2, "material_drop": 1 },
+      "scale_per_wave": { "hp_multiplier": 1.1, "speed_multiplier": 1.04, "damage_multiplier": 1.05 },
+      "min_wave": 4,
+      "size": "tiny"
+    },
+    {
+      "id": "enemy_elite_brute",
+      "name": "Brute",
+      "type": "elite",
+      "base_stats": { "max_hp": 100, "speed": 60, "contact_damage": 15, "material_drop": 5 },
+      "scale_per_wave": { "hp_multiplier": 1.2, "speed_multiplier": 1.01, "damage_multiplier": 1.15 },
+      "min_wave": 5,
+      "size": "large"
+    },
+    {
+      "id": "enemy_elite_charger",
+      "name": "Charger",
+      "type": "elite",
+      "base_stats": { "max_hp": 70, "speed": 200, "contact_damage": 20, "material_drop": 5 },
+      "scale_per_wave": { "hp_multiplier": 1.18, "speed_multiplier": 1.02, "damage_multiplier": 1.15 },
+      "min_wave": 8,
+      "size": "large"
+    },
+    {
+      "id": "enemy_boss_overlord",
+      "name": "The Overlord",
+      "type": "boss",
+      "base_stats": { "max_hp": 2000, "speed": 40, "contact_damage": 30, "material_drop": 50 },
+      "scale_per_wave": { "hp_multiplier": 1.0, "speed_multiplier": 1.0, "damage_multiplier": 1.0 },
+      "min_wave": 20,
+      "size": "boss"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "achievements": [
+    { "id": "ach_first_wave", "name": "First Blood", "description": "Complete wave 1" },
+    { "id": "ach_wave_10", "name": "Halfway There", "description": "Reach wave 10" },
+    { "id": "ach_victory", "name": "Champion", "description": "Complete all 20 waves" },
+    { "id": "ach_drift_master", "name": "Drift King", "description": "Accumulate 1000 total drift time" },
+    { "id": "ach_nitro_kills", "name": "Turbo Killer", "description": "Kill 100 enemies with nitro boost" },
+    { "id": "ach_max_weapons", "name": "Armed to the Teeth", "description": "Fill all weapon slots" },
+    { "id": "ach_tier4_weapon", "name": "Legendary Arsenal", "description": "Merge a weapon to tier 4" }
+  ]
+}

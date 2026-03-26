@@ -1,0 +1,32 @@
+# Godot 4+ specific ignores
+.godot/
+*.translation
+
+# Godot-specific ignores
+*.import
+export_presets.cfg
+
+# Imported textures, models, etc
+*.stex
+*.ctex
+
+# OS-specific
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+*.swp
+*.swo
+*~
+
+# Build
+build/
+export/
+
+# Steam
+steam_appid.txt
+
+# Plan file
+plan.md

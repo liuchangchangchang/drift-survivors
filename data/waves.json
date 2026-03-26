@@ -1,0 +1,29 @@
+{
+  "waves": [
+    { "wave_number": 1, "duration_seconds": 20, "enemy_types": ["enemy_basic"], "spawn_rate": 1.5, "max_enemies": 15, "elite_chance": 0.0, "has_boss": false, "shop_after": true },
+    { "wave_number": 2, "duration_seconds": 25, "enemy_types": ["enemy_basic", "enemy_fast"], "spawn_rate": 1.3, "max_enemies": 20, "elite_chance": 0.0, "has_boss": false, "shop_after": true },
+    { "wave_number": 3, "duration_seconds": 28, "enemy_types": ["enemy_basic", "enemy_fast", "enemy_ranged"], "spawn_rate": 1.2, "max_enemies": 25, "elite_chance": 0.0, "has_boss": false, "shop_after": true },
+    { "wave_number": 5, "duration_seconds": 35, "enemy_types": ["enemy_basic", "enemy_fast", "enemy_ranged", "enemy_heavy"], "spawn_rate": 1.0, "max_enemies": 35, "elite_chance": 0.05, "has_boss": false, "shop_after": true },
+    { "wave_number": 8, "duration_seconds": 50, "enemy_types": ["enemy_basic", "enemy_fast", "enemy_ranged", "enemy_heavy", "enemy_swarm"], "spawn_rate": 0.7, "max_enemies": 55, "elite_chance": 0.10, "has_boss": false, "shop_after": true },
+    { "wave_number": 11, "duration_seconds": 60, "enemy_types": ["enemy_basic", "enemy_fast", "enemy_ranged", "enemy_heavy", "enemy_swarm"], "spawn_rate": 0.6, "max_enemies": 70, "elite_chance": 0.15, "has_boss": false, "shop_after": true },
+    { "wave_number": 15, "duration_seconds": 75, "enemy_types": ["enemy_basic", "enemy_fast", "enemy_ranged", "enemy_heavy", "enemy_swarm"], "spawn_rate": 0.5, "max_enemies": 85, "elite_chance": 0.18, "has_boss": false, "shop_after": true },
+    { "wave_number": 20, "duration_seconds": 90, "enemy_types": ["enemy_basic", "enemy_fast", "enemy_ranged", "enemy_heavy", "enemy_swarm"], "spawn_rate": 0.4, "max_enemies": 100, "elite_chance": 0.20, "has_boss": true, "boss_id": "enemy_boss_overlord", "shop_after": false }
+  ],
+  "wave_interpolation": {
+    "duration_formula": "20 + (wave_number - 1) * 3.68",
+    "spawn_rate_formula": "max(0.3, 1.5 - (wave_number - 1) * 0.058)",
+    "max_enemies_formula": "min(100, 15 + (wave_number - 1) * 4.47)",
+    "elite_chance_formula": "max(0, (wave_number - 4) * 0.0125)"
+  },
+  "shop_pricing": {
+    "base_reroll_cost": 5,
+    "reroll_cost_increment": 2,
+    "price_multiplier_per_wave": 1.08
+  },
+  "rarity_by_wave": {
+    "common": { "min_wave": 1, "base_chance": 1.0 },
+    "uncommon": { "min_wave": 2, "max_chance": 0.6 },
+    "rare": { "min_wave": 4, "max_chance": 0.25 },
+    "legendary": { "min_wave": 8, "max_chance": 0.08 }
+  }
+}
