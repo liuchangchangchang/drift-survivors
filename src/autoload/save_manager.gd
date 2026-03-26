@@ -33,7 +33,7 @@ func load_game() -> void:
 	if SteamManager.is_steam_available:
 		var cloud_data := SteamManager.load_from_cloud("save_data.json")
 		if not cloud_data.is_empty():
-			var parsed := JSON.parse_string(cloud_data)
+			var parsed: Variant = JSON.parse_string(cloud_data)
 			if parsed is Dictionary:
 				save_data.merge(parsed, true)
 				return
@@ -41,7 +41,7 @@ func load_game() -> void:
 	if FileAccess.file_exists(SAVE_PATH):
 		var file := FileAccess.open(SAVE_PATH, FileAccess.READ)
 		if file:
-			var parsed := JSON.parse_string(file.get_as_text())
+			var parsed: Variant = JSON.parse_string(file.get_as_text())
 			if parsed is Dictionary:
 				save_data.merge(parsed, true)
 
