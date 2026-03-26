@@ -18,6 +18,8 @@ func _physics_process(delta: float) -> void:
 		_try_fire()
 
 func _try_fire() -> void:
+	if not is_inside_tree():
+		return
 	var target := TargetingSystem.find_nearest_enemy(
 		global_position, data.weapon_range, get_tree()
 	)
@@ -60,9 +62,67 @@ func _fire_melee(direction: Vector2) -> void:
 			_apply_damage_to(target)
 
 func _spawn_projectile(direction: Vector2) -> void:
-	# Projectile spawning will be handled by the weapon mount manager
-	# For now, emit a signal or create a basic projectile
+	var proj := Area2D.new()
+	proj.position = Vector2.ZERO
+	proj.global_position = global_position
+	# Visual
+	var visual := ColorRect.new()
+	visual.color = Color(1.0, 1.0, 0.3)
+	visual.size = Vector2(6, 6)
+	visual.position = Vector2(-3, -3)
+	proj.add_child(visual)
+	# Collision
+	var col := CollisionShape2D.new()
+	var shape := CircleShape2D.new()
+	shape.radius = 4.0
+	col.shape = shape
+	proj.add_child(col)
+	proj.collision_layer = 4  # projectiles layer
+	proj.collision_mask = 2   # enemies layer
+	# Attach script-like behavior via metadata
+	proj.set_meta("direction", direction)
+	proj.set_meta("speed", data.projectile_speed)
+	proj.set_meta("damage", data.damage * damage_multiplier)
+	proj.set_meta("knockback", data.knockback)
+	proj.set_meta("piercing", data.piercing)
+	proj.set_meta("range_left", data.weapon_range)
+	proj.set_meta("damage_type", data.damage_type)
+	# Add to scene tree (parent of weapon's parent = car, parent of car = arena)
+	var arena := _get_arena()
+	if arena:
+		arena.add_child(proj)
+		proj.global_position = global_position
+	else:
+		proj.queue_free()
+		return
+	# Connect overlap
+	proj.area_entered.connect(func(area: Area2D): _on_proj_hit(proj, area))
+	proj.body_entered.connect(func(body: Node2D): _on_proj_body_hit(proj, body))
+
+func _get_arena() -> Node:
+	# Walk up to find the arena (root gameplay node)
+	var node: Node = self
+	while node:
+		if node.name == "GameArena" or node is Node2D and node.get_parent() == get_tree().root:
+			return node
+		node = node.get_parent()
+	return get_tree().current_scene
+
+func _on_proj_hit(proj: Area2D, _area: Area2D) -> void:
 	pass
+
+func _on_proj_body_hit(proj: Area2D, body: Node2D) -> void:
+	if body.is_in_group("enemies") and body.has_method("take_damage"):
+		var dmg: float = proj.get_meta("damage", 0.0)
+		var kb: float = proj.get_meta("knockback", 0.0)
+		body.take_damage(dmg, kb, proj.global_position)
+		EventBus.enemy_damaged.emit(body, dmg, proj.get_meta("damage_type", "ranged"))
+		var piercing: int = proj.get_meta("piercing", 0)
+		piercing -= 1
+		if piercing < 0:
+			proj.queue_free()
+		else:
+			proj.set_meta("piercing", piercing)
 
 func _apply_damage_to(target: Node2D) -> void:
 	var final_damage := data.damage * damage_multiplier

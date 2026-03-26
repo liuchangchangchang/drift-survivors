@@ -19,11 +19,21 @@ func spawn_drop(pos: Vector2, value: int) -> LootDrop:
 		return null
 
 	var drop := LootDrop.new()
+	drop.collision_layer = 16  # Layer 5 (loot)
+	drop.collision_mask = 0
 	var collision := CollisionShape2D.new()
 	var shape := CircleShape2D.new()
 	shape.radius = 10.0
 	collision.shape = shape
+	collision.set_deferred("disabled", false)
 	drop.add_child(collision)
+	# Visual - green diamond
+	var visual := ColorRect.new()
+	visual.color = Color(0.2, 0.9, 0.3)
+	visual.size = Vector2(10, 10)
+	visual.position = Vector2(-5, -5)
+	visual.rotation = deg_to_rad(45)
+	drop.add_child(visual)
 	drop.setup(value, pos)
 	drop.add_to_group("loot")
 	add_child(drop)

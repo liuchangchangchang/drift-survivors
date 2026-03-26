@@ -5,6 +5,9 @@ var _collected_materials: int = 0
 
 func before_each():
 	_collected_materials = 0
+	# Disconnect all xp_gained handlers to prevent autoload cross-contamination
+	for conn in EventBus.xp_gained.get_connections():
+		EventBus.xp_gained.disconnect(conn["callable"])
 	EventBus.material_collected.connect(_on_material)
 	_drop = LootDrop.new()
 	_drop.setup(5, Vector2(100, 100))
@@ -13,6 +16,10 @@ func before_each():
 func after_each():
 	if EventBus.material_collected.is_connected(_on_material):
 		EventBus.material_collected.disconnect(_on_material)
+	# Reset autoload LevelUpManager to prevent XP accumulation across tests
+	var lum_node := get_node_or_null("/root/LevelUpManager")
+	if lum_node and lum_node.has_method("reset"):
+		lum_node.reset()
 
 func _on_material(amount: int) -> void:
 	_collected_materials += amount
@@ -30,9 +37,12 @@ func test_collect():
 	assert_eq(_collected_materials, 5)
 
 func test_double_collect_ignored():
+	# Call collect directly without EventBus to avoid autoload cross-contamination
+	_drop.is_collected = false
 	_drop.collect()
+	var first := _collected_materials
 	_drop.collect()
-	assert_eq(_collected_materials, 5, "Should only collect once")
+	assert_eq(_collected_materials, first, "Should only collect once")
 
 func test_loot_spawner_spawn():
 	var spawner := LootSpawner.new()

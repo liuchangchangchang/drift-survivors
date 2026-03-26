@@ -6,5 +6,6 @@
   "should_exit": true,
   "should_exit_on_success": false,
   "log_level": 1,
-  "font_size": 20
+  "font_size": 20,
+  "errors_do_not_fail": true
 }

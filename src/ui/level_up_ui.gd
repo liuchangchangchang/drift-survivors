@@ -16,7 +16,8 @@ func show_choices(level: int, choices: Array[Dictionary], stats: PlayerStats) ->
 		level_label.text = "Level Up! (Level %d)" % level
 	_build_choice_cards()
 	visible = true
-	get_tree().paused = true
+	if get_tree():
+		get_tree().paused = true
 
 func _build_choice_cards() -> void:
 	if choice_container == null:
@@ -65,4 +66,5 @@ func _on_choice(index: int) -> void:
 	var upgrade := _choices[index]
 	upgrade_selected.emit(upgrade)
 	visible = false
-	get_tree().paused = false
+	if get_tree():
+		get_tree().paused = false

@@ -20,9 +20,17 @@ func spawn_enemy(data: EnemyData) -> EnemyBase:
 	var enemy := EnemyBase.new()
 	var collision := CollisionShape2D.new()
 	var shape := CircleShape2D.new()
-	shape.radius = _get_radius_for_size(data.size)
+	var radius := _get_radius_for_size(data.size)
+	shape.radius = radius
 	collision.shape = shape
+	collision.set_deferred("disabled", false)
 	enemy.add_child(collision)
+	# Visual placeholder
+	var visual := ColorRect.new()
+	visual.color = _get_color_for_type(data.type)
+	visual.size = Vector2(radius * 2, radius * 2)
+	visual.position = Vector2(-radius, -radius)
+	enemy.add_child(visual)
 	enemy.add_to_group("enemies")
 	var spawn_pos := _get_spawn_position()
 	enemy.activate(data, spawn_pos, player)
@@ -73,3 +81,10 @@ func _get_radius_for_size(size_name: String) -> float:
 		"large": return 30.0
 		"boss": return 50.0
 	return 12.0
+
+func _get_color_for_type(type: String) -> Color:
+	match type:
+		"regular": return Color(0.9, 0.2, 0.2)    # Red
+		"elite": return Color(0.8, 0.5, 0.1)       # Orange
+		"boss": return Color(0.6, 0.1, 0.6)        # Purple
+	return Color(0.9, 0.2, 0.2)
