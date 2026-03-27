@@ -436,7 +436,9 @@ func _process(delta: float) -> void:
 		return
 
 	# --- Yaw: rotate visuals to match visual_angle ---
-	var target_yaw := -car.visual_angle + PI / 2
+	# visual_angle uses atan2(z,x). Car model faces -Z.
+	# To make local -Z point toward (cos(va), 0, sin(va)): yaw = -va - PI/2
+	var target_yaw := -car.visual_angle - PI / 2
 	visuals.rotation.y = lerp_angle(visuals.rotation.y, target_yaw, 15.0 * delta)
 
 	# --- Body roll (lean into turns) ---
