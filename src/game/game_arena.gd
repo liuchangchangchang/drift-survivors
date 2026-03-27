@@ -76,25 +76,53 @@ func _create_ground() -> void:
 	mat.metallic = 0.0
 	ground.material_override = mat
 	add_child(ground)
-	# Sparse grid lines (every 15 units) for orientation
-	var grid_mat := StandardMaterial3D.new()
-	grid_mat.albedo_color = Color(0.18, 0.19, 0.23)
-	grid_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	for i in range(0, int(ARENA_SIZE) + 1, 15):
-		var vline := MeshInstance3D.new()
-		var vbox := BoxMesh.new()
-		vbox.size = Vector3(0.04, 0.005, ARENA_SIZE)
-		vline.mesh = vbox
-		vline.position = Vector3(i, 0.005, ARENA_SIZE / 2)
-		vline.material_override = grid_mat
-		add_child(vline)
-		var hline := MeshInstance3D.new()
-		var hbox := BoxMesh.new()
-		hbox.size = Vector3(ARENA_SIZE, 0.005, 0.04)
-		hline.mesh = hbox
-		hline.position = Vector3(ARENA_SIZE / 2, 0.005, i)
-		hline.material_override = grid_mat
-		add_child(hline)
+	# Road lane markings (dashed center lines)
+	var lane_mat := StandardMaterial3D.new()
+	lane_mat.albedo_color = Color(0.35, 0.35, 0.25)
+	lane_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	# Horizontal lanes every 30 units
+	for lane_z in range(15, int(ARENA_SIZE), 30):
+		for dash_x in range(2, int(ARENA_SIZE) - 2, 6):
+			var dash := MeshInstance3D.new()
+			var dash_mesh := BoxMesh.new()
+			dash_mesh.size = Vector3(3.0, 0.01, 0.12)
+			dash.mesh = dash_mesh
+			dash.position = Vector3(dash_x + 1.5, 0.008, lane_z)
+			dash.material_override = lane_mat
+			add_child(dash)
+	# Vertical lanes every 30 units
+	for lane_x in range(15, int(ARENA_SIZE), 30):
+		for dash_z in range(2, int(ARENA_SIZE) - 2, 6):
+			var dash := MeshInstance3D.new()
+			var dash_mesh := BoxMesh.new()
+			dash_mesh.size = Vector3(0.12, 0.01, 3.0)
+			dash.mesh = dash_mesh
+			dash.position = Vector3(lane_x, 0.008, dash_z + 1.5)
+			dash.material_override = lane_mat
+			add_child(dash)
+	# Ground detail patches (random subtle color variation)
+	var patch_mat_dark := StandardMaterial3D.new()
+	patch_mat_dark.albedo_color = Color(0.09, 0.10, 0.13)
+	patch_mat_dark.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	var patch_mat_light := StandardMaterial3D.new()
+	patch_mat_light.albedo_color = Color(0.15, 0.16, 0.20)
+	patch_mat_light.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 42
+	for _i in 80:
+		var patch := MeshInstance3D.new()
+		var pmesh := BoxMesh.new()
+		var sz := rng.randf_range(2.0, 8.0)
+		pmesh.size = Vector3(sz, 0.005, rng.randf_range(2.0, 8.0))
+		patch.mesh = pmesh
+		patch.position = Vector3(
+			rng.randf_range(5, ARENA_SIZE - 5),
+			0.003,
+			rng.randf_range(5, ARENA_SIZE - 5)
+		)
+		patch.rotation.y = rng.randf_range(0, TAU)
+		patch.material_override = patch_mat_dark if rng.randf() > 0.5 else patch_mat_light
+		add_child(patch)
 
 func _setup_systems() -> void:
 	economy = EconomyManager.new()
@@ -250,52 +278,68 @@ func _create_car(base_stats: Dictionary) -> void:
 		wheel.name = "Wheel_%d" % i
 		visuals.add_child(wheel)
 
-	# --- Boost exhaust particles (rear) ---
-	var exhaust := GPUParticles3D.new()
-	exhaust.name = "BoostExhaust"
-	exhaust.emitting = false
-	exhaust.amount = 30
-	exhaust.lifetime = 0.4
-	exhaust.visibility_aabb = AABB(Vector3(-2, -1, -2), Vector3(4, 3, 4))
-	var exhaust_mat := ParticleProcessMaterial.new()
-	exhaust_mat.direction = Vector3(0, 0, 1)
-	exhaust_mat.spread = 15.0
-	exhaust_mat.initial_velocity_min = 8.0
-	exhaust_mat.initial_velocity_max = 15.0
-	exhaust_mat.gravity = Vector3(0, 2, 0)
-	exhaust_mat.scale_min = 0.2
-	exhaust_mat.scale_max = 0.5
-	exhaust_mat.color = Color(0.2, 0.6, 1.0)
-	exhaust.process_material = exhaust_mat
-	# Particle mesh
-	var exhaust_draw := QuadMesh.new()
-	exhaust_draw.size = Vector2(0.3, 0.3)
-	exhaust.draw_pass_1 = exhaust_draw
-	exhaust.position = Vector3(0, 0.3, 1.5)
-	visuals.add_child(exhaust)
+	# --- Boost exhaust (two pipes, intense fire effect) ---
+	for pipe_x in [-0.5, 0.5]:
+		var exhaust := GPUParticles3D.new()
+		exhaust.name = "BoostExhaust_L" if pipe_x < 0 else "BoostExhaust_R"
+		exhaust.emitting = false
+		exhaust.amount = 60
+		exhaust.lifetime = 0.5
+		exhaust.speed_scale = 1.5
+		exhaust.visibility_aabb = AABB(Vector3(-5, -2, -5), Vector3(10, 5, 10))
+		var ex_mat := ParticleProcessMaterial.new()
+		ex_mat.direction = Vector3(0, 0.3, 1)
+		ex_mat.spread = 12.0
+		ex_mat.initial_velocity_min = 12.0
+		ex_mat.initial_velocity_max = 22.0
+		ex_mat.gravity = Vector3(0, 3, 0)
+		ex_mat.scale_min = 0.3
+		ex_mat.scale_max = 0.8
+		ex_mat.color = Color(1.0, 0.5, 0.1)
+		exhaust.process_material = ex_mat
+		var ex_draw_mat := StandardMaterial3D.new()
+		ex_draw_mat.albedo_color = Color(1.0, 0.6, 0.1)
+		ex_draw_mat.emission_enabled = true
+		ex_draw_mat.emission = Color(1.0, 0.4, 0.05)
+		ex_draw_mat.emission_energy_multiplier = 5.0
+		ex_draw_mat.billboard_mode = BaseMaterial3D.BILLBOARD_ENABLED
+		ex_draw_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		var ex_draw := QuadMesh.new()
+		ex_draw.size = Vector2(0.5, 0.5)
+		ex_draw.material = ex_draw_mat
+		exhaust.draw_pass_1 = ex_draw
+		exhaust.position = Vector3(pipe_x, 0.25, 1.5)
+		visuals.add_child(exhaust)
 
-	# --- Drift sparks particles ---
-	var sparks := GPUParticles3D.new()
-	sparks.name = "DriftSparks"
-	sparks.emitting = false
-	sparks.amount = 20
-	sparks.lifetime = 0.3
-	sparks.visibility_aabb = AABB(Vector3(-3, -1, -3), Vector3(6, 3, 6))
-	var spark_mat := ParticleProcessMaterial.new()
-	spark_mat.direction = Vector3(0, 1, 0)
-	spark_mat.spread = 60.0
-	spark_mat.initial_velocity_min = 3.0
-	spark_mat.initial_velocity_max = 8.0
-	spark_mat.gravity = Vector3(0, -15, 0)
-	spark_mat.scale_min = 0.05
-	spark_mat.scale_max = 0.15
-	spark_mat.color = Color(1.0, 0.7, 0.2)
-	sparks.process_material = spark_mat
-	var spark_draw := QuadMesh.new()
-	spark_draw.size = Vector2(0.1, 0.1)
-	sparks.draw_pass_1 = spark_draw
-	sparks.position = Vector3(0, 0.15, 0.8)
-	visuals.add_child(sparks)
+	# --- Drift sparks (both rear wheels) ---
+	for spark_x in [-0.9, 0.9]:
+		var sparks := GPUParticles3D.new()
+		sparks.name = "DriftSparks_L" if spark_x < 0 else "DriftSparks_R"
+		sparks.emitting = false
+		sparks.amount = 30
+		sparks.lifetime = 0.35
+		sparks.visibility_aabb = AABB(Vector3(-4, -2, -4), Vector3(8, 5, 8))
+		var sp_mat := ParticleProcessMaterial.new()
+		sp_mat.direction = Vector3(0, 1, 0)
+		sp_mat.spread = 50.0
+		sp_mat.initial_velocity_min = 4.0
+		sp_mat.initial_velocity_max = 10.0
+		sp_mat.gravity = Vector3(0, -20, 0)
+		sp_mat.scale_min = 0.04
+		sp_mat.scale_max = 0.12
+		sp_mat.color = Color(1.0, 0.7, 0.2)
+		sparks.process_material = sp_mat
+		var sp_draw_mat := StandardMaterial3D.new()
+		sp_draw_mat.emission_enabled = true
+		sp_draw_mat.emission = Color(1.0, 0.7, 0.2)
+		sp_draw_mat.emission_energy_multiplier = 4.0
+		sp_draw_mat.billboard_mode = BaseMaterial3D.BILLBOARD_ENABLED
+		var sp_draw := QuadMesh.new()
+		sp_draw.size = Vector2(0.08, 0.08)
+		sp_draw.material = sp_draw_mat
+		sparks.draw_pass_1 = sp_draw
+		sparks.position = Vector3(spark_x, 0.1, 0.9)
+		visuals.add_child(sparks)
 
 	car.add_child(visuals)
 
@@ -410,24 +454,29 @@ func _process(delta: float) -> void:
 			target_pitch = -0.12
 		body_wrap.rotation.x = lerpf(body_wrap.rotation.x, target_pitch, 6.0 * delta)
 
-	# --- Boost exhaust particles ---
-	var exhaust := visuals.get_node_or_null("BoostExhaust")
-	if exhaust and exhaust is GPUParticles3D:
-		exhaust.emitting = car.boost_power > 0
+	# --- Boost exhaust particles (both pipes) ---
+	var is_boosting := car.boost_power > 0
+	for ex_name in ["BoostExhaust_L", "BoostExhaust_R"]:
+		var ex := visuals.get_node_or_null(ex_name)
+		if ex and ex is GPUParticles3D:
+			ex.emitting = is_boosting
 
-	# --- Drift sparks ---
-	var sparks := visuals.get_node_or_null("DriftSparks")
-	if sparks and sparks is GPUParticles3D:
-		sparks.emitting = car.is_drifting and car.velocity.length() > 3.0
-		# Change spark color based on drift charge
-		if car.is_drifting and sparks.process_material is ParticleProcessMaterial:
-			var charge_norm := car.drift_charge / car.stats.max_charge
-			if charge_norm >= 1.0:
-				sparks.process_material.color = Color(1.0, 0.3, 0.8)  # Pink/purple = full
-			elif charge_norm >= 0.5:
-				sparks.process_material.color = Color(0.3, 0.8, 1.0)  # Cyan = half
-			else:
-				sparks.process_material.color = Color(1.0, 0.7, 0.2)  # Orange = default
+	# --- Drift sparks (both rear wheels) ---
+	var is_spark := car.is_drifting and car.velocity.length() > 3.0
+	var charge_norm := car.drift_charge / car.stats.max_charge if car.stats.max_charge > 0 else 0.0
+	var spark_color: Color
+	if charge_norm >= 1.0:
+		spark_color = Color(1.0, 0.2, 0.8)
+	elif charge_norm >= 0.5:
+		spark_color = Color(0.3, 0.8, 1.0)
+	else:
+		spark_color = Color(1.0, 0.7, 0.2)
+	for sp_name in ["DriftSparks_L", "DriftSparks_R"]:
+		var sp := visuals.get_node_or_null(sp_name)
+		if sp and sp is GPUParticles3D:
+			sp.emitting = is_spark
+			if is_spark and sp.process_material is ParticleProcessMaterial:
+				sp.process_material.color = spark_color
 
 func _on_wave_completed(_wave: int) -> void:
 	for drop in loot_spawner.active_drops.duplicate():

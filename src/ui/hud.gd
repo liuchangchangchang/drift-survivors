@@ -1,15 +1,15 @@
 extends CanvasLayer
-## In-game HUD showing HP, wave timer, materials, nitro gauge, weapon slots.
+## In-game HUD with styled panels.
 
-@onready var hp_bar: ProgressBar = $TopBar/HPBar
-@onready var hp_label: Label = $TopBar/HPLabel
-@onready var wave_label: Label = $TopBar/WaveLabel
-@onready var timer_label: Label = $TopBar/TimerLabel
-@onready var material_label: Label = $BottomBar/MaterialLabel
-@onready var nitro_bar: ProgressBar = $BottomBar/NitroBar
-@onready var speed_bar: ProgressBar = $BottomBar/SpeedBar
-@onready var xp_bar: ProgressBar = $TopBar/XPBar
-@onready var drift_charge_bar: ProgressBar = $BottomBar/DriftChargeBar
+@onready var hp_bar: ProgressBar = $TopBar/HBox/HPBar
+@onready var hp_label: Label = $TopBar/HBox/HPLabel
+@onready var wave_label: Label = $TopBar/HBox/WaveLabel
+@onready var timer_label: Label = $TopBar/HBox/TimerLabel
+@onready var material_label: Label = $BottomBar/HBox/MaterialLabel
+@onready var nitro_bar: ProgressBar = $BottomBar/HBox/NitroBar
+@onready var speed_bar: ProgressBar = $BottomBar/HBox/SpeedBar
+@onready var xp_bar: ProgressBar = $TopBar/HBox/XPBar
+@onready var drift_charge_bar: ProgressBar = $BottomBar/HBox/DriftChargeBar
 
 func _ready() -> void:
 	EventBus.wave_started.connect(_on_wave_started)
@@ -38,7 +38,7 @@ func _on_car_healed(_amount: float) -> void:
 
 func _on_material_changed(total: int) -> void:
 	if material_label:
-		material_label.text = "Materials: %d" % total
+		material_label.text = "%d" % total
 
 func _on_nitro_changed(normalized: float) -> void:
 	if nitro_bar:
@@ -47,11 +47,10 @@ func _on_nitro_changed(normalized: float) -> void:
 func _on_drift_charge_changed(normalized: float) -> void:
 	if drift_charge_bar:
 		drift_charge_bar.value = normalized * 100.0
-		# Change color when fully charged
 		if normalized >= 1.0:
-			drift_charge_bar.modulate = Color(1.0, 0.8, 0.0)  # Gold when full
+			drift_charge_bar.modulate = Color(1.0, 0.8, 0.0)
 		elif normalized >= 0.5:
-			drift_charge_bar.modulate = Color(0.3, 0.8, 1.0)  # Cyan when half
+			drift_charge_bar.modulate = Color(0.3, 0.8, 1.0)
 		else:
 			drift_charge_bar.modulate = Color.WHITE
 
@@ -71,5 +70,4 @@ func update_xp(progress: float) -> void:
 		xp_bar.value = progress * 100.0
 
 func _update_hp() -> void:
-	# Will be called by game arena with actual car reference
 	pass

@@ -61,12 +61,17 @@ func _physics_process(delta: float) -> void:
 
 	if boost_power > 0:
 		current_accel = stats.base_accel * 2.5
-		current_grip = 0.3
 		boost_power -= delta
 		if boost_power <= 0:
 			boost_power = 0.0
-		# Drain nitro during boost
 		nitro.drain(delta)
+		if is_drifting:
+			# Boost + drift: keep drift slip but with boost speed
+			current_grip = stats.drift_grip * 1.5
+			current_friction = 0.993
+			turn_speed = stats.turn_speed_drift
+		else:
+			current_grip = 0.3
 	elif is_drifting:
 		current_accel = stats.base_accel * 0.6
 		current_grip = stats.drift_grip
