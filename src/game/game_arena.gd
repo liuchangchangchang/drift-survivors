@@ -35,94 +35,194 @@ func _ready() -> void:
 	_start_first_wave()
 
 func _create_environment() -> void:
-	# Main directional light
+	# Main directional light (warm sunset tone)
 	var light := DirectionalLight3D.new()
 	light.rotation_degrees = Vector3(-55, -35, 0)
-	light.light_energy = 1.0
-	light.light_color = Color(1.0, 0.95, 0.9)
+	light.light_energy = 0.9
+	light.light_color = Color(1.0, 0.92, 0.85)
 	light.shadow_enabled = true
-	light.shadow_blur = 1.5
+	light.shadow_blur = 2.0
 	add_child(light)
-	# Fill light (softer, opposite direction)
+	# Cool fill light
 	var fill := DirectionalLight3D.new()
 	fill.rotation_degrees = Vector3(-30, 145, 0)
-	fill.light_energy = 0.3
-	fill.light_color = Color(0.7, 0.8, 1.0)
+	fill.light_energy = 0.35
+	fill.light_color = Color(0.6, 0.75, 1.0)
 	fill.shadow_enabled = false
 	add_child(fill)
+	# Rim light (from below-behind for depth)
+	var rim := DirectionalLight3D.new()
+	rim.rotation_degrees = Vector3(20, 90, 0)
+	rim.light_energy = 0.15
+	rim.light_color = Color(0.8, 0.6, 1.0)
+	rim.shadow_enabled = false
+	add_child(rim)
 	# World environment
 	var env_node := WorldEnvironment.new()
 	var environment := Environment.new()
 	environment.background_mode = Environment.BG_COLOR
-	environment.background_color = Color(0.02, 0.02, 0.06)
-	environment.ambient_light_color = Color(0.25, 0.3, 0.4)
-	environment.ambient_light_energy = 0.5
+	environment.background_color = Color(0.01, 0.01, 0.04)
+	environment.ambient_light_color = Color(0.2, 0.25, 0.35)
+	environment.ambient_light_energy = 0.4
 	environment.glow_enabled = true
-	environment.glow_intensity = 0.4
-	environment.glow_bloom = 0.1
+	environment.glow_intensity = 0.6
+	environment.glow_bloom = 0.15
+	environment.glow_strength = 1.2
+	environment.fog_enabled = true
+	environment.fog_light_color = Color(0.05, 0.05, 0.12)
+	environment.fog_density = 0.003
 	env_node.environment = environment
 	add_child(env_node)
 
 func _create_ground() -> void:
-	# Ground plane - dark asphalt look
+	var center := ARENA_SIZE / 2.0
+
+	# Main ground - dark asphalt
 	var ground := MeshInstance3D.new()
 	var plane_mesh := PlaneMesh.new()
 	plane_mesh.size = Vector2(ARENA_SIZE, ARENA_SIZE)
 	ground.mesh = plane_mesh
-	ground.position = Vector3(ARENA_SIZE / 2, 0, ARENA_SIZE / 2)
-	var mat := StandardMaterial3D.new()
-	mat.albedo_color = Color(0.12, 0.13, 0.16)
-	mat.roughness = 0.95
-	mat.metallic = 0.0
-	ground.material_override = mat
+	ground.position = Vector3(center, 0, center)
+	var ground_mat := StandardMaterial3D.new()
+	ground_mat.albedo_color = Color(0.11, 0.12, 0.15)
+	ground_mat.roughness = 0.95
+	ground.material_override = ground_mat
 	add_child(ground)
-	# Road lane markings (dashed center lines)
-	var lane_mat := StandardMaterial3D.new()
-	lane_mat.albedo_color = Color(0.35, 0.35, 0.25)
-	lane_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	# Horizontal lanes every 30 units
-	for lane_z in range(15, int(ARENA_SIZE), 30):
-		for dash_x in range(2, int(ARENA_SIZE) - 2, 6):
-			var dash := MeshInstance3D.new()
-			var dash_mesh := BoxMesh.new()
-			dash_mesh.size = Vector3(3.0, 0.01, 0.12)
-			dash.mesh = dash_mesh
-			dash.position = Vector3(dash_x + 1.5, 0.008, lane_z)
-			dash.material_override = lane_mat
-			add_child(dash)
-	# Vertical lanes every 30 units
-	for lane_x in range(15, int(ARENA_SIZE), 30):
-		for dash_z in range(2, int(ARENA_SIZE) - 2, 6):
-			var dash := MeshInstance3D.new()
-			var dash_mesh := BoxMesh.new()
-			dash_mesh.size = Vector3(0.12, 0.01, 3.0)
-			dash.mesh = dash_mesh
-			dash.position = Vector3(lane_x, 0.008, dash_z + 1.5)
-			dash.material_override = lane_mat
-			add_child(dash)
-	# Ground detail patches (random subtle color variation)
-	var patch_mat_dark := StandardMaterial3D.new()
-	patch_mat_dark.albedo_color = Color(0.09, 0.10, 0.13)
-	patch_mat_dark.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	var patch_mat_light := StandardMaterial3D.new()
-	patch_mat_light.albedo_color = Color(0.15, 0.16, 0.20)
-	patch_mat_light.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+
+	# Outer void plane (extends beyond arena, darker)
+	var void_plane := MeshInstance3D.new()
+	var void_mesh := PlaneMesh.new()
+	void_mesh.size = Vector2(ARENA_SIZE * 3, ARENA_SIZE * 3)
+	void_plane.mesh = void_mesh
+	void_plane.position = Vector3(center, -0.05, center)
+	var void_mat := StandardMaterial3D.new()
+	void_mat.albedo_color = Color(0.03, 0.03, 0.06)
+	void_mat.roughness = 1.0
+	void_plane.material_override = void_mat
+	add_child(void_plane)
+
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 42
-	for _i in 80:
+
+	# --- Asphalt texture patches (color variation) ---
+	var patch_colors := [
+		Color(0.08, 0.09, 0.11),
+		Color(0.10, 0.11, 0.14),
+		Color(0.13, 0.14, 0.17),
+		Color(0.09, 0.10, 0.15),
+	]
+	var patch_mats: Array[StandardMaterial3D] = []
+	for c in patch_colors:
+		var pm := StandardMaterial3D.new()
+		pm.albedo_color = c
+		pm.roughness = 0.95
+		patch_mats.append(pm)
+	for _i in 120:
 		var patch := MeshInstance3D.new()
-		var pmesh := BoxMesh.new()
-		var sz := rng.randf_range(2.0, 8.0)
-		pmesh.size = Vector3(sz, 0.005, rng.randf_range(2.0, 8.0))
+		var pmesh := QuadMesh.new()
+		pmesh.size = Vector2(rng.randf_range(3.0, 12.0), rng.randf_range(3.0, 12.0))
+		pmesh.orientation = PlaneMesh.FACE_Y
 		patch.mesh = pmesh
 		patch.position = Vector3(
-			rng.randf_range(5, ARENA_SIZE - 5),
-			0.003,
-			rng.randf_range(5, ARENA_SIZE - 5)
-		)
+			rng.randf_range(2, ARENA_SIZE - 2),
+			0.002 + rng.randf_range(0, 0.003),
+			rng.randf_range(2, ARENA_SIZE - 2))
 		patch.rotation.y = rng.randf_range(0, TAU)
-		patch.material_override = patch_mat_dark if rng.randf() > 0.5 else patch_mat_light
+		patch.material_override = patch_mats[rng.randi() % patch_mats.size()]
 		add_child(patch)
+
+	# --- Road lane dashes (white, every 30 units) ---
+	var lane_mat := StandardMaterial3D.new()
+	lane_mat.albedo_color = Color(0.4, 0.4, 0.35)
+	lane_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	for lane_i in range(30, int(ARENA_SIZE), 30):
+		for d in range(3, int(ARENA_SIZE) - 3, 7):
+			# Horizontal dashes
+			var dh := MeshInstance3D.new()
+			var dhm := BoxMesh.new()
+			dhm.size = Vector3(3.5, 0.008, 0.1)
+			dh.mesh = dhm
+			dh.position = Vector3(d + 1.75, 0.006, lane_i)
+			dh.material_override = lane_mat
+			add_child(dh)
+			# Vertical dashes
+			var dv := MeshInstance3D.new()
+			var dvm := BoxMesh.new()
+			dvm.size = Vector3(0.1, 0.008, 3.5)
+			dv.mesh = dvm
+			dv.position = Vector3(lane_i, 0.006, d + 1.75)
+			dv.material_override = lane_mat
+			add_child(dv)
+
+	# --- Edge line (solid white border inside walls) ---
+	var edge_mat := StandardMaterial3D.new()
+	edge_mat.albedo_color = Color(0.6, 0.6, 0.5)
+	edge_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	var edge_w := 0.2
+	var edge_inset := 1.5
+	# North
+	_add_ground_stripe(Vector3(center, 0.007, edge_inset), Vector3(ARENA_SIZE - 4, 0.008, edge_w), edge_mat)
+	# South
+	_add_ground_stripe(Vector3(center, 0.007, ARENA_SIZE - edge_inset), Vector3(ARENA_SIZE - 4, 0.008, edge_w), edge_mat)
+	# West
+	_add_ground_stripe(Vector3(edge_inset, 0.007, center), Vector3(edge_w, 0.008, ARENA_SIZE - 4), edge_mat)
+	# East
+	_add_ground_stripe(Vector3(ARENA_SIZE - edge_inset, 0.007, center), Vector3(edge_w, 0.008, ARENA_SIZE - 4), edge_mat)
+
+	# --- Decorative corner markers (glowing pylons) ---
+	var pylon_mat := StandardMaterial3D.new()
+	pylon_mat.albedo_color = Color(0.2, 0.5, 1.0)
+	pylon_mat.emission_enabled = true
+	pylon_mat.emission = Color(0.2, 0.5, 1.0)
+	pylon_mat.emission_energy_multiplier = 2.0
+	var corners := [
+		Vector3(4, 0, 4), Vector3(ARENA_SIZE - 4, 0, 4),
+		Vector3(4, 0, ARENA_SIZE - 4), Vector3(ARENA_SIZE - 4, 0, ARENA_SIZE - 4),
+	]
+	for cpos in corners:
+		var pylon := MeshInstance3D.new()
+		var pcyl := CylinderMesh.new()
+		pcyl.top_radius = 0.3
+		pcyl.bottom_radius = 0.4
+		pcyl.height = 2.5
+		pylon.mesh = pcyl
+		pylon.position = cpos + Vector3(0, 1.25, 0)
+		pylon.material_override = pylon_mat
+		add_child(pylon)
+		# Point light on pylon
+		var plight := OmniLight3D.new()
+		plight.light_color = Color(0.3, 0.6, 1.0)
+		plight.light_energy = 1.5
+		plight.omni_range = 8.0
+		plight.position = cpos + Vector3(0, 2.8, 0)
+		add_child(plight)
+
+	# --- Scattered ground lights along edges ---
+	var glight_mat := StandardMaterial3D.new()
+	glight_mat.albedo_color = Color(1.0, 0.7, 0.3)
+	glight_mat.emission_enabled = true
+	glight_mat.emission = Color(1.0, 0.6, 0.2)
+	glight_mat.emission_energy_multiplier = 2.5
+	for li in range(15, int(ARENA_SIZE), 30):
+		for edge_pos in [Vector3(li, 0.15, 2.5), Vector3(li, 0.15, ARENA_SIZE - 2.5),
+						 Vector3(2.5, 0.15, li), Vector3(ARENA_SIZE - 2.5, 0.15, li)]:
+			var gl := MeshInstance3D.new()
+			var gl_mesh := SphereMesh.new()
+			gl_mesh.radius = 0.15
+			gl_mesh.height = 0.3
+			gl.mesh = gl_mesh
+			gl.position = edge_pos
+			gl.material_override = glight_mat
+			add_child(gl)
+
+func _add_ground_stripe(pos: Vector3, size: Vector3, mat: StandardMaterial3D) -> void:
+	var stripe := MeshInstance3D.new()
+	var smesh := BoxMesh.new()
+	smesh.size = size
+	stripe.mesh = smesh
+	stripe.position = pos
+	stripe.material_override = mat
+	add_child(stripe)
 
 func _setup_systems() -> void:
 	economy = EconomyManager.new()
@@ -554,13 +654,17 @@ func _add_wall(parent: StaticBody3D, pos: Vector3, size: Vector3) -> void:
 	collision.shape = shape
 	collision.position = pos
 	parent.add_child(collision)
+	# Glowing barrier wall
 	var wall_mesh := MeshInstance3D.new()
 	var box := BoxMesh.new()
 	box.size = size
 	wall_mesh.mesh = box
 	wall_mesh.position = pos
 	var mat := StandardMaterial3D.new()
-	mat.albedo_color = Color(0.4, 0.4, 0.5, 0.5)
+	mat.albedo_color = Color(0.15, 0.25, 0.5, 0.3)
 	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	mat.emission_enabled = true
+	mat.emission = Color(0.1, 0.3, 0.7)
+	mat.emission_energy_multiplier = 0.8
 	wall_mesh.material_override = mat
 	parent.add_child(wall_mesh)

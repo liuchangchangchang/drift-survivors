@@ -23,16 +23,56 @@ func spawn_enemy(data: EnemyData) -> EnemyBase:
 	shape.radius = radius
 	collision.shape = shape
 	enemy.add_child(collision)
-	# Visual: sphere mesh
-	var visual := MeshInstance3D.new()
-	var mesh := SphereMesh.new()
-	mesh.radius = radius
-	mesh.height = radius * 2
-	visual.mesh = mesh
+	# Visual: body + eyes + glow ring
+	var vis_root := Node3D.new()
+	vis_root.name = "EnemyVisual"
+	# Main body
+	var body := MeshInstance3D.new()
+	var body_mesh := SphereMesh.new()
+	body_mesh.radius = radius
+	body_mesh.height = radius * 1.6
+	body.mesh = body_mesh
+	body.position = Vector3(0, radius * 0.8, 0)
+	var body_color := _get_color_for_type(data.type)
 	var mat := StandardMaterial3D.new()
-	mat.albedo_color = _get_color_for_type(data.type)
-	visual.material_override = mat
-	enemy.add_child(visual)
+	mat.albedo_color = body_color
+	mat.metallic = 0.3
+	mat.roughness = 0.6
+	body.material_override = mat
+	vis_root.add_child(body)
+	# Eyes (two small white spheres)
+	var eye_mat := StandardMaterial3D.new()
+	eye_mat.albedo_color = Color(1, 1, 1)
+	eye_mat.emission_enabled = true
+	eye_mat.emission = Color(1, 1, 0.8)
+	eye_mat.emission_energy_multiplier = 2.0
+	for eye_x in [-radius * 0.35, radius * 0.35]:
+		var eye := MeshInstance3D.new()
+		var eye_mesh := SphereMesh.new()
+		eye_mesh.radius = radius * 0.15
+		eye_mesh.height = radius * 0.3
+		eye.mesh = eye_mesh
+		eye.position = Vector3(eye_x, radius * 1.0, -radius * 0.7)
+		eye.material_override = eye_mat
+		vis_root.add_child(eye)
+	# Glow ring at base (for elites/bosses)
+	if data.type != "regular":
+		var ring := MeshInstance3D.new()
+		var ring_mesh := TorusMesh.new()
+		ring_mesh.inner_radius = radius * 0.8
+		ring_mesh.outer_radius = radius * 1.1
+		ring.mesh = ring_mesh
+		ring.position = Vector3(0, 0.05, 0)
+		var ring_mat := StandardMaterial3D.new()
+		ring_mat.albedo_color = body_color
+		ring_mat.emission_enabled = true
+		ring_mat.emission = body_color
+		ring_mat.emission_energy_multiplier = 3.0
+		ring_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		ring_mat.albedo_color.a = 0.6
+		ring.material_override = ring_mat
+		vis_root.add_child(ring)
+	enemy.add_child(vis_root)
 	enemy.add_to_group("enemies")
 	add_child(enemy)
 	var spawn_pos := _get_spawn_position()
