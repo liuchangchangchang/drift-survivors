@@ -1,5 +1,5 @@
 class_name WeaponMount
-extends Marker2D
+extends Node3D
 ## A single weapon slot on the car. Holds one WeaponBase.
 
 var weapon: WeaponBase = null
@@ -12,7 +12,7 @@ func equip(new_weapon: WeaponBase) -> WeaponBase:
 	weapon = new_weapon
 	if weapon:
 		add_child(weapon)
-		weapon.position = Vector2.ZERO
+		weapon.position = Vector3.ZERO
 		EventBus.weapon_equipped.emit(slot_index, weapon.data.id)
 	return old_weapon
 

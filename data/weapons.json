@@ -7,10 +7,10 @@
       "damage_type": "ranged",
       "can_be_starting_weapon": true,
       "tiers": [
-        { "tier": 1, "damage": 8, "fire_rate": 0.5, "range": 300, "projectile_speed": 600, "projectile_count": 1, "spread_angle": 0, "piercing": 0, "knockback": 10 },
-        { "tier": 2, "damage": 14, "fire_rate": 0.4, "range": 350, "projectile_speed": 700, "projectile_count": 1, "spread_angle": 0, "piercing": 0, "knockback": 15 },
-        { "tier": 3, "damage": 22, "fire_rate": 0.3, "range": 400, "projectile_speed": 800, "projectile_count": 2, "spread_angle": 5, "piercing": 1, "knockback": 20 },
-        { "tier": 4, "damage": 35, "fire_rate": 0.25, "range": 450, "projectile_speed": 900, "projectile_count": 2, "spread_angle": 5, "piercing": 2, "knockback": 30 }
+        { "tier": 1, "damage": 8, "fire_rate": 0.5, "range": 15, "projectile_speed": 30, "projectile_count": 1, "spread_angle": 0, "piercing": 0, "knockback": 0.5 },
+        { "tier": 2, "damage": 14, "fire_rate": 0.4, "range": 17.5, "projectile_speed": 35, "projectile_count": 1, "spread_angle": 0, "piercing": 0, "knockback": 0.75 },
+        { "tier": 3, "damage": 22, "fire_rate": 0.3, "range": 20, "projectile_speed": 40, "projectile_count": 2, "spread_angle": 5, "piercing": 1, "knockback": 1.0 },
+        { "tier": 4, "damage": 35, "fire_rate": 0.25, "range": 22.5, "projectile_speed": 45, "projectile_count": 2, "spread_angle": 5, "piercing": 2, "knockback": 1.5 }
       ]
     },
     {
@@ -20,10 +20,10 @@
       "damage_type": "ranged",
       "can_be_starting_weapon": true,
       "tiers": [
-        { "tier": 1, "damage": 5, "fire_rate": 1.0, "range": 200, "projectile_speed": 500, "projectile_count": 5, "spread_angle": 30, "piercing": 0, "knockback": 25 },
-        { "tier": 2, "damage": 8, "fire_rate": 0.9, "range": 220, "projectile_speed": 550, "projectile_count": 6, "spread_angle": 28, "piercing": 0, "knockback": 30 },
-        { "tier": 3, "damage": 12, "fire_rate": 0.8, "range": 250, "projectile_speed": 600, "projectile_count": 7, "spread_angle": 25, "piercing": 1, "knockback": 35 },
-        { "tier": 4, "damage": 18, "fire_rate": 0.7, "range": 280, "projectile_speed": 650, "projectile_count": 8, "spread_angle": 22, "piercing": 1, "knockback": 45 }
+        { "tier": 1, "damage": 5, "fire_rate": 1.0, "range": 10, "projectile_speed": 25, "projectile_count": 5, "spread_angle": 30, "piercing": 0, "knockback": 1.25 },
+        { "tier": 2, "damage": 8, "fire_rate": 0.9, "range": 11, "projectile_speed": 27.5, "projectile_count": 6, "spread_angle": 28, "piercing": 0, "knockback": 1.5 },
+        { "tier": 3, "damage": 12, "fire_rate": 0.8, "range": 12.5, "projectile_speed": 30, "projectile_count": 7, "spread_angle": 25, "piercing": 1, "knockback": 1.75 },
+        { "tier": 4, "damage": 18, "fire_rate": 0.7, "range": 14, "projectile_speed": 32.5, "projectile_count": 8, "spread_angle": 22, "piercing": 1, "knockback": 2.25 }
       ]
     },
     {
@@ -33,10 +33,10 @@
       "damage_type": "ranged",
       "can_be_starting_weapon": true,
       "tiers": [
-        { "tier": 1, "damage": 4, "fire_rate": 0.15, "range": 250, "projectile_speed": 700, "projectile_count": 1, "spread_angle": 8, "piercing": 0, "knockback": 5 },
-        { "tier": 2, "damage": 6, "fire_rate": 0.12, "range": 280, "projectile_speed": 750, "projectile_count": 1, "spread_angle": 7, "piercing": 0, "knockback": 7 },
-        { "tier": 3, "damage": 9, "fire_rate": 0.10, "range": 310, "projectile_speed": 800, "projectile_count": 1, "spread_angle": 6, "piercing": 1, "knockback": 10 },
-        { "tier": 4, "damage": 13, "fire_rate": 0.08, "range": 350, "projectile_speed": 850, "projectile_count": 2, "spread_angle": 5, "piercing": 1, "knockback": 12 }
+        { "tier": 1, "damage": 4, "fire_rate": 0.15, "range": 12.5, "projectile_speed": 35, "projectile_count": 1, "spread_angle": 8, "piercing": 0, "knockback": 0.25 },
+        { "tier": 2, "damage": 6, "fire_rate": 0.12, "range": 14, "projectile_speed": 37.5, "projectile_count": 1, "spread_angle": 7, "piercing": 0, "knockback": 0.35 },
+        { "tier": 3, "damage": 9, "fire_rate": 0.10, "range": 15.5, "projectile_speed": 40, "projectile_count": 1, "spread_angle": 6, "piercing": 1, "knockback": 0.5 },
+        { "tier": 4, "damage": 13, "fire_rate": 0.08, "range": 17.5, "projectile_speed": 42.5, "projectile_count": 2, "spread_angle": 5, "piercing": 1, "knockback": 0.6 }
       ]
     },
     {
@@ -46,10 +46,10 @@
       "damage_type": "ranged",
       "can_be_starting_weapon": false,
       "tiers": [
-        { "tier": 1, "damage": 30, "fire_rate": 2.0, "range": 600, "projectile_speed": 1200, "projectile_count": 1, "spread_angle": 0, "piercing": 3, "knockback": 50 },
-        { "tier": 2, "damage": 50, "fire_rate": 1.8, "range": 650, "projectile_speed": 1300, "projectile_count": 1, "spread_angle": 0, "piercing": 4, "knockback": 60 },
-        { "tier": 3, "damage": 75, "fire_rate": 1.5, "range": 700, "projectile_speed": 1400, "projectile_count": 1, "spread_angle": 0, "piercing": 5, "knockback": 75 },
-        { "tier": 4, "damage": 110, "fire_rate": 1.2, "range": 800, "projectile_speed": 1500, "projectile_count": 1, "spread_angle": 0, "piercing": 10, "knockback": 100 }
+        { "tier": 1, "damage": 30, "fire_rate": 2.0, "range": 30, "projectile_speed": 60, "projectile_count": 1, "spread_angle": 0, "piercing": 3, "knockback": 2.5 },
+        { "tier": 2, "damage": 50, "fire_rate": 1.8, "range": 32.5, "projectile_speed": 65, "projectile_count": 1, "spread_angle": 0, "piercing": 4, "knockback": 3.0 },
+        { "tier": 3, "damage": 75, "fire_rate": 1.5, "range": 35, "projectile_speed": 70, "projectile_count": 1, "spread_angle": 0, "piercing": 5, "knockback": 3.75 },
+        { "tier": 4, "damage": 110, "fire_rate": 1.2, "range": 40, "projectile_speed": 75, "projectile_count": 1, "spread_angle": 0, "piercing": 10, "knockback": 5.0 }
       ]
     },
     {
@@ -59,10 +59,10 @@
       "damage_type": "melee",
       "can_be_starting_weapon": true,
       "tiers": [
-        { "tier": 1, "damage": 15, "fire_rate": 0.8, "range": 60, "projectile_speed": 0, "projectile_count": 1, "spread_angle": 90, "piercing": 0, "knockback": 80 },
-        { "tier": 2, "damage": 25, "fire_rate": 0.7, "range": 70, "projectile_speed": 0, "projectile_count": 1, "spread_angle": 100, "piercing": 0, "knockback": 100 },
-        { "tier": 3, "damage": 40, "fire_rate": 0.6, "range": 80, "projectile_speed": 0, "projectile_count": 1, "spread_angle": 110, "piercing": 0, "knockback": 130 },
-        { "tier": 4, "damage": 60, "fire_rate": 0.5, "range": 90, "projectile_speed": 0, "projectile_count": 1, "spread_angle": 120, "piercing": 0, "knockback": 170 }
+        { "tier": 1, "damage": 15, "fire_rate": 0.8, "range": 3.0, "projectile_speed": 0, "projectile_count": 1, "spread_angle": 90, "piercing": 0, "knockback": 4.0 },
+        { "tier": 2, "damage": 25, "fire_rate": 0.7, "range": 3.5, "projectile_speed": 0, "projectile_count": 1, "spread_angle": 100, "piercing": 0, "knockback": 5.0 },
+        { "tier": 3, "damage": 40, "fire_rate": 0.6, "range": 4.0, "projectile_speed": 0, "projectile_count": 1, "spread_angle": 110, "piercing": 0, "knockback": 6.5 },
+        { "tier": 4, "damage": 60, "fire_rate": 0.5, "range": 4.5, "projectile_speed": 0, "projectile_count": 1, "spread_angle": 120, "piercing": 0, "knockback": 8.5 }
       ]
     },
     {
@@ -72,10 +72,10 @@
       "damage_type": "elemental",
       "can_be_starting_weapon": false,
       "tiers": [
-        { "tier": 1, "damage": 3, "fire_rate": 0.05, "range": 350, "projectile_speed": 0, "projectile_count": 1, "spread_angle": 0, "piercing": 99, "knockback": 0 },
-        { "tier": 2, "damage": 5, "fire_rate": 0.05, "range": 400, "projectile_speed": 0, "projectile_count": 1, "spread_angle": 0, "piercing": 99, "knockback": 0 },
-        { "tier": 3, "damage": 8, "fire_rate": 0.05, "range": 450, "projectile_speed": 0, "projectile_count": 2, "spread_angle": 15, "piercing": 99, "knockback": 0 },
-        { "tier": 4, "damage": 12, "fire_rate": 0.05, "range": 500, "projectile_speed": 0, "projectile_count": 3, "spread_angle": 20, "piercing": 99, "knockback": 0 }
+        { "tier": 1, "damage": 3, "fire_rate": 0.05, "range": 17.5, "projectile_speed": 0, "projectile_count": 1, "spread_angle": 0, "piercing": 99, "knockback": 0 },
+        { "tier": 2, "damage": 5, "fire_rate": 0.05, "range": 20, "projectile_speed": 0, "projectile_count": 1, "spread_angle": 0, "piercing": 99, "knockback": 0 },
+        { "tier": 3, "damage": 8, "fire_rate": 0.05, "range": 22.5, "projectile_speed": 0, "projectile_count": 2, "spread_angle": 15, "piercing": 99, "knockback": 0 },
+        { "tier": 4, "damage": 12, "fire_rate": 0.05, "range": 25, "projectile_speed": 0, "projectile_count": 3, "spread_angle": 20, "piercing": 99, "knockback": 0 }
       ]
     }
   ]

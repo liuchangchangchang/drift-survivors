@@ -9,11 +9,10 @@ var active_drops: Array[LootDrop] = []
 func _ready() -> void:
 	EventBus.enemy_killed.connect(_on_enemy_killed)
 
-func _on_enemy_killed(_enemy: Node2D, pos: Vector2, material_value: int) -> void:
+func _on_enemy_killed(_enemy: Node3D, pos: Vector3, material_value: int) -> void:
 	spawn_drop(pos, material_value)
 
-func spawn_drop(pos: Vector2, value: int) -> LootDrop:
-	# If at max, merge into existing drops
+func spawn_drop(pos: Vector3, value: int) -> LootDrop:
 	if active_drops.size() >= MAX_DROPS_ON_MAP:
 		_merge_into_nearest(pos, value)
 		return null
@@ -21,22 +20,26 @@ func spawn_drop(pos: Vector2, value: int) -> LootDrop:
 	var drop := LootDrop.new()
 	drop.collision_layer = 16  # Layer 5 (loot)
 	drop.collision_mask = 0
-	var collision := CollisionShape2D.new()
-	var shape := CircleShape2D.new()
-	shape.radius = 10.0
+	var collision := CollisionShape3D.new()
+	var shape := SphereShape3D.new()
+	shape.radius = 0.5
 	collision.shape = shape
-	collision.set_deferred("disabled", false)
 	drop.add_child(collision)
-	# Visual - green diamond
-	var visual := ColorRect.new()
-	visual.color = Color(0.2, 0.9, 0.3)
-	visual.size = Vector2(10, 10)
-	visual.position = Vector2(-5, -5)
-	visual.rotation = deg_to_rad(45)
+	# Visual: small green box
+	var visual := MeshInstance3D.new()
+	var mesh := BoxMesh.new()
+	mesh.size = Vector3(0.4, 0.4, 0.4)
+	visual.mesh = mesh
+	var mat := StandardMaterial3D.new()
+	mat.albedo_color = Color(0.2, 0.9, 0.3)
+	mat.emission_enabled = true
+	mat.emission = Color(0.2, 0.9, 0.3)
+	mat.emission_energy_multiplier = 1.5
+	visual.material_override = mat
 	drop.add_child(visual)
-	drop.setup(value, pos)
 	drop.add_to_group("loot")
 	add_child(drop)
+	drop.setup(value, pos)
 	active_drops.append(drop)
 	return drop
 
@@ -46,7 +49,7 @@ func collect_drop(drop: LootDrop) -> void:
 		active_drops.erase(drop)
 		drop.queue_free()
 
-func _merge_into_nearest(pos: Vector2, value: int) -> void:
+func _merge_into_nearest(pos: Vector3, value: int) -> void:
 	var nearest: LootDrop = null
 	var nearest_dist := INF
 	for drop in active_drops:

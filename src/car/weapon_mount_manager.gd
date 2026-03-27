@@ -1,23 +1,20 @@
 class_name WeaponMountManager
-extends Node2D
+extends Node3D
 ## Manages all weapon mount points on the car.
-## Default 4 slots, expandable via shop items.
 
 var mounts: Array[WeaponMount] = []
 var max_slots: int = 4
 
-## Mount positions relative to car center (for 4 default slots)
 const DEFAULT_POSITIONS := [
-	Vector2(30, -15),   # Front-right
-	Vector2(-30, -15),  # Front-left
-	Vector2(30, 15),    # Rear-right
-	Vector2(-30, 15),   # Rear-left
+	Vector3(1.5, 0.5, -0.75),   # Front-right
+	Vector3(-1.5, 0.5, -0.75),  # Front-left
+	Vector3(1.5, 0.5, 0.75),    # Rear-right
+	Vector3(-1.5, 0.5, 0.75),   # Rear-left
 ]
 
-## Extra mount positions for expanded slots
 const EXTRA_POSITIONS := [
-	Vector2(0, -25),    # Top center
-	Vector2(0, 25),     # Bottom center
+	Vector3(0, 0.5, -1.25),     # Front center
+	Vector3(0, 0.5, 1.25),      # Rear center
 ]
 
 func _ready() -> void:
@@ -32,16 +29,15 @@ func _create_mounts(count: int) -> void:
 		elif i - DEFAULT_POSITIONS.size() < EXTRA_POSITIONS.size():
 			mount.position = EXTRA_POSITIONS[i - DEFAULT_POSITIONS.size()]
 		else:
-			mount.position = Vector2(0, 0)
+			mount.position = Vector3.ZERO
 		mount.name = "Mount%d" % i
 		add_child(mount)
 		mounts.append(mount)
 
-## Add a new weapon slot. Returns true if successful.
 func add_slot() -> bool:
 	var new_index := mounts.size()
 	if new_index >= DEFAULT_POSITIONS.size() + EXTRA_POSITIONS.size():
-		return false  # Max slots reached
+		return false
 	var mount := WeaponMount.new()
 	mount.slot_index = new_index
 	if new_index < DEFAULT_POSITIONS.size():
@@ -54,7 +50,6 @@ func add_slot() -> bool:
 	max_slots += 1
 	return true
 
-## Equip a weapon in the first empty slot. Returns slot index or -1 if full.
 func equip_weapon(weapon: WeaponBase) -> int:
 	for i in mounts.size():
 		if mounts[i].is_empty():
@@ -62,19 +57,16 @@ func equip_weapon(weapon: WeaponBase) -> int:
 			return i
 	return -1
 
-## Equip a weapon in a specific slot.
 func equip_weapon_at(slot: int, weapon: WeaponBase) -> WeaponBase:
 	if slot < 0 or slot >= mounts.size():
 		return null
 	return mounts[slot].equip(weapon)
 
-## Unequip weapon from a specific slot.
 func unequip_weapon_at(slot: int) -> WeaponBase:
 	if slot < 0 or slot >= mounts.size():
 		return null
 	return mounts[slot].unequip()
 
-## Get count of equipped weapons.
 func get_equipped_count() -> int:
 	var count := 0
 	for mount in mounts:
@@ -82,15 +74,12 @@ func get_equipped_count() -> int:
 			count += 1
 	return count
 
-## Get total available slots.
 func get_slot_count() -> int:
 	return mounts.size()
 
-## Get count of empty slots.
 func get_empty_slot_count() -> int:
 	return get_slot_count() - get_equipped_count()
 
-## Try to auto-merge duplicate weapons. Returns number of merges performed.
 func try_auto_merge() -> int:
 	var merges := 0
 	var merged := true
@@ -116,7 +105,6 @@ func try_auto_merge() -> int:
 				break
 	return merges
 
-## Get all equipped weapon IDs with their tiers.
 func get_weapon_summary() -> Array[Dictionary]:
 	var summary: Array[Dictionary] = []
 	for mount in mounts:

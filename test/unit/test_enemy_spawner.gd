@@ -1,12 +1,12 @@
 extends GutTest
 
 var _spawner: EnemySpawner
-var _player: Node2D
+var _player: Node3D
 
 func before_each():
 	_spawner = EnemySpawner.new()
-	_player = Node2D.new()
-	_player.global_position = Vector2(500, 500)
+	_player = Node3D.new()
+	_player.global_position = Vector3(25, 0, 25)
 	_spawner.player = _player
 	_spawner.max_enemies = 5
 	add_child_autofree(_player)
@@ -23,9 +23,8 @@ func test_spawn_off_screen():
 	var json := DataLoader.get_enemy_data("enemy_basic")
 	var data := EnemyData.from_json(json)
 	var enemy := _spawner.spawn_enemy(data)
-	# Enemy should spawn at least viewport half-width + margin away
 	var dist := enemy.global_position.distance_to(_player.global_position)
-	assert_gt(dist, 400.0, "Enemy should spawn off-screen")
+	assert_gt(dist, 40.0, "Enemy should spawn far from player")
 
 func test_max_enemies_cap():
 	var json := DataLoader.get_enemy_data("enemy_basic")
@@ -47,7 +46,7 @@ func test_on_enemy_killed():
 	var json := DataLoader.get_enemy_data("enemy_basic")
 	var data := EnemyData.from_json(json)
 	var enemy := _spawner.spawn_enemy(data)
-	_spawner.on_enemy_killed(enemy, Vector2.ZERO, 1)
+	_spawner.on_enemy_killed(enemy, Vector3.ZERO, 1)
 	assert_eq(_spawner.get_active_count(), 0)
 
 func test_clear_all():

@@ -10,7 +10,7 @@ var time_remaining: float = 0.0
 var is_active: bool = false
 var spawn_timer: float = 0.0
 var spawner: EnemySpawner = null
-var player: Node2D = null
+var player: Node3D = null
 
 func start_wave(wave_number: int) -> void:
 	current_wave = wave_number

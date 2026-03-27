@@ -25,10 +25,10 @@ func test_initial_cooldown_zero():
 	assert_eq(_weapon.cooldown_timer, 0.0)
 
 func test_fire_sets_cooldown():
-	_weapon.fire(Vector2.RIGHT)
+	_weapon.fire(Vector3.RIGHT)
 	assert_gt(_weapon.cooldown_timer, 0.0, "Cooldown should be set after fire")
 
 func test_fire_rate_multiplier():
-	_weapon.fire_rate_multiplier = 2.0  # Twice as fast
-	_weapon.fire(Vector2.RIGHT)
-	assert_almost_eq(_weapon.cooldown_timer, 0.25, 0.001)  # 0.5 / 2.0
+	_weapon.fire_rate_multiplier = 2.0
+	_weapon.fire(Vector3.RIGHT)
+	assert_almost_eq(_weapon.cooldown_timer, 0.25, 0.001)

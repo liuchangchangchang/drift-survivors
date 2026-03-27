@@ -1,47 +1,48 @@
 class_name EnemySpawner
 extends Node
-## Spawns enemies off-screen around the player.
+## Spawns enemies around the player at a fixed distance.
 
-const SPAWN_MARGIN := 100.0  # Pixels beyond screen edge
+const SPAWN_DISTANCE := 50.0  # Units from player
 
 var active_enemies: Array[EnemyBase] = []
 var max_enemies: int = 100
-var player: Node2D = null
-var viewport_size: Vector2 = Vector2(1920, 1080)
+var player: Node3D = null
 
 signal enemy_spawned(enemy: EnemyBase)
 
-## Spawn an enemy with the given data at a random off-screen position
 func spawn_enemy(data: EnemyData) -> EnemyBase:
 	if active_enemies.size() >= max_enemies:
 		return null
 	if player == null:
 		return null
 	var enemy := EnemyBase.new()
-	var collision := CollisionShape2D.new()
-	var shape := CircleShape2D.new()
+	enemy.motion_mode = CharacterBody3D.MOTION_MODE_FLOATING
+	var collision := CollisionShape3D.new()
+	var shape := SphereShape3D.new()
 	var radius := _get_radius_for_size(data.size)
 	shape.radius = radius
 	collision.shape = shape
-	collision.set_deferred("disabled", false)
 	enemy.add_child(collision)
-	# Visual placeholder
-	var visual := ColorRect.new()
-	visual.color = _get_color_for_type(data.type)
-	visual.size = Vector2(radius * 2, radius * 2)
-	visual.position = Vector2(-radius, -radius)
+	# Visual: sphere mesh
+	var visual := MeshInstance3D.new()
+	var mesh := SphereMesh.new()
+	mesh.radius = radius
+	mesh.height = radius * 2
+	visual.mesh = mesh
+	var mat := StandardMaterial3D.new()
+	mat.albedo_color = _get_color_for_type(data.type)
+	visual.material_override = mat
 	enemy.add_child(visual)
 	enemy.add_to_group("enemies")
+	add_child(enemy)
 	var spawn_pos := _get_spawn_position()
 	enemy.activate(data, spawn_pos, player)
 	active_enemies.append(enemy)
-	add_child(enemy)
 	enemy_spawned.emit(enemy)
 	EventBus.enemy_spawned.emit(enemy)
 	return enemy
 
-## Remove a dead enemy from tracking
-func on_enemy_killed(enemy: Node2D, _pos: Vector2, _value: int) -> void:
+func on_enemy_killed(enemy: Node3D, _pos: Vector3, _value: int) -> void:
 	if enemy is EnemyBase and enemy in active_enemies:
 		active_enemies.erase(enemy)
 		enemy.queue_free()
@@ -55,36 +56,25 @@ func clear_all() -> void:
 			enemy.queue_free()
 	active_enemies.clear()
 
-func _get_spawn_position() -> Vector2:
+func _get_spawn_position() -> Vector3:
 	if player == null:
-		return Vector2.ZERO
-	var half_w := viewport_size.x / 2.0 + SPAWN_MARGIN
-	var half_h := viewport_size.y / 2.0 + SPAWN_MARGIN
-	var side := randi() % 4
-	var pos := player.global_position
-	match side:
-		0: # Top
-			pos += Vector2(randf_range(-half_w, half_w), -half_h)
-		1: # Bottom
-			pos += Vector2(randf_range(-half_w, half_w), half_h)
-		2: # Left
-			pos += Vector2(-half_w, randf_range(-half_h, half_h))
-		3: # Right
-			pos += Vector2(half_w, randf_range(-half_h, half_h))
-	return pos
+		return Vector3.ZERO
+	var angle := randf() * TAU
+	var dist := SPAWN_DISTANCE + randf_range(0, 10)
+	return player.global_position + Vector3(cos(angle) * dist, 0, sin(angle) * dist)
 
 func _get_radius_for_size(size_name: String) -> float:
 	match size_name:
-		"tiny": return 8.0
-		"small": return 12.0
-		"medium": return 20.0
-		"large": return 30.0
-		"boss": return 50.0
-	return 12.0
+		"tiny": return 0.4
+		"small": return 0.6
+		"medium": return 1.0
+		"large": return 1.5
+		"boss": return 2.5
+	return 0.6
 
 func _get_color_for_type(type: String) -> Color:
 	match type:
-		"regular": return Color(0.9, 0.2, 0.2)    # Red
-		"elite": return Color(0.8, 0.5, 0.1)       # Orange
-		"boss": return Color(0.6, 0.1, 0.6)        # Purple
+		"regular": return Color(0.9, 0.2, 0.2)
+		"elite": return Color(0.8, 0.5, 0.1)
+		"boss": return Color(0.6, 0.1, 0.6)
 	return Color(0.9, 0.2, 0.2)

@@ -1,5 +1,5 @@
 class_name WeaponBase
-extends Node2D
+extends Node3D
 ## Base weapon that auto-fires at the nearest enemy within range.
 
 var data: WeaponData
@@ -26,9 +26,12 @@ func _try_fire() -> void:
 	if target == null:
 		return
 	var direction := global_position.direction_to(target.global_position)
+	direction.y = 0
+	if direction.length_squared() > 0.001:
+		direction = direction.normalized()
 	fire(direction)
 
-func fire(direction: Vector2) -> void:
+func fire(direction: Vector3) -> void:
 	var effective_rate := data.fire_rate / maxf(0.1, fire_rate_multiplier)
 	cooldown_timer = effective_rate
 
@@ -39,47 +42,50 @@ func fire(direction: Vector2) -> void:
 
 	EventBus.weapon_fired.emit(data.id)
 
-func _fire_ranged(direction: Vector2) -> void:
+func _fire_ranged(direction: Vector3) -> void:
 	for i in data.projectile_count:
 		var spread := 0.0
 		if data.projectile_count > 1 and data.spread_angle > 0:
-			# Distribute projectiles evenly across spread
 			var spread_rad := deg_to_rad(data.spread_angle)
 			spread = -spread_rad / 2.0 + spread_rad * (float(i) / float(data.projectile_count - 1))
-		var proj_dir := direction.rotated(spread)
+		var proj_dir := direction.rotated(Vector3.UP, spread)
 		_spawn_projectile(proj_dir)
 
-func _fire_melee(direction: Vector2) -> void:
-	# Melee: damage all enemies in an arc
+func _fire_melee(direction: Vector3) -> void:
 	var targets := TargetingSystem.find_enemies_in_range(
 		global_position, data.weapon_range, get_tree()
 	)
 	var arc_rad := deg_to_rad(data.spread_angle)
 	for target in targets:
 		var to_target := global_position.direction_to(target.global_position)
+		to_target.y = 0
 		var angle := direction.angle_to(to_target)
 		if absf(angle) <= arc_rad / 2.0:
 			_apply_damage_to(target)
 
-func _spawn_projectile(direction: Vector2) -> void:
-	var proj := Area2D.new()
-	proj.position = Vector2.ZERO
-	proj.global_position = global_position
-	# Visual
-	var visual := ColorRect.new()
-	visual.color = Color(1.0, 1.0, 0.3)
-	visual.size = Vector2(6, 6)
-	visual.position = Vector2(-3, -3)
-	proj.add_child(visual)
+func _spawn_projectile(direction: Vector3) -> void:
+	var proj := Area3D.new()
 	# Collision
-	var col := CollisionShape2D.new()
-	var shape := CircleShape2D.new()
-	shape.radius = 4.0
+	var col := CollisionShape3D.new()
+	var shape := SphereShape3D.new()
+	shape.radius = 0.2
 	col.shape = shape
 	proj.add_child(col)
-	proj.collision_layer = 4  # projectiles layer
-	proj.collision_mask = 2   # enemies layer
-	# Attach script-like behavior via metadata
+	# Visual: small box
+	var visual := MeshInstance3D.new()
+	var mesh := BoxMesh.new()
+	mesh.size = Vector3(0.3, 0.3, 0.3)
+	visual.mesh = mesh
+	var mat := StandardMaterial3D.new()
+	mat.albedo_color = Color(1.0, 1.0, 0.3)
+	mat.emission_enabled = true
+	mat.emission = Color(1.0, 1.0, 0.3)
+	mat.emission_energy_multiplier = 2.0
+	visual.material_override = mat
+	proj.add_child(visual)
+	proj.collision_layer = 4  # projectiles
+	proj.collision_mask = 2   # enemies
+	# Metadata for movement
 	proj.set_meta("direction", direction)
 	proj.set_meta("speed", data.projectile_speed)
 	proj.set_meta("damage", data.damage * damage_multiplier)
@@ -87,31 +93,26 @@ func _spawn_projectile(direction: Vector2) -> void:
 	proj.set_meta("piercing", data.piercing)
 	proj.set_meta("range_left", data.weapon_range)
 	proj.set_meta("damage_type", data.damage_type)
-	# Add to scene tree (parent of weapon's parent = car, parent of car = arena)
+	# Add to arena
 	var arena := _get_arena()
 	if arena:
 		arena.add_child(proj)
 		proj.global_position = global_position
+		proj.global_position.y = 0.5
 	else:
 		proj.queue_free()
 		return
-	# Connect overlap
-	proj.area_entered.connect(func(area: Area2D): _on_proj_hit(proj, area))
-	proj.body_entered.connect(func(body: Node2D): _on_proj_body_hit(proj, body))
+	proj.body_entered.connect(func(body: Node3D): _on_proj_body_hit(proj, body))
 
 func _get_arena() -> Node:
-	# Walk up to find the arena (root gameplay node)
 	var node: Node = self
 	while node:
-		if node.name == "GameArena" or node is Node2D and node.get_parent() == get_tree().root:
+		if node.name == "GameArena" or node is Node3D and node.get_parent() == get_tree().root:
 			return node
 		node = node.get_parent()
 	return get_tree().current_scene
 
-func _on_proj_hit(proj: Area2D, _area: Area2D) -> void:
-	pass
-
-func _on_proj_body_hit(proj: Area2D, body: Node2D) -> void:
+func _on_proj_body_hit(proj: Area3D, body: Node3D) -> void:
 	if body.is_in_group("enemies") and body.has_method("take_damage"):
 		var dmg: float = proj.get_meta("damage", 0.0)
 		var kb: float = proj.get_meta("knockback", 0.0)
@@ -124,7 +125,7 @@ func _on_proj_body_hit(proj: Area2D, body: Node2D) -> void:
 		else:
 			proj.set_meta("piercing", piercing)
 
-func _apply_damage_to(target: Node2D) -> void:
+func _apply_damage_to(target: Node3D) -> void:
 	var final_damage := data.damage * damage_multiplier
 	if target.has_method("take_damage"):
 		target.take_damage(final_damage, data.knockback, global_position)

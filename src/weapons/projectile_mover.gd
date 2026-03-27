@@ -1,11 +1,11 @@
 class_name ProjectileMover
 extends Node
-## Attached to Arena to move all projectile Area2D nodes each frame.
+## Moves all projectile Area3D nodes each frame.
 
 func _physics_process(delta: float) -> void:
 	for child in get_parent().get_children():
-		if child is Area2D and child.has_meta("speed"):
-			var dir: Vector2 = child.get_meta("direction", Vector2.ZERO)
+		if child is Area3D and child.has_meta("speed"):
+			var dir: Vector3 = child.get_meta("direction", Vector3.ZERO)
 			var speed: float = child.get_meta("speed", 0.0)
 			var range_left: float = child.get_meta("range_left", 0.0)
 			child.position += dir * speed * delta

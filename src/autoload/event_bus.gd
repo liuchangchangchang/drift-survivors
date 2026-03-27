@@ -10,7 +10,7 @@ signal wave_ended(wave_number: int)
 signal wave_timer_tick(seconds_remaining: float)
 
 # --- Car ---
-signal car_damaged(amount: float, source: Node2D)
+signal car_damaged(amount: float, source: Node3D)
 signal car_healed(amount: float)
 signal car_died
 signal drift_stage_changed(stage: int) # 0=NONE, 1=CHARGE_1, 2=CHARGE_2, 3=READY
@@ -19,9 +19,9 @@ signal nitro_depleted
 signal nitro_gauge_changed(value: float) # 0.0 to 1.0
 
 # --- Combat ---
-signal enemy_spawned(enemy: Node2D)
-signal enemy_killed(enemy: Node2D, pos: Vector2, material_value: int)
-signal enemy_damaged(enemy: Node2D, amount: float, source: String)
+signal enemy_spawned(enemy: Node3D)
+signal enemy_killed(enemy: Node3D, pos: Vector3, material_value: int)
+signal enemy_damaged(enemy: Node3D, amount: float, source: String)
 signal weapon_fired(weapon_id: String)
 signal weapon_merged(weapon_id: String, new_tier: int)
 signal weapon_equipped(slot: int, weapon_id: String)

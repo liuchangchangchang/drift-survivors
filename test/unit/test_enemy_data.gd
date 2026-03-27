@@ -7,7 +7,7 @@ func test_from_json():
 	assert_eq(data.enemy_name, "Crawler")
 	assert_eq(data.type, "regular")
 	assert_eq(data.max_hp, 20.0)
-	assert_eq(data.speed, 80.0)
+	assert_eq(data.speed, 4.0)
 	assert_eq(data.contact_damage, 5.0)
 	assert_eq(data.material_drop, 1)
 
@@ -40,7 +40,7 @@ func test_scaling_wave_10():
 func test_scaling_speed():
 	var json := DataLoader.get_enemy_data("enemy_basic")
 	var data := EnemyData.from_json_scaled(json, 10)
-	assert_gt(data.speed, 80.0, "Wave 10 speed should be higher than base")
+	assert_gt(data.speed, 4.0, "Wave 10 speed should be higher than base")
 
 func test_min_wave():
 	var json := DataLoader.get_enemy_data("enemy_fast")

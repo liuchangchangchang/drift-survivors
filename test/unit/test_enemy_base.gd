@@ -37,13 +37,13 @@ func test_reset_for_pool():
 	assert_null(_enemy.target)
 
 func test_activate():
-	var player := Node2D.new()
+	var player := Node3D.new()
 	add_child_autofree(player)
 	var json := DataLoader.get_enemy_data("enemy_fast")
 	var data := EnemyData.from_json(json)
-	_enemy.activate(data, Vector2(100, 200), player)
+	_enemy.activate(data, Vector3(5, 0, 10), player)
 	assert_true(_enemy.is_alive)
 	assert_true(_enemy.visible)
-	assert_eq(_enemy.global_position, Vector2(100, 200))
+	assert_eq(_enemy.global_position, Vector3(5, 0, 10))
 	assert_eq(_enemy.target, player)
 	assert_eq(_enemy.data.id, "enemy_fast")

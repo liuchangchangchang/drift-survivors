@@ -28,7 +28,7 @@ func _on_timer_tick(time_remaining: float) -> void:
 		var seconds := int(time_remaining) % 60
 		timer_label.text = "%d:%02d" % [minutes, seconds]
 
-func _on_car_damaged(_amount: float, _source: Node2D) -> void:
+func _on_car_damaged(_amount: float, _source: Node3D) -> void:
 	_update_hp()
 
 func _on_car_healed(_amount: float) -> void:
