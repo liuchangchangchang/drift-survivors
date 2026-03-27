@@ -52,6 +52,16 @@ layout_mode = 2
 custom_minimum_size = Vector2(200, 0)
 max_value = 100.0
 
+[node name="DriftChargeLabel" type="Label" parent="BottomBar"]
+layout_mode = 2
+text = "Drift:"
+
+[node name="DriftChargeBar" type="ProgressBar" parent="BottomBar"]
+layout_mode = 2
+custom_minimum_size = Vector2(200, 0)
+max_value = 100.0
+show_percentage = false
+
 [node name="SpeedBar" type="ProgressBar" parent="BottomBar"]
 layout_mode = 2
 custom_minimum_size = Vector2(150, 0)

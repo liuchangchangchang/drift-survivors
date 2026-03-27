@@ -68,26 +68,33 @@ func _physics_process(delta: float) -> void:
 		# Drain nitro during boost
 		nitro.drain(delta)
 	elif is_drifting:
-		current_accel = stats.base_accel * 0.2
+		current_accel = stats.base_accel * 0.6
 		current_grip = stats.drift_grip
-		current_friction = 0.985
+		current_friction = 0.992
 		turn_speed = stats.turn_speed_drift
 
-	# Step 4: Drift charge (angle diff based)
+	# Step 4: Drift charge (angle diff based, QQ Speed style)
 	if is_drifting and current_speed > 1.0:
 		drift_sm.update_drift(delta)
 		var velocity_angle := atan2(velocity.z, velocity.x)
 		var angle_diff := absf(angle_difference(visual_angle, velocity_angle))
-		if angle_diff > 0.1:
-			drift_charge += angle_diff * maxf(current_speed, 15.0) * stats.charge_rate * delta
+		var old_charge := drift_charge
+		if angle_diff > 0.05:
+			drift_charge += angle_diff * maxf(current_speed, 10.0) * stats.charge_rate * delta
 			drift_charge = minf(drift_charge, stats.max_charge)
+		else:
+			# Even without big angle, slowly charge while drifting
+			drift_charge += stats.charge_rate * 0.3 * delta
+			drift_charge = minf(drift_charge, stats.max_charge)
+		if drift_charge != old_charge:
+			EventBus.drift_charge_changed.emit(drift_charge / stats.max_charge)
 		# Feed into nitro system with drift stage multiplier
 		var stage_mult := drift_sm.get_nitro_multiplier()
 		if stage_mult > 0:
-			nitro.accumulate(delta, stage_mult * maxf(angle_diff, 0.5))
-	elif not is_drifting and boost_power <= 0:
-		# Decay charge when not drifting
-		drift_charge = maxf(0.0, drift_charge - 20.0 * delta)
+			nitro.accumulate(delta, stage_mult * maxf(angle_diff, 0.3))
+	elif not is_drifting and boost_power <= 0 and drift_charge > 0:
+		drift_charge = maxf(0.0, drift_charge - 40.0 * delta)
+		EventBus.drift_charge_changed.emit(drift_charge / stats.max_charge)
 
 	# Step 5: Core kinematics
 	# Thrust
@@ -134,6 +141,7 @@ func _end_drift() -> void:
 		nitro.try_activate()
 
 	drift_charge = 0.0
+	EventBus.drift_charge_changed.emit(0.0)
 
 func take_damage(amount: float, _knockback: float = 0.0, _source_pos: Vector3 = Vector3.ZERO) -> void:
 	if not is_alive:

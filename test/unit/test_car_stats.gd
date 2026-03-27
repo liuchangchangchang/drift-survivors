@@ -3,9 +3,9 @@ extends GutTest
 func test_default_values():
 	var stats := CarStats.new()
 	assert_eq(stats.max_hp, 100.0)
-	assert_eq(stats.max_speed, 25.0)
+	assert_eq(stats.max_speed, 28.0)
 	assert_eq(stats.weapon_slots, 4)
-	assert_eq(stats.base_accel, 12.0)
+	assert_eq(stats.base_accel, 35.0)
 	assert_eq(stats.normal_grip, 0.15)
 
 func test_from_dict():
@@ -34,7 +34,7 @@ func test_from_dict():
 func test_from_dict_with_defaults():
 	var stats := CarStats.from_dict({})
 	assert_eq(stats.max_hp, 100.0)
-	assert_eq(stats.max_speed, 25.0)
+	assert_eq(stats.max_speed, 28.0)
 	assert_eq(stats.weapon_slots, 4)
 
 func test_from_json_data():
@@ -44,4 +44,4 @@ func test_from_json_data():
 	assert_eq(stats.max_hp, 100.0)
 	assert_eq(stats.weapon_slots, 4)
 	assert_eq(stats.nitro_max, 100.0)
-	assert_eq(stats.base_accel, 12.0)
+	assert_eq(stats.base_accel, 35.0)

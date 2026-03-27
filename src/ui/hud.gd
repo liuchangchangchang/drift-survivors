@@ -9,6 +9,7 @@ extends CanvasLayer
 @onready var nitro_bar: ProgressBar = $BottomBar/NitroBar
 @onready var speed_bar: ProgressBar = $BottomBar/SpeedBar
 @onready var xp_bar: ProgressBar = $TopBar/XPBar
+@onready var drift_charge_bar: ProgressBar = $BottomBar/DriftChargeBar
 
 func _ready() -> void:
 	EventBus.wave_started.connect(_on_wave_started)
@@ -17,6 +18,7 @@ func _ready() -> void:
 	EventBus.car_healed.connect(_on_car_healed)
 	EventBus.material_changed.connect(_on_material_changed)
 	EventBus.nitro_gauge_changed.connect(_on_nitro_changed)
+	EventBus.drift_charge_changed.connect(_on_drift_charge_changed)
 
 func _on_wave_started(wave: int) -> void:
 	if wave_label:
@@ -41,6 +43,17 @@ func _on_material_changed(total: int) -> void:
 func _on_nitro_changed(normalized: float) -> void:
 	if nitro_bar:
 		nitro_bar.value = normalized * 100.0
+
+func _on_drift_charge_changed(normalized: float) -> void:
+	if drift_charge_bar:
+		drift_charge_bar.value = normalized * 100.0
+		# Change color when fully charged
+		if normalized >= 1.0:
+			drift_charge_bar.modulate = Color(1.0, 0.8, 0.0)  # Gold when full
+		elif normalized >= 0.5:
+			drift_charge_bar.modulate = Color(0.3, 0.8, 1.0)  # Cyan when half
+		else:
+			drift_charge_bar.modulate = Color.WHITE
 
 func update_hp(current: float, max_hp: float) -> void:
 	if hp_bar:

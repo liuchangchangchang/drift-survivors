@@ -17,6 +17,7 @@ signal drift_stage_changed(stage: int) # 0=NONE, 1=CHARGE_1, 2=CHARGE_2, 3=READY
 signal nitro_activated
 signal nitro_depleted
 signal nitro_gauge_changed(value: float) # 0.0 to 1.0
+signal drift_charge_changed(normalized: float) # 0.0 to 1.0, for HUD charge bar
 
 # --- Combat ---
 signal enemy_spawned(enemy: Node3D)

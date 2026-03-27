@@ -304,9 +304,9 @@ func _on_upgrade_selected(upgrade: Dictionary) -> void:
 
 func _apply_stats_to_car() -> void:
 	car.stats.max_hp = player_stats.get_stat("max_hp", 100.0)
-	car.stats.max_speed = player_stats.get_stat("max_speed", 25.0)
-	car.stats.boost_speed = player_stats.get_stat("boost_speed", 37.5)
-	car.stats.base_accel = player_stats.get_stat("base_accel", 12.0)
+	car.stats.max_speed = player_stats.get_stat("max_speed", 28.0)
+	car.stats.boost_speed = player_stats.get_stat("boost_speed", 45.0)
+	car.stats.base_accel = player_stats.get_stat("base_accel", 35.0)
 	car.stats.armor = player_stats.get_stat("armor", 0.0)
 	car.stats.nitro_max = player_stats.get_stat("nitro_max", 100.0)
 	car.stats.nitro_accumulation_rate = player_stats.get_stat("nitro_accumulation_rate", 10.0)

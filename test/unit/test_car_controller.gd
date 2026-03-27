@@ -68,7 +68,7 @@ func test_speed_normalized_zero():
 	assert_eq(_car.get_speed_normalized(), 0.0)
 
 func test_speed_normalized():
-	_car.velocity = Vector3(12.5, 0, 0)
+	_car.velocity = Vector3(14.0, 0, 0)
 	assert_almost_eq(_car.get_speed_normalized(), 0.5, 0.01)
 
 func test_die_stops_car():
