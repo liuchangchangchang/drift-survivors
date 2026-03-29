@@ -163,6 +163,10 @@ func _on_reroll() -> void:
 	_refresh_display()
 
 func _on_continue() -> void:
+	# Free all item cards (and their SubViewport previews) to prevent rendering leaks
+	if item_container:
+		for child in item_container.get_children():
+			child.queue_free()
 	visible = false
 	shop_closed.emit()
 

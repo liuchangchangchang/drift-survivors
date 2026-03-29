@@ -15,7 +15,7 @@ func setup(item_data: Dictionary) -> void:
 	_viewport = SubViewport.new()
 	_viewport.size = Vector2i(240, 200)
 	_viewport.transparent_bg = true
-	_viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	_viewport.render_target_update_mode = SubViewport.UPDATE_WHEN_VISIBLE
 	_root = Node3D.new()
 	# Camera (use camera.environment instead of WorldEnvironment to avoid conflicts)
 	var cam := Camera3D.new()

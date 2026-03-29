@@ -77,7 +77,7 @@ func _setup_3d_preview() -> void:
 	_preview_viewport = SubViewport.new()
 	_preview_viewport.size = Vector2i(800, 500)
 	_preview_viewport.transparent_bg = true
-	_preview_viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	_preview_viewport.render_target_update_mode = SubViewport.UPDATE_WHEN_VISIBLE
 	_preview_root = Node3D.new()
 	var cam := Camera3D.new()
 	cam.position = Vector3(0, 1.8, 5.5)

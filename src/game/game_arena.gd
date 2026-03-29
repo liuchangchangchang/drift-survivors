@@ -645,8 +645,20 @@ func _on_shop_closed() -> void:
 	car.visible = true
 	car.set_physics_process(true)
 	_spawn_poof_effect(car.global_position, Color(0.3, 0.8, 1.0))
+	# Re-validate environment (workaround for gl_compatibility SubViewport leaks)
+	_reapply_environment()
 	GameManager.close_shop()
 	wave_manager.start_wave(GameManager.current_wave)
+
+func _reapply_environment() -> void:
+	# Find and re-set the WorldEnvironment to ensure it's active
+	for child in get_children():
+		if child is WorldEnvironment:
+			var we: WorldEnvironment = child
+			var env_res: Environment = we.environment
+			we.environment = null
+			we.environment = env_res
+			return
 
 func _on_car_died() -> void:
 	if game_over_ui:

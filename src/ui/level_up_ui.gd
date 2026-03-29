@@ -121,6 +121,10 @@ func _on_choice(index: int) -> void:
 		return
 	var upgrade := _choices[index]
 	upgrade_selected.emit(upgrade)
+	# Free all choice cards (and their SubViewport previews)
+	if choice_container:
+		for child in choice_container.get_children():
+			child.queue_free()
 	visible = false
 	if get_tree():
 		get_tree().paused = false
