@@ -5,16 +5,15 @@ extends Node3D
 var mounts: Array[WeaponMount] = []
 var max_slots: int = 4
 
-const DEFAULT_POSITIONS := [
-	Vector3(1.5, 0.5, -0.75),   # Front-right
-	Vector3(-1.5, 0.5, -0.75),  # Front-left
-	Vector3(1.5, 0.5, 0.75),    # Rear-right
-	Vector3(-1.5, 0.5, 0.75),   # Rear-left
-]
-
-const EXTRA_POSITIONS := [
-	Vector3(0, 0.5, -1.25),     # Front center
-	Vector3(0, 0.5, 1.25),      # Rear center
+const MOUNT_POSITIONS := [
+	Vector3(1.2, 0.7, -0.75),   # Front-right
+	Vector3(-1.2, 0.7, -0.75),  # Front-left
+	Vector3(1.2, 0.7, 0.75),    # Rear-right
+	Vector3(-1.2, 0.7, 0.75),   # Rear-left
+	Vector3(0, 0.7, -1.25),     # Front center
+	Vector3(0, 0.7, 1.0),       # Rear center
+	Vector3(0.8, 0.9, 0),       # Top-right
+	Vector3(-0.8, 0.9, 0),      # Top-left
 ]
 
 func _ready() -> void:
@@ -22,31 +21,25 @@ func _ready() -> void:
 
 func _create_mounts(count: int) -> void:
 	for i in count:
-		var mount := WeaponMount.new()
-		mount.slot_index = i
-		if i < DEFAULT_POSITIONS.size():
-			mount.position = DEFAULT_POSITIONS[i]
-		elif i - DEFAULT_POSITIONS.size() < EXTRA_POSITIONS.size():
-			mount.position = EXTRA_POSITIONS[i - DEFAULT_POSITIONS.size()]
-		else:
-			mount.position = Vector3.ZERO
-		mount.name = "Mount%d" % i
-		add_child(mount)
-		mounts.append(mount)
+		_add_mount_at(i)
+
+func _add_mount_at(index: int) -> WeaponMount:
+	var mount := WeaponMount.new()
+	mount.slot_index = index
+	if index < MOUNT_POSITIONS.size():
+		mount.position = MOUNT_POSITIONS[index]
+	else:
+		# Generate position on a circle around the car
+		var angle := TAU * float(index) / 8.0
+		mount.position = Vector3(cos(angle) * 1.0, 0.9, sin(angle) * 0.8)
+	mount.name = "Mount%d" % index
+	add_child(mount)
+	mounts.append(mount)
+	return mount
 
 func add_slot() -> bool:
 	var new_index := mounts.size()
-	if new_index >= DEFAULT_POSITIONS.size() + EXTRA_POSITIONS.size():
-		return false
-	var mount := WeaponMount.new()
-	mount.slot_index = new_index
-	if new_index < DEFAULT_POSITIONS.size():
-		mount.position = DEFAULT_POSITIONS[new_index]
-	else:
-		mount.position = EXTRA_POSITIONS[new_index - DEFAULT_POSITIONS.size()]
-	mount.name = "Mount%d" % new_index
-	add_child(mount)
-	mounts.append(mount)
+	_add_mount_at(new_index)
 	max_slots += 1
 	return true
 

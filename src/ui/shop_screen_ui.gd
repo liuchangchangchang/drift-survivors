@@ -1,5 +1,5 @@
 extends Control
-## Between-wave shop screen. Shows 4 items to purchase, reroll, and continue.
+## Between-wave shop screen. Shows 4 items to purchase with 3D previews.
 
 signal shop_closed
 
@@ -34,19 +34,15 @@ func open_shop(wave: int, sm: ShopManager, econ: EconomyManager, inv: Inventory,
 func _refresh_display() -> void:
 	if item_container == null:
 		return
-	# Clear existing items
 	for child in item_container.get_children():
 		child.queue_free()
-
 	for i in shop_manager.current_items.size():
 		var entry: Dictionary = shop_manager.current_items[i]
 		var item_data: Dictionary = entry.get("item_data", {})
 		var price: int = entry.get("price", 0)
 		var locked: bool = entry.get("locked", false)
-
 		var card := _create_item_card(i, item_data, price, locked)
 		item_container.add_child(card)
-
 	if reroll_button:
 		reroll_button.text = "Reroll (%d)" % shop_manager.get_reroll_cost()
 		reroll_button.disabled = not economy.can_afford(shop_manager.get_reroll_cost())
@@ -55,33 +51,98 @@ func _refresh_display() -> void:
 
 func _create_item_card(slot: int, item_data: Dictionary, price: int, locked: bool) -> PanelContainer:
 	var card := PanelContainer.new()
-	card.custom_minimum_size = Vector2(200, 300)
+	card.custom_minimum_size = Vector2(220, 350)
+	# Card style
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.06, 0.08, 0.15, 0.95)
+	style.border_width_left = 2
+	style.border_width_top = 2
+	style.border_width_right = 2
+	style.border_width_bottom = 2
+	var rarity: String = item_data.get("rarity", "common")
+	style.border_color = _get_rarity_color(rarity)
+	style.corner_radius_top_left = 8
+	style.corner_radius_top_right = 8
+	style.corner_radius_bottom_left = 8
+	style.corner_radius_bottom_right = 8
+	style.content_margin_left = 10
+	style.content_margin_right = 10
+	style.content_margin_top = 10
+	style.content_margin_bottom = 10
+	card.add_theme_stylebox_override("panel", style)
 
 	var vbox := VBoxContainer.new()
+	vbox.add_theme_constant_override("separation", 6)
 
+	# 3D Preview
+	var preview := Item3DPreview.new()
+	preview.setup(item_data)
+	preview.custom_minimum_size = Vector2(120, 100)
+	preview.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	vbox.add_child(preview)
+
+	# Name
 	var name_label := Label.new()
 	name_label.text = item_data.get("name", "???")
 	name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	name_label.add_theme_font_size_override("font_size", 16)
+	name_label.add_theme_color_override("font_color", Color(1, 0.95, 0.8))
 	vbox.add_child(name_label)
 
+	# Rarity
 	var rarity_label := Label.new()
-	rarity_label.text = "[%s]" % item_data.get("rarity", "common").to_upper()
+	rarity_label.text = "[%s]" % rarity.to_upper()
 	rarity_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	rarity_label.add_theme_font_size_override("font_size", 11)
+	rarity_label.add_theme_color_override("font_color", _get_rarity_color(rarity))
 	vbox.add_child(rarity_label)
 
+	# Description
 	var desc_label := Label.new()
 	desc_label.text = item_data.get("description", "")
 	desc_label.autowrap_mode = TextServer.AUTOWRAP_WORD
+	desc_label.add_theme_font_size_override("font_size", 13)
+	desc_label.add_theme_color_override("font_color", Color(0.7, 0.75, 0.85))
 	vbox.add_child(desc_label)
 
+	# Spacer
+	var spacer := Control.new()
+	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	vbox.add_child(spacer)
+
+	# Buy button
 	var buy_btn := Button.new()
 	buy_btn.text = "Buy (%d)" % price
+	buy_btn.custom_minimum_size = Vector2(0, 36)
 	buy_btn.disabled = not economy.can_afford(price)
+	buy_btn.add_theme_font_size_override("font_size", 14)
+	var btn_style := StyleBoxFlat.new()
+	btn_style.bg_color = Color(0.1, 0.35, 0.2, 1) if economy.can_afford(price) else Color(0.15, 0.15, 0.2, 1)
+	btn_style.border_width_left = 1
+	btn_style.border_width_top = 1
+	btn_style.border_width_right = 1
+	btn_style.border_width_bottom = 1
+	btn_style.border_color = Color(0.3, 0.7, 0.4, 1)
+	btn_style.corner_radius_top_left = 5
+	btn_style.corner_radius_top_right = 5
+	btn_style.corner_radius_bottom_left = 5
+	btn_style.corner_radius_bottom_right = 5
+	buy_btn.add_theme_stylebox_override("normal", btn_style)
 	buy_btn.pressed.connect(_on_buy.bind(slot))
 	vbox.add_child(buy_btn)
 
+	# Lock button
 	var lock_btn := Button.new()
 	lock_btn.text = "Locked" if locked else "Lock"
+	lock_btn.custom_minimum_size = Vector2(0, 30)
+	lock_btn.add_theme_font_size_override("font_size", 12)
+	var lock_style := StyleBoxFlat.new()
+	lock_style.bg_color = Color(0.25, 0.2, 0.05, 1) if locked else Color(0.1, 0.1, 0.15, 1)
+	lock_style.corner_radius_top_left = 4
+	lock_style.corner_radius_top_right = 4
+	lock_style.corner_radius_bottom_left = 4
+	lock_style.corner_radius_bottom_right = 4
+	lock_btn.add_theme_stylebox_override("normal", lock_style)
 	lock_btn.pressed.connect(_on_lock.bind(slot))
 	vbox.add_child(lock_btn)
 
@@ -105,3 +166,11 @@ func _on_continue() -> void:
 	visible = false
 	shop_closed.emit()
 	GameManager.close_shop()
+
+func _get_rarity_color(rarity: String) -> Color:
+	match rarity:
+		"common": return Color(0.6, 0.6, 0.7)
+		"uncommon": return Color(0.2, 0.8, 0.3)
+		"rare": return Color(0.3, 0.5, 1.0)
+		"legendary": return Color(1.0, 0.7, 0.1)
+	return Color(0.6, 0.6, 0.7)

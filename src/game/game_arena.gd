@@ -512,10 +512,14 @@ func _setup_ui() -> void:
 		victory_ui = vic_scene.instantiate()
 		add_child(victory_ui)
 
+var _item_display_count: int = 0
+
 func _connect_signals() -> void:
 	EventBus.car_died.connect(_on_car_died)
 	EventBus.enemy_killed.connect(enemy_spawner.on_enemy_killed)
 	EventBus.material_collected.connect(func(amount: int): economy.add_materials(amount))
+	EventBus.item_purchased.connect(_on_item_visual)
+	EventBus.upgrade_chosen.connect(_on_upgrade_visual)
 	wave_manager.wave_completed.connect(_on_wave_completed)
 	level_up_mgr.level_up_ready.connect(_on_level_up)
 
@@ -659,6 +663,69 @@ func _apply_stats_to_car() -> void:
 	var new_slots := player_stats.get_stat_int("weapon_slots", 4)
 	while weapon_mount_mgr.get_slot_count() < new_slots:
 		weapon_mount_mgr.add_slot()
+
+func _on_item_visual(item_id: String) -> void:
+	var item_data := DataLoader.get_item_data(item_id)
+	if item_data.is_empty():
+		return
+	_add_item_to_car(item_data)
+
+func _on_upgrade_visual(upgrade_id: String) -> void:
+	# Find upgrade data
+	for u in DataLoader.upgrades:
+		if u.get("id", "") == upgrade_id:
+			_add_item_to_car(u)
+			return
+
+func _add_item_to_car(item_data: Dictionary) -> void:
+	var visuals := car.get_node_or_null("Visuals")
+	if not visuals:
+		return
+	var body_wrap := visuals.get_node_or_null("BodyWrap")
+	if not body_wrap:
+		return
+	# Place small icon on car roof in a grid pattern
+	var idx := _item_display_count
+	_item_display_count += 1
+	var col := idx % 4
+	var row := idx / 4
+	var x := -0.4 + col * 0.28
+	var z := -0.3 + row * 0.3
+	# Build tiny 3D icon
+	var icon := Node3D.new()
+	icon.name = "ItemIcon_%d" % idx
+	var color := _item_icon_color(item_data)
+	var mesh_inst := MeshInstance3D.new()
+	var box := BoxMesh.new()
+	box.size = Vector3(0.15, 0.15, 0.15)
+	mesh_inst.mesh = box
+	mesh_inst.rotation_degrees = Vector3(0, 45, 0)
+	var mat := StandardMaterial3D.new()
+	mat.albedo_color = color
+	mat.emission_enabled = true
+	mat.emission = color
+	mat.emission_energy_multiplier = 1.5
+	mat.metallic = 0.6
+	mat.roughness = 0.2
+	mesh_inst.material_override = mat
+	icon.add_child(mesh_inst)
+	icon.position = Vector3(x, 1.05, z)
+	body_wrap.add_child(icon)
+
+func _item_icon_color(item_data: Dictionary) -> Color:
+	var cat: String = item_data.get("category", "")
+	match cat:
+		"defense": return Color(0.3, 0.5, 0.9)
+		"offense": return Color(0.9, 0.3, 0.2)
+		"speed": return Color(0.2, 0.9, 0.3)
+		"utility": return Color(0.9, 0.8, 0.2)
+		"special": return Color(0.8, 0.3, 0.9)
+	var rarity: String = item_data.get("rarity", "common")
+	match rarity:
+		"uncommon": return Color(0.2, 0.8, 0.3)
+		"rare": return Color(0.3, 0.5, 1.0)
+		"legendary": return Color(1.0, 0.7, 0.1)
+	return Color(0.6, 0.6, 0.7)
 
 func _create_boundaries() -> void:
 	var walls := StaticBody3D.new()

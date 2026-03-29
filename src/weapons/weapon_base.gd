@@ -6,9 +6,22 @@ var data: WeaponData
 var cooldown_timer: float = 0.0
 var damage_multiplier: float = 1.0
 var fire_rate_multiplier: float = 1.0
+var _visual: Node3D = null
+var _current_target: Node3D = null
+
+# Weapon visual colors by type
+const WEAPON_VISUAL_COLORS := {
+	"weapon_pistol": Color(0.7, 0.7, 0.75),
+	"weapon_shotgun": Color(0.8, 0.5, 0.2),
+	"weapon_smg": Color(0.3, 0.7, 0.3),
+	"weapon_sniper": Color(0.4, 0.4, 0.6),
+	"weapon_bumper": Color(0.9, 0.2, 0.2),
+	"weapon_laser": Color(0.2, 0.6, 1.0),
+}
 
 func setup(weapon_data: WeaponData) -> void:
 	data = weapon_data
+	_build_visual()
 
 func _physics_process(delta: float) -> void:
 	if data == null:
@@ -16,6 +29,13 @@ func _physics_process(delta: float) -> void:
 	cooldown_timer -= delta
 	if cooldown_timer <= 0.0:
 		_try_fire()
+	# Rotate visual toward current target
+	if _visual and _current_target and is_instance_valid(_current_target):
+		var dir_to := global_position.direction_to(_current_target.global_position)
+		dir_to.y = 0
+		if dir_to.length_squared() > 0.001:
+			var target_yaw := atan2(dir_to.x, dir_to.z)
+			_visual.rotation.y = lerp_angle(_visual.rotation.y, target_yaw, 12.0 * delta)
 
 func _try_fire() -> void:
 	if not is_inside_tree():
@@ -23,6 +43,7 @@ func _try_fire() -> void:
 	var target := TargetingSystem.find_nearest_enemy(
 		global_position, data.weapon_range, get_tree()
 	)
+	_current_target = target
 	if target == null:
 		return
 	var direction := global_position.direction_to(target.global_position)
@@ -133,3 +154,79 @@ func _apply_damage_to(target: Node3D) -> void:
 
 func get_effective_damage() -> float:
 	return data.damage * damage_multiplier
+
+func _build_visual() -> void:
+	if _visual:
+		_visual.queue_free()
+	if data == null:
+		return
+	_visual = Node3D.new()
+	_visual.name = "WeaponVisual"
+	var color: Color = WEAPON_VISUAL_COLORS.get(data.id, Color(0.5, 0.5, 0.6))
+	var mat := StandardMaterial3D.new()
+	mat.albedo_color = color
+	mat.metallic = 0.7
+	mat.roughness = 0.25
+	if data.type == "melee":
+		_build_melee_visual(mat)
+	else:
+		_build_ranged_visual(mat)
+	add_child(_visual)
+
+func _build_ranged_visual(mat: StandardMaterial3D) -> void:
+	# Barrel (points -Z = forward)
+	var barrel := MeshInstance3D.new()
+	var barrel_mesh := CylinderMesh.new()
+	barrel_mesh.top_radius = 0.04
+	barrel_mesh.bottom_radius = 0.05
+	barrel_mesh.height = 0.5
+	barrel.mesh = barrel_mesh
+	barrel.rotation_degrees = Vector3(90, 0, 0)
+	barrel.position = Vector3(0, 0.1, -0.25)
+	barrel.material_override = mat
+	_visual.add_child(barrel)
+	# Body
+	var body := MeshInstance3D.new()
+	var body_mesh := BoxMesh.new()
+	body_mesh.size = Vector3(0.1, 0.1, 0.2)
+	body.mesh = body_mesh
+	body.position = Vector3(0, 0.1, 0.05)
+	body.material_override = mat
+	_visual.add_child(body)
+	# Muzzle flash point
+	var muzzle := MeshInstance3D.new()
+	var muzzle_mesh := SphereMesh.new()
+	muzzle_mesh.radius = 0.03
+	muzzle_mesh.height = 0.06
+	muzzle.mesh = muzzle_mesh
+	muzzle.position = Vector3(0, 0.1, -0.5)
+	var muzzle_mat := StandardMaterial3D.new()
+	muzzle_mat.albedo_color = Color(1, 0.8, 0.3)
+	muzzle_mat.emission_enabled = true
+	muzzle_mat.emission = Color(1, 0.6, 0.2)
+	muzzle_mat.emission_energy_multiplier = 2.0
+	muzzle.material_override = muzzle_mat
+	_visual.add_child(muzzle)
+
+func _build_melee_visual(mat: StandardMaterial3D) -> void:
+	# Bumper plate
+	var plate := MeshInstance3D.new()
+	var plate_mesh := BoxMesh.new()
+	plate_mesh.size = Vector3(0.5, 0.15, 0.06)
+	plate.mesh = plate_mesh
+	plate.position = Vector3(0, 0.1, -0.15)
+	plate.material_override = mat
+	_visual.add_child(plate)
+	# Glow edge
+	var glow := MeshInstance3D.new()
+	var glow_mesh := BoxMesh.new()
+	glow_mesh.size = Vector3(0.48, 0.03, 0.03)
+	glow.mesh = glow_mesh
+	glow.position = Vector3(0, 0.1, -0.19)
+	var glow_mat := StandardMaterial3D.new()
+	glow_mat.albedo_color = Color(1, 0.3, 0.1)
+	glow_mat.emission_enabled = true
+	glow_mat.emission = Color(1, 0.3, 0.1)
+	glow_mat.emission_energy_multiplier = 3.0
+	glow.material_override = glow_mat
+	_visual.add_child(glow)

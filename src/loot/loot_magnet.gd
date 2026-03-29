@@ -24,5 +24,5 @@ func set_range_multiplier(mult: float) -> void:
 	_update_collision_shape()
 
 func _on_area_entered(area: Area3D) -> void:
-	if area is LootDrop:
-		area.collect()
+	if area is LootDrop and not area.is_attracted:
+		area.start_attract(get_parent())

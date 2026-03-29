@@ -46,11 +46,11 @@ func test_add_slot():
 	assert_eq(_mgr.get_slot_count(), 5)
 	assert_eq(_mgr.get_empty_slot_count(), 5)
 
-func test_add_slot_max_6():
+func test_add_slot_beyond_default():
 	_mgr.add_slot()  # 5
 	assert_true(_mgr.add_slot())  # 6
-	assert_false(_mgr.add_slot())  # 7 would exceed max positions
-	assert_eq(_mgr.get_slot_count(), 6)
+	assert_true(_mgr.add_slot())  # 7 - no hard cap, positions auto-generated
+	assert_eq(_mgr.get_slot_count(), 7)
 
 func test_weapon_summary():
 	var w1 := WeaponFactory.create_weapon("weapon_pistol", 1)
