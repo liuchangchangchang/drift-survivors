@@ -177,29 +177,29 @@ func _build_ranged_visual(mat: StandardMaterial3D) -> void:
 	# Barrel (points -Z = forward)
 	var barrel := MeshInstance3D.new()
 	var barrel_mesh := CylinderMesh.new()
-	barrel_mesh.top_radius = 0.04
-	barrel_mesh.bottom_radius = 0.05
-	barrel_mesh.height = 0.5
+	barrel_mesh.top_radius = 0.06
+	barrel_mesh.bottom_radius = 0.08
+	barrel_mesh.height = 0.7
 	barrel.mesh = barrel_mesh
 	barrel.rotation_degrees = Vector3(90, 0, 0)
-	barrel.position = Vector3(0, 0.1, -0.25)
+	barrel.position = Vector3(0, 0.12, -0.35)
 	barrel.material_override = mat
 	_visual.add_child(barrel)
 	# Body
 	var body := MeshInstance3D.new()
 	var body_mesh := BoxMesh.new()
-	body_mesh.size = Vector3(0.1, 0.1, 0.2)
+	body_mesh.size = Vector3(0.18, 0.16, 0.3)
 	body.mesh = body_mesh
-	body.position = Vector3(0, 0.1, 0.05)
+	body.position = Vector3(0, 0.12, 0.08)
 	body.material_override = mat
 	_visual.add_child(body)
 	# Muzzle flash point
 	var muzzle := MeshInstance3D.new()
 	var muzzle_mesh := SphereMesh.new()
-	muzzle_mesh.radius = 0.03
-	muzzle_mesh.height = 0.06
+	muzzle_mesh.radius = 0.05
+	muzzle_mesh.height = 0.1
 	muzzle.mesh = muzzle_mesh
-	muzzle.position = Vector3(0, 0.1, -0.5)
+	muzzle.position = Vector3(0, 0.12, -0.7)
 	var muzzle_mat := StandardMaterial3D.new()
 	muzzle_mat.albedo_color = Color(1, 0.8, 0.3)
 	muzzle_mat.emission_enabled = true
@@ -212,17 +212,17 @@ func _build_melee_visual(mat: StandardMaterial3D) -> void:
 	# Bumper plate
 	var plate := MeshInstance3D.new()
 	var plate_mesh := BoxMesh.new()
-	plate_mesh.size = Vector3(0.5, 0.15, 0.06)
+	plate_mesh.size = Vector3(0.7, 0.22, 0.08)
 	plate.mesh = plate_mesh
-	plate.position = Vector3(0, 0.1, -0.15)
+	plate.position = Vector3(0, 0.12, -0.2)
 	plate.material_override = mat
 	_visual.add_child(plate)
 	# Glow edge
 	var glow := MeshInstance3D.new()
 	var glow_mesh := BoxMesh.new()
-	glow_mesh.size = Vector3(0.48, 0.03, 0.03)
+	glow_mesh.size = Vector3(0.66, 0.04, 0.04)
 	glow.mesh = glow_mesh
-	glow.position = Vector3(0, 0.1, -0.19)
+	glow.position = Vector3(0, 0.12, -0.25)
 	var glow_mat := StandardMaterial3D.new()
 	glow_mat.albedo_color = Color(1, 0.3, 0.1)
 	glow_mat.emission_enabled = true

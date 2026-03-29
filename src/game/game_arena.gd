@@ -666,8 +666,8 @@ func _show_levelup_arrow() -> void:
 	var arrow := MeshInstance3D.new()
 	var cone := CylinderMesh.new()
 	cone.top_radius = 0.0
-	cone.bottom_radius = 0.4
-	cone.height = 0.6
+	cone.bottom_radius = 0.8
+	cone.height = 1.2
 	arrow.mesh = cone
 	arrow.rotation_degrees = Vector3(180, 0, 0)
 	arrow.position = Vector3(0, 0, 0)
@@ -675,17 +675,17 @@ func _show_levelup_arrow() -> void:
 	mat.albedo_color = Color(0.2, 1.0, 0.3)
 	mat.emission_enabled = true
 	mat.emission = Color(0.2, 1.0, 0.3)
-	mat.emission_energy_multiplier = 3.0
+	mat.emission_energy_multiplier = 4.0
 	arrow.material_override = mat
 	_levelup_arrow.add_child(arrow)
 	# Key prompt label
 	_levelup_label = Label3D.new()
-	_levelup_label.text = "TAB"
-	_levelup_label.font_size = 48
+	_levelup_label.text = "[ TAB ]"
+	_levelup_label.font_size = 96
 	_levelup_label.modulate = Color(0.3, 1.0, 0.4)
 	_levelup_label.outline_modulate = Color(0, 0, 0)
-	_levelup_label.outline_size = 8
-	_levelup_label.position = Vector3(0, 0.6, 0)
+	_levelup_label.outline_size = 16
+	_levelup_label.position = Vector3(0, 1.2, 0)
 	_levelup_label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	_levelup_arrow.add_child(_levelup_label)
 	car.add_child(_levelup_arrow)
