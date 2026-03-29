@@ -37,7 +37,7 @@ theme_override_constants/separation = 15
 
 [node name="LevelLabel" type="Label" parent="Panel/VBoxContainer"]
 layout_mode = 2
-text = "Level Up!"
+text = "LEVELUP_TITLE"
 horizontal_alignment = 1
 
 [node name="ChoiceContainer" type="HBoxContainer" parent="Panel/VBoxContainer"]

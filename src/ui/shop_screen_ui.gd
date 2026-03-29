@@ -165,7 +165,6 @@ func _on_reroll() -> void:
 func _on_continue() -> void:
 	visible = false
 	shop_closed.emit()
-	GameManager.close_shop()
 
 func _get_rarity_color(rarity: String) -> Color:
 	match rarity:

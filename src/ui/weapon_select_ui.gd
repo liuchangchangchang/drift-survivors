@@ -198,13 +198,13 @@ func _select_weapon(weapon_id: String, index: int) -> void:
 	_info_label.text = weapon_data.get("name", weapon_id)
 	var tiers: Array = weapon_data.get("tiers", [])
 	var t1: Dictionary = tiers[0] if tiers.size() > 0 else {}
-	_stats_label.text = "DMG: %d  |  FIRE RATE: %.2f  |  RANGE: %d  |  PIERCING: %d  |  KNOCKBACK: %.1f" % [
-		int(t1.get("damage", 0)),
-		t1.get("fire_rate", 0),
-		int(t1.get("range", 0)),
-		int(t1.get("piercing", 0)),
-		t1.get("knockback", 0),
-	]
+	var parts: Array[String] = []
+	parts.append(tr("STATS_DMG") % int(t1.get("damage", 0)))
+	parts.append(tr("STATS_FIRERATE") % t1.get("fire_rate", 0))
+	parts.append(tr("STATS_RANGE") % int(t1.get("range", 0)))
+	parts.append(tr("STATS_PIERCING") % int(t1.get("piercing", 0)))
+	parts.append(tr("STATS_KNOCKBACK") % t1.get("knockback", 0))
+	_stats_label.text = "  |  ".join(parts)
 	# Highlight selected card
 	for i in _card_buttons.size():
 		var btn := _card_buttons[i]

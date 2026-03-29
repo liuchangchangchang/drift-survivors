@@ -9,10 +9,10 @@ var _rebind_btn: Button = null     # The button waiting for input
 var _rebind_buttons: Dictionary = {}  # action_name → Button
 
 const REBINDABLE_ACTIONS := [
-	["drift", "Drift"],
-	["nitro_boost", "Nitro Boost"],
-	["level_up_open", "Level Up"],
-	["pause", "Pause"],
+	["drift", "SETTINGS_DRIFT"],
+	["nitro_boost", "SETTINGS_NITRO"],
+	["level_up_open", "SETTINGS_LEVELUP"],
+	["pause", "SETTINGS_PAUSE"],
 ]
 
 func _ready() -> void:
@@ -132,7 +132,7 @@ func _build_ui() -> void:
 	vbox.add_child(ctrl_title)
 
 	var hint := Label.new()
-	hint.text = "Click a key binding, then press a new key or gamepad button to rebind."
+	hint.text = tr("SETTINGS_REBIND_HINT")
 	hint.autowrap_mode = TextServer.AUTOWRAP_WORD
 	hint.add_theme_font_size_override("font_size", 12)
 	hint.add_theme_color_override("font_color", Color(0.5, 0.55, 0.65))
@@ -141,13 +141,13 @@ func _build_ui() -> void:
 	# Movement (not rebindable, just info)
 	var move_row := HBoxContainer.new()
 	var move_lbl := Label.new()
-	move_lbl.text = "Move"
+	move_lbl.text = tr("SETTINGS_MOVE")
 	move_lbl.custom_minimum_size = Vector2(160, 0)
 	move_lbl.add_theme_font_size_override("font_size", 15)
 	move_lbl.add_theme_color_override("font_color", Color(0.8, 0.85, 0.95))
 	move_row.add_child(move_lbl)
 	var move_val := Label.new()
-	move_val.text = "WASD / Arrows / Left Stick"
+	move_val.text = tr("SETTINGS_MOVE_KEYS")
 	move_val.add_theme_font_size_override("font_size", 14)
 	move_val.add_theme_color_override("font_color", Color(0.55, 0.6, 0.7))
 	move_row.add_child(move_val)
@@ -175,7 +175,7 @@ func _build_ui() -> void:
 		var row := HBoxContainer.new()
 		row.add_theme_constant_override("separation", 15)
 		var lbl := Label.new()
-		lbl.text = display_name
+		lbl.text = tr(display_name)
 		lbl.custom_minimum_size = Vector2(160, 0)
 		lbl.add_theme_font_size_override("font_size", 15)
 		lbl.add_theme_color_override("font_color", Color(0.8, 0.85, 0.95))
@@ -226,7 +226,7 @@ func _on_rebind_start(action_name: String, btn: Button) -> void:
 		_rebind_btn.text = _get_action_key_text(_waiting_for_key)
 	_waiting_for_key = action_name
 	_rebind_btn = btn
-	btn.text = "... Press a key ..."
+	btn.text = tr("SETTINGS_PRESS_KEY")
 
 func _get_action_key_text(action: String) -> String:
 	if not InputMap.has_action(action):

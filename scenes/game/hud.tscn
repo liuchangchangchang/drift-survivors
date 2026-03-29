@@ -46,7 +46,7 @@ custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.3, 0.3, 1)
 theme_override_font_sizes/font_size = 18
-text = "HP"
+text = "HUD_HP"
 
 [node name="HPBar" type="ProgressBar" parent="TopBar/HBox"]
 layout_mode = 2
@@ -68,7 +68,7 @@ layout_mode = 2
 layout_mode = 2
 theme_override_colors/font_color = Color(0.5, 0.9, 0.3, 1)
 theme_override_font_sizes/font_size = 18
-text = "XP"
+text = "HUD_XP"
 
 [node name="XPBar" type="ProgressBar" parent="TopBar/HBox"]
 layout_mode = 2
@@ -114,7 +114,7 @@ custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.3, 0.9, 0.4, 1)
 theme_override_font_sizes/font_size = 18
-text = "MAT"
+text = "HUD_MAT"
 
 [node name="MaterialLabel" type="Label" parent="BottomBar/HBox"]
 layout_mode = 2
@@ -129,7 +129,7 @@ layout_mode = 2
 layout_mode = 2
 theme_override_colors/font_color = Color(0.3, 0.7, 1, 1)
 theme_override_font_sizes/font_size = 18
-text = "N2O"
+text = "HUD_N2O"
 
 [node name="NitroBar" type="ProgressBar" parent="BottomBar/HBox"]
 layout_mode = 2
@@ -144,7 +144,7 @@ layout_mode = 2
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.7, 0.2, 1)
 theme_override_font_sizes/font_size = 18
-text = "DRIFT"
+text = "HUD_DRIFT"
 
 [node name="DriftChargeBar" type="ProgressBar" parent="BottomBar/HBox"]
 layout_mode = 2
@@ -159,7 +159,7 @@ layout_mode = 2
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9, 0.9, 0.5, 1)
 theme_override_font_sizes/font_size = 18
-text = "SPD"
+text = "HUD_SPD"
 
 [node name="SpeedBar" type="ProgressBar" parent="BottomBar/HBox"]
 layout_mode = 2

@@ -199,14 +199,14 @@ func _select_car(car_id: String, index: int) -> void:
 	var car_data := DataLoader.get_car_data(car_id)
 	_info_label.text = car_data.get("name", car_id)
 	var stats: Dictionary = car_data.get("base_stats", {})
-	_stats_label.text = "HP: %d  |  SPEED: %d  |  ACCEL: %d  |  NITRO: %d  |  ARMOR: %d  |  SLOTS: %d" % [
-		int(stats.get("max_hp", 0)),
-		int(stats.get("max_speed", 0)),
-		int(stats.get("base_accel", 0)),
-		int(stats.get("nitro_max", 0)),
-		int(stats.get("armor", 0)),
-		int(stats.get("weapon_slots", 4)),
-	]
+	var parts: Array[String] = []
+	parts.append(tr("STATS_HP") % int(stats.get("max_hp", 0)))
+	parts.append(tr("STATS_SPEED") % int(stats.get("max_speed", 0)))
+	parts.append(tr("STATS_ACCEL") % int(stats.get("base_accel", 0)))
+	parts.append(tr("STATS_NITRO") % int(stats.get("nitro_max", 0)))
+	parts.append(tr("STATS_ARMOR") % int(stats.get("armor", 0)))
+	parts.append(tr("STATS_SLOTS") % int(stats.get("weapon_slots", 4)))
+	_stats_label.text = "  |  ".join(parts)
 	# Highlight selected card
 	for i in _card_buttons.size():
 		var btn := _card_buttons[i]
