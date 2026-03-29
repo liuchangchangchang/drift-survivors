@@ -75,7 +75,7 @@ func _setup_info_panel() -> void:
 
 func _setup_3d_preview() -> void:
 	_preview_viewport = SubViewport.new()
-	_preview_viewport.size = Vector2i(600, 400)
+	_preview_viewport.size = Vector2i(800, 500)
 	_preview_viewport.transparent_bg = true
 	_preview_viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	_preview_root = Node3D.new()
@@ -107,9 +107,10 @@ func _setup_3d_preview() -> void:
 	var tex_rect := TextureRect.new()
 	tex_rect.texture = _preview_viewport.get_texture()
 	tex_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	tex_rect.set_anchors_preset(Control.PRESET_CENTER)
-	tex_rect.position = Vector2(-300, -250)
-	tex_rect.size = Vector2(600, 400)
+	tex_rect.anchor_left = 0.15
+	tex_rect.anchor_right = 0.85
+	tex_rect.anchor_top = 0.15
+	tex_rect.anchor_bottom = 0.7
 	tex_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(tex_rect)
 

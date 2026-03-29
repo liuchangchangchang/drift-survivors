@@ -6,7 +6,7 @@ var _player: Node3D
 func before_each():
 	_spawner = EnemySpawner.new()
 	_player = Node3D.new()
-	_player.global_position = Vector3(25, 0, 25)
+	_player.global_position = Vector3(75, 0, 75)
 	_spawner.player = _player
 	_spawner.max_enemies = 5
 	add_child_autofree(_player)

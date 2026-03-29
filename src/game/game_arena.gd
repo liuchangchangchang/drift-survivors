@@ -26,6 +26,13 @@ var selected_weapon_id: String = "weapon_pistol"
 
 const ARENA_SIZE: float = 150.0
 
+const CAR_COLORS := {
+	"car_starter": Color(0.15, 0.5, 0.95),
+	"car_speed": Color(0.95, 0.8, 0.1),
+	"car_tank": Color(0.4, 0.6, 0.4),
+	"car_drift": Color(0.9, 0.15, 0.3),
+}
+
 func _ready() -> void:
 	_create_environment()
 	_create_ground()
@@ -304,7 +311,7 @@ func _create_car(base_stats: Dictionary) -> void:
 	chassis.mesh = chassis_mesh
 	chassis.position = Vector3(0, 0.35, 0)
 	var chassis_mat := StandardMaterial3D.new()
-	chassis_mat.albedo_color = Color(0.15, 0.5, 0.95)
+	chassis_mat.albedo_color = CAR_COLORS.get(selected_car_id, Color(0.15, 0.5, 0.95))
 	chassis_mat.metallic = 0.6
 	chassis_mat.roughness = 0.3
 	chassis.material_override = chassis_mat
