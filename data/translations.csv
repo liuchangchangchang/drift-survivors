@@ -1,0 +1,41 @@
+keys,en,zh_CN,es,ja,ko
+MENU_TITLE_1,DRIFT,漂移,DRIFT,ドリフト,드리프트
+MENU_TITLE_2,SURVIVORS,幸存者,SUPERVIVIENTES,サバイバーズ,서바이벌
+MENU_TAGLINE,Drift. Shoot. Survive.,漂移。射击。生存。,Derrapa. Dispara. Sobrevive.,ドリフト。撃て。生き残れ。,드리프트. 쏴라. 살아남아라.
+MENU_START,START GAME,开始游戏,INICIAR JUEGO,ゲーム開始,게임 시작
+MENU_SETTINGS,SETTINGS,设置,CONFIGURACIÓN,設定,설정
+MENU_QUIT,QUIT,退出,SALIR,終了,종료
+HUD_WAVE,Wave %d/20,波次 %d/20,Oleada %d/20,ウェーブ %d/20,웨이브 %d/20
+HUD_HP,HP,生命,Vida,HP,HP
+HUD_XP,XP,经验,EXP,EXP,경험치
+HUD_MAT,MAT,材料,MAT,素材,재료
+HUD_N2O,N2O,氮气,N2O,N2O,N2O
+HUD_DRIFT,DRIFT,漂移,DERRAPE,ドリフト,드리프트
+HUD_SPD,SPD,速度,VEL,速度,속도
+SHOP_TITLE,SHOP,商店,TIENDA,ショップ,상점
+SHOP_BUY,Buy (%d),购买 (%d),Comprar (%d),購入 (%d),구매 (%d)
+SHOP_LOCK,Lock,锁定,Bloquear,ロック,잠금
+SHOP_LOCKED,Locked,已锁定,Bloqueado,ロック中,잠금됨
+SHOP_REROLL,Reroll (%d),刷新 (%d),Relanzar (%d),リロール (%d),리롤 (%d)
+SHOP_CONTINUE,Continue,继续,Continuar,次へ,계속
+SHOP_MATERIALS,Materials: %d,材料: %d,Materiales: %d,素材: %d,재료: %d
+LEVELUP_TITLE,Level Up! (Level %d),升级！(等级 %d),¡Subida de nivel! (Nivel %d),レベルアップ！(レベル %d),레벨 업! (레벨 %d)
+LEVELUP_CHOOSE,Choose,选择,Elegir,選択,선택
+PAUSE_TITLE,PAUSED,暂停,PAUSADO,ポーズ,일시정지
+PAUSE_RESUME,Resume,继续,Reanudar,再開,재개
+PAUSE_QUIT,Quit to Menu,返回主菜单,Volver al menú,メニューに戻る,메뉴로 돌아가기
+GAMEOVER_TITLE,GAME OVER,游戏结束,FIN DEL JUEGO,ゲームオーバー,게임 오버
+GAMEOVER_WAVE,Destroyed on Wave %d,在第 %d 波被摧毁,Destruido en la oleada %d,ウェーブ %d で撃破,웨이브 %d에서 파괴됨
+GAMEOVER_RETRY,Retry,重试,Reintentar,リトライ,재시도
+GAMEOVER_MENU,Main Menu,主菜单,Menú principal,メインメニュー,메인 메뉴
+VICTORY_TITLE,VICTORY!,胜利！,¡VICTORIA!,勝利！,승리!
+VICTORY_SUB,You survived all 20 waves!,你撑过了全部20波!,¡Sobreviviste a las 20 oleadas!,20ウェーブを全て生き残った！,20웨이브를 모두 견뎠습니다!
+SELECT_CAR,SELECT YOUR CAR,选择你的车辆,ELIGE TU COCHE,車を選択,차량 선택
+SELECT_WEAPON,SELECT STARTING WEAPON,选择初始武器,ELIGE ARMA INICIAL,初期武器を選択,시작 무기 선택
+CONFIRM,CONFIRM,确认,CONFIRMAR,決定,확인
+SETTINGS_TITLE,SETTINGS,设置,CONFIGURACIÓN,設定,설정
+SETTINGS_CONTROLS,CONTROLS,操作方式,CONTROLES,操作,조작
+SETTINGS_LANGUAGE,Language,语言,Idioma,言語,언어
+SETTINGS_BACK,Back,返回,Volver,戻る,뒤로
+WARNING_TITLE,PHOTOSENSITIVITY / EPILEPSY WARNING,光敏感/癫痫警告,ADVERTENCIA DE FOTOSENSIBILIDAD / EPILEPSIA,光過敏性/てんかんに関する警告,광과민성/간질 경고
+WARNING_CONTINUE,I Understand - Continue,我已了解 - 继续,Entendido - Continuar,了解しました - 続行,이해했습니다 - 계속

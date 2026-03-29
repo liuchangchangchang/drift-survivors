@@ -19,9 +19,9 @@ func setup(item_data: Dictionary) -> void:
 	_root = Node3D.new()
 	# Camera
 	var cam := Camera3D.new()
-	cam.position = Vector3(0, 1.2, 2.5)
-	cam.look_at(Vector3(0, 0.3, 0))
-	cam.fov = 35
+	cam.position = Vector3(0, 0.8, 1.8)
+	cam.look_at(Vector3(0, 0.35, 0))
+	cam.fov = 45
 	_root.add_child(cam)
 	# Lighting
 	var light := DirectionalLight3D.new()

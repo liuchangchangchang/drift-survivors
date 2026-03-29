@@ -513,6 +513,9 @@ func _setup_ui() -> void:
 		add_child(victory_ui)
 
 var _item_display_count: int = 0
+var _pending_levelups: Array[Dictionary] = []  # [{level, choices}]
+var _levelup_arrow: Node3D = null
+var _levelup_label: Label3D = null
 
 func _connect_signals() -> void:
 	EventBus.car_died.connect(_on_car_died)
@@ -540,7 +543,16 @@ func _physics_process(delta: float) -> void:
 	if hud_node and hud_node.has_method("update_xp"):
 		hud_node.update_xp(level_up_mgr.get_xp_progress())
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("level_up_open") and not _pending_levelups.is_empty():
+		if GameManager.current_state == GameManager.GameState.PLAYING:
+			_open_pending_levelup()
+			get_viewport().set_input_as_handled()
+
 func _process(delta: float) -> void:
+	# Animate level-up arrow (bob up and down)
+	if _levelup_arrow and car and car.is_alive:
+		_levelup_arrow.position.y = 2.5 + sin(Time.get_ticks_msec() * 0.004) * 0.3
 	if not car or not car.is_alive:
 		return
 	var visuals := car.get_node_or_null("Visuals")
@@ -642,8 +654,56 @@ func _on_car_died() -> void:
 	GameManager.player_died()
 
 func _on_level_up(level: int, choices: Array[Dictionary]) -> void:
+	_pending_levelups.append({"level": level, "choices": choices})
+	_show_levelup_arrow()
+
+func _show_levelup_arrow() -> void:
+	if _levelup_arrow:
+		return  # Already showing
+	_levelup_arrow = Node3D.new()
+	_levelup_arrow.name = "LevelUpArrow"
+	# Green arrow mesh (cone pointing down)
+	var arrow := MeshInstance3D.new()
+	var cone := CylinderMesh.new()
+	cone.top_radius = 0.0
+	cone.bottom_radius = 0.4
+	cone.height = 0.6
+	arrow.mesh = cone
+	arrow.rotation_degrees = Vector3(180, 0, 0)
+	arrow.position = Vector3(0, 0, 0)
+	var mat := StandardMaterial3D.new()
+	mat.albedo_color = Color(0.2, 1.0, 0.3)
+	mat.emission_enabled = true
+	mat.emission = Color(0.2, 1.0, 0.3)
+	mat.emission_energy_multiplier = 3.0
+	arrow.material_override = mat
+	_levelup_arrow.add_child(arrow)
+	# Key prompt label
+	_levelup_label = Label3D.new()
+	_levelup_label.text = "TAB"
+	_levelup_label.font_size = 48
+	_levelup_label.modulate = Color(0.3, 1.0, 0.4)
+	_levelup_label.outline_modulate = Color(0, 0, 0)
+	_levelup_label.outline_size = 8
+	_levelup_label.position = Vector3(0, 0.6, 0)
+	_levelup_label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	_levelup_arrow.add_child(_levelup_label)
+	car.add_child(_levelup_arrow)
+
+func _hide_levelup_arrow() -> void:
+	if _levelup_arrow:
+		_levelup_arrow.queue_free()
+		_levelup_arrow = null
+		_levelup_label = null
+
+func _open_pending_levelup() -> void:
+	if _pending_levelups.is_empty():
+		return
+	var data: Dictionary = _pending_levelups.pop_front()
+	if _pending_levelups.is_empty():
+		_hide_levelup_arrow()
 	if level_up_ui and level_up_ui.has_method("show_choices"):
-		level_up_ui.show_choices(level, choices, player_stats)
+		level_up_ui.show_choices(data["level"], data["choices"], player_stats)
 
 func _on_upgrade_selected(upgrade: Dictionary) -> void:
 	level_up_mgr.apply_upgrade(upgrade, player_stats)
@@ -684,32 +744,51 @@ func _add_item_to_car(item_data: Dictionary) -> void:
 	var body_wrap := visuals.get_node_or_null("BodyWrap")
 	if not body_wrap:
 		return
-	# Place small icon on car roof in a grid pattern
 	var idx := _item_display_count
 	_item_display_count += 1
-	var col := idx % 4
-	var row := idx / 4
-	var x := -0.4 + col * 0.28
-	var z := -0.3 + row * 0.3
-	# Build tiny 3D icon
+	# Car surface positions: roof (y=0.6), hood (y=0.35, z<0), trunk (y=0.35, z>0)
+	# Chassis is 1.8 x 0.5 x 2.8 centered at y=0.35
+	# Roof top = 0.6, hood/trunk top = 0.35, sides at x=±0.9
+	var surface_positions := [
+		# Roof (flat on top of chassis)
+		Vector3(-0.5, 0.61, -0.5), Vector3(0.0, 0.61, -0.5),
+		Vector3(0.5, 0.61, -0.5), Vector3(-0.5, 0.61, 0.0),
+		Vector3(0.0, 0.61, 0.0), Vector3(0.5, 0.61, 0.0),
+		Vector3(-0.5, 0.61, 0.5), Vector3(0.0, 0.61, 0.5),
+		Vector3(0.5, 0.61, 0.5),
+		# Hood front
+		Vector3(-0.3, 0.61, -1.0), Vector3(0.3, 0.61, -1.0),
+		# Trunk rear
+		Vector3(-0.3, 0.61, 1.0), Vector3(0.3, 0.61, 1.0),
+	]
+	var pos: Vector3
+	if idx < surface_positions.size():
+		pos = surface_positions[idx]
+	else:
+		# Overflow: stack on roof
+		var oi := idx - surface_positions.size()
+		pos = Vector3(
+			fmod(oi * 0.22, 0.8) - 0.4,
+			0.61 + 0.16 * (oi / 4),
+			fmod(oi * 0.25, 0.6) - 0.3)
 	var icon := Node3D.new()
 	icon.name = "ItemIcon_%d" % idx
 	var color := _item_icon_color(item_data)
 	var mesh_inst := MeshInstance3D.new()
 	var box := BoxMesh.new()
-	box.size = Vector3(0.15, 0.15, 0.15)
+	box.size = Vector3(0.12, 0.06, 0.12)  # Flat, sits on surface
 	mesh_inst.mesh = box
 	mesh_inst.rotation_degrees = Vector3(0, 45, 0)
 	var mat := StandardMaterial3D.new()
 	mat.albedo_color = color
 	mat.emission_enabled = true
 	mat.emission = color
-	mat.emission_energy_multiplier = 1.5
-	mat.metallic = 0.6
-	mat.roughness = 0.2
+	mat.emission_energy_multiplier = 2.0
+	mat.metallic = 0.7
+	mat.roughness = 0.15
 	mesh_inst.material_override = mat
 	icon.add_child(mesh_inst)
-	icon.position = Vector3(x, 1.05, z)
+	icon.position = pos
 	body_wrap.add_child(icon)
 
 func _item_icon_color(item_data: Dictionary) -> Color:
