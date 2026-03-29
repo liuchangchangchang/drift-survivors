@@ -3,10 +3,12 @@ extends Node
 ## Spawns enemies around the player at a fixed distance.
 
 const SPAWN_DISTANCE := 50.0  # Units from player
+const ARENA_MARGIN := 3.0  # Minimum distance from arena walls
 
 var active_enemies: Array[EnemyBase] = []
 var max_enemies: int = 100
 var player: Node3D = null
+var arena_size: float = 150.0
 
 signal enemy_spawned(enemy: EnemyBase)
 
@@ -17,6 +19,8 @@ func spawn_enemy(data: EnemyData) -> EnemyBase:
 		return null
 	var enemy := EnemyBase.new()
 	enemy.motion_mode = CharacterBody3D.MOTION_MODE_FLOATING
+	enemy.collision_layer = 2  # enemies layer
+	enemy.collision_mask = 1 | 32  # collide with car + arena_boundary
 	var collision := CollisionShape3D.new()
 	var shape := SphereShape3D.new()
 	var radius := _get_radius_for_size(data.size)
@@ -101,7 +105,12 @@ func _get_spawn_position() -> Vector3:
 		return Vector3.ZERO
 	var angle := randf() * TAU
 	var dist := SPAWN_DISTANCE + randf_range(0, 10)
-	return player.global_position + Vector3(cos(angle) * dist, 0, sin(angle) * dist)
+	var pos := player.global_position + Vector3(cos(angle) * dist, 0, sin(angle) * dist)
+	# Clamp to arena bounds
+	pos.x = clampf(pos.x, ARENA_MARGIN, arena_size - ARENA_MARGIN)
+	pos.z = clampf(pos.z, ARENA_MARGIN, arena_size - ARENA_MARGIN)
+	pos.y = 0.0
+	return pos
 
 func _get_radius_for_size(size_name: String) -> float:
 	match size_name:

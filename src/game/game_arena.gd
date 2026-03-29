@@ -249,6 +249,7 @@ func _setup_systems() -> void:
 
 	enemy_spawner = EnemySpawner.new()
 	enemy_spawner.player = car
+	enemy_spawner.arena_size = ARENA_SIZE
 	enemy_spawner.name = "EnemySpawner"
 	add_child(enemy_spawner)
 
@@ -583,8 +584,21 @@ func _process(delta: float) -> void:
 func _on_wave_completed(_wave: int) -> void:
 	for drop in loot_spawner.active_drops.duplicate():
 		loot_spawner.collect_drop(drop)
+	# Play poof effect on all enemies before clearing
+	for enemy in enemy_spawner.active_enemies:
+		if is_instance_valid(enemy):
+			_spawn_poof_effect(enemy.global_position, _get_enemy_color(enemy))
 	enemy_spawner.clear_all()
+	# Poof effect on player car
+	if car and car.is_alive:
+		_spawn_poof_effect(car.global_position, Color(0.3, 0.6, 1.0))
+		car.visible = false
+		car.set_physics_process(false)
+	# Delay, then transition
+	await get_tree().create_timer(1.0).timeout
 	if GameManager.current_wave >= GameManager.max_waves:
+		car.visible = true
+		car.set_physics_process(true)
 		if victory_ui:
 			victory_ui.show_victory()
 		GameManager.change_state(GameManager.GameState.VICTORY)
@@ -602,6 +616,12 @@ func _on_wave_completed(_wave: int) -> void:
 func _on_shop_closed() -> void:
 	_apply_stats_to_car()
 	weapon_mount_mgr.try_auto_merge()
+	# Respawn car at center
+	car.global_position = Vector3(ARENA_SIZE / 2, 0, ARENA_SIZE / 2)
+	car.velocity = Vector3.ZERO
+	car.visible = true
+	car.set_physics_process(true)
+	_spawn_poof_effect(car.global_position, Color(0.3, 0.8, 1.0))
 	GameManager.close_shop()
 	wave_manager.start_wave(GameManager.current_wave)
 
@@ -668,3 +688,48 @@ func _add_wall(parent: StaticBody3D, pos: Vector3, size: Vector3) -> void:
 	mat.emission_energy_multiplier = 0.8
 	wall_mesh.material_override = mat
 	parent.add_child(wall_mesh)
+
+func _spawn_poof_effect(pos: Vector3, color: Color) -> void:
+	var particles := GPUParticles3D.new()
+	particles.emitting = true
+	particles.one_shot = true
+	particles.amount = 24
+	particles.lifetime = 0.8
+	particles.explosiveness = 0.9
+	particles.visibility_aabb = AABB(Vector3(-5, -3, -5), Vector3(10, 6, 10))
+	var pmat := ParticleProcessMaterial.new()
+	pmat.direction = Vector3(0, 1, 0)
+	pmat.spread = 180.0
+	pmat.initial_velocity_min = 3.0
+	pmat.initial_velocity_max = 7.0
+	pmat.gravity = Vector3(0, -2, 0)
+	pmat.scale_min = 0.5
+	pmat.scale_max = 1.5
+	pmat.damping_min = 3.0
+	pmat.damping_max = 5.0
+	pmat.color = color
+	particles.process_material = pmat
+	var draw_mat := StandardMaterial3D.new()
+	draw_mat.albedo_color = Color(color.r, color.g, color.b, 0.7)
+	draw_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	draw_mat.billboard_mode = BaseMaterial3D.BILLBOARD_ENABLED
+	draw_mat.emission_enabled = true
+	draw_mat.emission = color
+	draw_mat.emission_energy_multiplier = 2.0
+	var draw_mesh := QuadMesh.new()
+	draw_mesh.size = Vector2(0.8, 0.8)
+	draw_mesh.material = draw_mat
+	particles.draw_pass_1 = draw_mesh
+	particles.position = pos + Vector3(0, 0.5, 0)
+	add_child(particles)
+	# Auto-cleanup
+	var timer := get_tree().create_timer(2.0)
+	timer.timeout.connect(func(): if is_instance_valid(particles): particles.queue_free())
+
+func _get_enemy_color(enemy: EnemyBase) -> Color:
+	var vis := enemy.get_node_or_null("EnemyVisual")
+	if vis:
+		for child in vis.get_children():
+			if child is MeshInstance3D and child.material_override:
+				return child.material_override.albedo_color
+	return Color(0.9, 0.2, 0.2)
