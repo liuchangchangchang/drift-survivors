@@ -80,9 +80,9 @@ func _setup_3d_preview() -> void:
 	_preview_viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	_preview_root = Node3D.new()
 	var cam := Camera3D.new()
-	cam.position = Vector3(0, 1.5, 4)
+	cam.position = Vector3(0, 1.8, 5.5)
 	cam.look_at(Vector3(0, 0.3, 0))
-	cam.fov = 35
+	cam.fov = 40
 	_preview_root.add_child(cam)
 	var key_light := DirectionalLight3D.new()
 	key_light.rotation_degrees = Vector3(-45, -30, 0)
