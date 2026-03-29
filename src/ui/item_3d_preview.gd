@@ -17,26 +17,23 @@ func setup(item_data: Dictionary) -> void:
 	_viewport.transparent_bg = true
 	_viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	_root = Node3D.new()
-	# Camera
+	# Camera (use camera.environment instead of WorldEnvironment to avoid conflicts)
 	var cam := Camera3D.new()
 	cam.position = Vector3(0, 0.8, 1.8)
 	cam.look_at(Vector3(0, 0.35, 0))
 	cam.fov = 45
+	var cam_env := Environment.new()
+	cam_env.background_mode = Environment.BG_COLOR
+	cam_env.background_color = Color(0, 0, 0, 0)
+	cam_env.ambient_light_color = Color(0.4, 0.45, 0.6)
+	cam_env.ambient_light_energy = 0.8
+	cam.environment = cam_env
 	_root.add_child(cam)
 	# Lighting
 	var light := DirectionalLight3D.new()
 	light.rotation_degrees = Vector3(-45, -30, 0)
 	light.light_energy = 1.5
 	_root.add_child(light)
-	# Environment
-	var env_node := WorldEnvironment.new()
-	var env := Environment.new()
-	env.background_mode = Environment.BG_COLOR
-	env.background_color = Color(0, 0, 0, 0)
-	env.ambient_light_color = Color(0.4, 0.45, 0.6)
-	env.ambient_light_energy = 0.8
-	env_node.environment = env
-	_root.add_child(env_node)
 	# Build model
 	_model = _build_model(item_data)
 	_root.add_child(_model)

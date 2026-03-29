@@ -83,6 +83,12 @@ func _setup_3d_preview() -> void:
 	cam.position = Vector3(0, 1.8, 5.5)
 	cam.look_at(Vector3(0, 0.3, 0))
 	cam.fov = 40
+	var cam_env := Environment.new()
+	cam_env.background_mode = Environment.BG_COLOR
+	cam_env.background_color = Color(0, 0, 0, 0)
+	cam_env.ambient_light_color = Color(0.3, 0.35, 0.5)
+	cam_env.ambient_light_energy = 0.6
+	cam.environment = cam_env
 	_preview_root.add_child(cam)
 	var key_light := DirectionalLight3D.new()
 	key_light.rotation_degrees = Vector3(-45, -30, 0)
@@ -94,14 +100,6 @@ func _setup_3d_preview() -> void:
 	fill_light.light_energy = 0.4
 	fill_light.light_color = Color(0.6, 0.7, 1.0)
 	_preview_root.add_child(fill_light)
-	var env_node := WorldEnvironment.new()
-	var environment := Environment.new()
-	environment.background_mode = Environment.BG_COLOR
-	environment.background_color = Color(0, 0, 0, 0)
-	environment.ambient_light_color = Color(0.3, 0.35, 0.5)
-	environment.ambient_light_energy = 0.6
-	_preview_root.add_child(env_node)
-	env_node.environment = environment
 	_preview_viewport.add_child(_preview_root)
 	add_child(_preview_viewport)
 	var tex_rect := TextureRect.new()
