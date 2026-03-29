@@ -14,7 +14,7 @@ func _ready() -> void:
 
 func show_game_over(wave_reached: int) -> void:
 	if wave_label:
-		wave_label.text = "Destroyed on Wave %d" % wave_reached
+		wave_label.text = tr("GAMEOVER_WAVE") % wave_reached
 	visible = true
 
 func _on_retry() -> void:

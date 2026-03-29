@@ -22,7 +22,7 @@ func _ready() -> void:
 
 func _on_wave_started(wave: int) -> void:
 	if wave_label:
-		wave_label.text = "Wave %d/20" % wave
+		wave_label.text = tr("HUD_WAVE") % wave
 
 func _on_timer_tick(time_remaining: float) -> void:
 	if timer_label:

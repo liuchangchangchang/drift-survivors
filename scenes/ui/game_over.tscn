@@ -145,7 +145,7 @@ theme_override_colors/font_shadow_color = Color(0.4, 0.0, 0.05, 0.7)
 theme_override_constants/shadow_offset_x = 3
 theme_override_constants/shadow_offset_y = 3
 theme_override_font_sizes/font_size = 48
-text = "GAME OVER"
+text = "GAMEOVER_TITLE"
 horizontal_alignment = 1
 
 [node name="Separator" type="HSeparator" parent="Panel/VBoxContainer"]
@@ -175,7 +175,7 @@ theme_override_font_sizes/font_size = 22
 theme_override_styles/normal = SubResource("RetryNormal")
 theme_override_styles/hover = SubResource("RetryHover")
 theme_override_styles/pressed = SubResource("ButtonPressed")
-text = "Retry"
+text = "GAMEOVER_RETRY"
 
 [node name="MenuButton" type="Button" parent="Panel/VBoxContainer"]
 layout_mode = 2
@@ -186,7 +186,7 @@ theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("MenuNormal")
 theme_override_styles/hover = SubResource("MenuHover")
 theme_override_styles/pressed = SubResource("ButtonPressed")
-text = "Main Menu"
+text = "GAMEOVER_MENU"
 
 [node name="Spacer3" type="Control" parent="Panel/VBoxContainer"]
 layout_mode = 2

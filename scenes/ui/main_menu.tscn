@@ -72,14 +72,14 @@ theme_override_constants/separation = 16
 layout_mode = 2
 theme_override_colors/font_color = Color(0.4, 0.75, 1.0, 1)
 theme_override_font_sizes/font_size = 48
-text = "DRIFT"
+text = "MENU_TITLE_1"
 horizontal_alignment = 1
 
 [node name="Subtitle" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
 theme_override_font_sizes/font_size = 32
-text = "SURVIVORS"
+text = "MENU_TITLE_2"
 horizontal_alignment = 1
 
 [node name="Spacer" type="Control" parent="VBoxContainer"]
@@ -90,7 +90,7 @@ custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6, 0.6, 0.7, 1)
 theme_override_font_sizes/font_size = 14
-text = "Drift. Shoot. Survive."
+text = "MENU_TAGLINE"
 horizontal_alignment = 1
 
 [node name="Spacer2" type="Control" parent="VBoxContainer"]
@@ -105,7 +105,7 @@ theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 22
 theme_override_styles/normal = SubResource("btn_normal")
 theme_override_styles/hover = SubResource("btn_hover")
-text = "START GAME"
+text = "MENU_START"
 
 [node name="SettingsButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
@@ -115,7 +115,7 @@ theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 22
 theme_override_styles/normal = SubResource("btn_normal")
 theme_override_styles/hover = SubResource("btn_hover")
-text = "SETTINGS"
+text = "MENU_SETTINGS"
 
 [node name="QuitButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
@@ -125,7 +125,7 @@ theme_override_colors/font_hover_color = Color(1, 0.6, 0.6, 1)
 theme_override_font_sizes/font_size = 22
 theme_override_styles/normal = SubResource("btn_normal")
 theme_override_styles/hover = SubResource("btn_hover")
-text = "QUIT"
+text = "MENU_QUIT"
 
 [node name="Version" type="Label" parent="."]
 layout_mode = 1

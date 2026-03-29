@@ -552,7 +552,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _process(delta: float) -> void:
 	# Animate level-up arrow (bob up and down)
 	if _levelup_arrow and car and car.is_alive:
-		_levelup_arrow.position.y = 2.5 + sin(Time.get_ticks_msec() * 0.004) * 0.3
+		_levelup_arrow.position.y = 4.5 + sin(Time.get_ticks_msec() * 0.004) * 0.3
 	if not car or not car.is_alive:
 		return
 	var visuals := car.get_node_or_null("Visuals")

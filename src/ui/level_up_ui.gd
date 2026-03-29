@@ -13,7 +13,7 @@ func show_choices(level: int, choices: Array[Dictionary], stats: PlayerStats) ->
 	player_stats = stats
 	_choices = choices
 	if level_label:
-		level_label.text = "Level Up! (Level %d)" % level
+		level_label.text = tr("LEVELUP_TITLE") % level
 	_build_choice_cards()
 	visible = true
 	if get_tree():
@@ -92,7 +92,7 @@ func _create_choice_card(index: int, upgrade: Dictionary) -> PanelContainer:
 
 	# Choose button
 	var btn := Button.new()
-	btn.text = "Choose"
+	btn.text = tr("LEVELUP_CHOOSE")
 	btn.custom_minimum_size = Vector2(0, 40)
 	btn.add_theme_font_size_override("font_size", 16)
 	var btn_style := StyleBoxFlat.new()

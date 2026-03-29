@@ -44,7 +44,7 @@ func _setup_background() -> void:
 
 func _setup_title() -> void:
 	var title := Label.new()
-	title.text = "SELECT YOUR CAR"
+	title.text = tr("SELECT_CAR")
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title.set_anchors_preset(Control.PRESET_CENTER_TOP)
 	title.position = Vector2(-200, 30)
@@ -168,7 +168,7 @@ func _setup_card_bar() -> void:
 
 func _setup_confirm_button() -> void:
 	_confirm_btn = Button.new()
-	_confirm_btn.text = "CONFIRM"
+	_confirm_btn.text = tr("CONFIRM")
 	_confirm_btn.custom_minimum_size = Vector2(200, 50)
 	_confirm_btn.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
 	_confirm_btn.position = Vector2(-100, -50)

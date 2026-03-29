@@ -44,10 +44,10 @@ func _refresh_display() -> void:
 		var card := _create_item_card(i, item_data, price, locked)
 		item_container.add_child(card)
 	if reroll_button:
-		reroll_button.text = "Reroll (%d)" % shop_manager.get_reroll_cost()
+		reroll_button.text = tr("SHOP_REROLL") % shop_manager.get_reroll_cost()
 		reroll_button.disabled = not economy.can_afford(shop_manager.get_reroll_cost())
 	if materials_label:
-		materials_label.text = "Materials: %d" % economy.materials
+		materials_label.text = tr("SHOP_MATERIALS") % economy.materials
 
 func _create_item_card(slot: int, item_data: Dictionary, price: int, locked: bool) -> PanelContainer:
 	var card := PanelContainer.new()
@@ -112,7 +112,7 @@ func _create_item_card(slot: int, item_data: Dictionary, price: int, locked: boo
 
 	# Buy button
 	var buy_btn := Button.new()
-	buy_btn.text = "Buy (%d)" % price
+	buy_btn.text = tr("SHOP_BUY") % price
 	buy_btn.custom_minimum_size = Vector2(0, 36)
 	buy_btn.disabled = not economy.can_afford(price)
 	buy_btn.add_theme_font_size_override("font_size", 14)
@@ -133,7 +133,7 @@ func _create_item_card(slot: int, item_data: Dictionary, price: int, locked: boo
 
 	# Lock button
 	var lock_btn := Button.new()
-	lock_btn.text = "Locked" if locked else "Lock"
+	lock_btn.text = tr("SHOP_LOCKED") if locked else tr("SHOP_LOCK")
 	lock_btn.custom_minimum_size = Vector2(0, 30)
 	lock_btn.add_theme_font_size_override("font_size", 12)
 	var lock_style := StyleBoxFlat.new()

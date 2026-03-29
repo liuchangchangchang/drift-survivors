@@ -113,7 +113,7 @@ theme_override_colors/font_shadow_color = Color(0.4, 0.3, 0.0, 0.7)
 theme_override_constants/shadow_offset_x = 3
 theme_override_constants/shadow_offset_y = 3
 theme_override_font_sizes/font_size = 48
-text = "VICTORY!"
+text = "VICTORY_TITLE"
 horizontal_alignment = 1
 
 [node name="Separator" type="HSeparator" parent="Panel/VBoxContainer"]
@@ -127,7 +127,7 @@ theme_override_colors/font_shadow_color = Color(0.1, 0.2, 0.0, 0.5)
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
 theme_override_font_sizes/font_size = 22
-text = "You survived all 20 waves!"
+text = "VICTORY_SUB"
 horizontal_alignment = 1
 
 [node name="Spacer2" type="Control" parent="Panel/VBoxContainer"]
@@ -143,7 +143,7 @@ theme_override_font_sizes/font_size = 22
 theme_override_styles/normal = SubResource("ButtonNormal")
 theme_override_styles/hover = SubResource("ButtonHover")
 theme_override_styles/pressed = SubResource("ButtonPressed")
-text = "Main Menu"
+text = "GAMEOVER_MENU"
 
 [node name="Spacer3" type="Control" parent="Panel/VBoxContainer"]
 layout_mode = 2

@@ -20,7 +20,7 @@ func _build_ui() -> void:
 	add_child(vbox)
 
 	var icon := Label.new()
-	icon.text = "WARNING"
+	icon.text = tr("WARNING_LABEL")
 	icon.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	icon.add_theme_font_size_override("font_size", 36)
 	icon.add_theme_color_override("font_color", Color(1, 0.8, 0.2))
@@ -34,7 +34,7 @@ func _build_ui() -> void:
 	vbox.add_child(title)
 
 	var body := Label.new()
-	body.text = "A very small percentage of people may experience seizures or blackouts\nwhen exposed to certain light patterns or flashing lights.\n\nThis game contains visual effects including rapid flashing, particle\neffects, and screen glow that may trigger seizures in people with\nphotosensitive epilepsy.\n\nIf you or anyone in your family has an epileptic condition,\nconsult your physician before playing this game.\n\nImmediately stop playing and consult a doctor if you experience\ndizziness, altered vision, eye or muscle twitches, loss of awareness,\ndisorientation, involuntary movement, or convulsions."
+	body.text = tr("WARNING_BODY")
 	body.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	body.autowrap_mode = TextServer.AUTOWRAP_WORD
 	body.add_theme_font_size_override("font_size", 14)
