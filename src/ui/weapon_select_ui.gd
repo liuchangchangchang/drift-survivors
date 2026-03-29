@@ -112,6 +112,7 @@ func _setup_3d_preview() -> void:
 	tex_rect.anchor_top = 0.15
 	tex_rect.anchor_bottom = 0.7
 	tex_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	tex_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(tex_rect)
 
 func _setup_card_bar() -> void:

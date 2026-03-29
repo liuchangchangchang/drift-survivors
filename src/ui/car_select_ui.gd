@@ -83,9 +83,9 @@ func _setup_3d_preview() -> void:
 	_preview_root = Node3D.new()
 	# Camera
 	var cam := Camera3D.new()
-	cam.position = Vector3(0, 1.5, 5)
+	cam.position = Vector3(0, 2.0, 7.0)
 	cam.look_at(Vector3(0, 0.3, 0))
-	cam.fov = 30
+	cam.fov = 40
 	_preview_root.add_child(cam)
 	# Lighting
 	var key_light := DirectionalLight3D.new()
@@ -117,6 +117,7 @@ func _setup_3d_preview() -> void:
 	tex_rect.anchor_right = 0.85
 	tex_rect.anchor_top = 0.15
 	tex_rect.anchor_bottom = 0.7
+	tex_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	tex_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(tex_rect)
 
