@@ -449,18 +449,18 @@ func _create_car(base_stats: Dictionary) -> void:
 		sparks.position = Vector3(spark_x, 0.1, 0.9)
 		visuals.add_child(sparks)
 
+	# Weapon mount manager (inside BodyWrap so weapons rotate with car)
+	weapon_mount_mgr = WeaponMountManager.new()
+	weapon_mount_mgr.max_slots = int(base_stats.get("weapon_slots", 4))
+	weapon_mount_mgr.name = "WeaponMountManager"
+	body_wrap.add_child(weapon_mount_mgr)
+
 	car.add_child(visuals)
 
 	# --- Skidmark system ---
 	var skidmarks := SkidmarkSystem.new()
 	skidmarks.name = "SkidmarkSystem"
 	car.add_child(skidmarks)
-
-	# Weapon mount manager
-	weapon_mount_mgr = WeaponMountManager.new()
-	weapon_mount_mgr.max_slots = int(base_stats.get("weapon_slots", 4))
-	weapon_mount_mgr.name = "WeaponMountManager"
-	car.add_child(weapon_mount_mgr)
 
 	# Loot magnet
 	var magnet := LootMagnet.new()

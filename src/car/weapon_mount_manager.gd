@@ -5,15 +5,18 @@ extends Node3D
 var mounts: Array[WeaponMount] = []
 var max_slots: int = 4
 
+# Positions ON the car body surfaces:
+# Chassis: 1.8 x 0.5 x 2.8 at y=0.35 → top y=0.60
+# Cabin:   1.4 x 0.4 x 1.4 at y=0.75 → top y=0.95
 const MOUNT_POSITIONS := [
-	Vector3(1.2, 0.7, -0.75),   # Front-right
-	Vector3(-1.2, 0.7, -0.75),  # Front-left
-	Vector3(1.2, 0.7, 0.75),    # Rear-right
-	Vector3(-1.2, 0.7, 0.75),   # Rear-left
-	Vector3(0, 0.7, -1.25),     # Front center
-	Vector3(0, 0.7, 1.0),       # Rear center
-	Vector3(0.8, 0.9, 0),       # Top-right
-	Vector3(-0.8, 0.9, 0),      # Top-left
+	Vector3(0.5, 0.61, -1.0),   # Hood front-right
+	Vector3(-0.5, 0.61, -1.0),  # Hood front-left
+	Vector3(0.5, 0.61, 1.0),    # Trunk rear-right
+	Vector3(-0.5, 0.61, 1.0),   # Trunk rear-left
+	Vector3(0.4, 0.96, -0.2),   # Cabin roof right-front
+	Vector3(-0.4, 0.96, -0.2),  # Cabin roof left-front
+	Vector3(0.0, 0.96, 0.3),    # Cabin roof rear-center
+	Vector3(0.0, 0.61, -1.3),   # Hood tip center
 ]
 
 func _ready() -> void:
@@ -29,9 +32,10 @@ func _add_mount_at(index: int) -> WeaponMount:
 	if index < MOUNT_POSITIONS.size():
 		mount.position = MOUNT_POSITIONS[index]
 	else:
-		# Generate position on a circle around the car
-		var angle := TAU * float(index) / 8.0
-		mount.position = Vector3(cos(angle) * 1.0, 0.9, sin(angle) * 0.8)
+		# Overflow: distribute on chassis roof perimeter
+		var oi := index - MOUNT_POSITIONS.size()
+		var angle := TAU * float(oi) / 6.0
+		mount.position = Vector3(cos(angle) * 0.6, 0.61, sin(angle) * 0.9)
 	mount.name = "Mount%d" % index
 	add_child(mount)
 	mounts.append(mount)
