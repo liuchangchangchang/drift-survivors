@@ -34,6 +34,15 @@ extends Node3D
 @export_group("Equipment")
 @export var weapon_slots: int = 4
 
+@export_group("Animation")
+@export var roll_normal: float = 0.15
+@export var roll_drift: float = 0.30
+@export var roll_lerp_speed: float = 8.0
+@export var pitch_accel: float = -0.05
+@export var pitch_boost: float = -0.12
+@export var pitch_idle: float = 0.03
+@export var pitch_lerp_speed: float = 6.0
+
 func to_stats_dict() -> Dictionary:
 	return {
 		"max_hp": max_hp,
@@ -55,6 +64,13 @@ func to_stats_dict() -> Dictionary:
 		"nitro_drain_rate": nitro_drain_rate,
 		"nitro_damage": nitro_damage,
 		"weapon_slots": weapon_slots,
+		"roll_normal": roll_normal,
+		"roll_drift": roll_drift,
+		"roll_lerp_speed": roll_lerp_speed,
+		"pitch_accel": pitch_accel,
+		"pitch_boost": pitch_boost,
+		"pitch_idle": pitch_idle,
+		"pitch_lerp_speed": pitch_lerp_speed,
 	}
 
 func to_data_dict() -> Dictionary:

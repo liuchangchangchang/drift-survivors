@@ -32,6 +32,15 @@ extends Resource
 # Equipment
 @export var weapon_slots: int = 4
 
+# Animation (body roll & pitch)
+@export var roll_normal: float = 0.15
+@export var roll_drift: float = 0.30
+@export var roll_lerp_speed: float = 8.0
+@export var pitch_accel: float = -0.05
+@export var pitch_boost: float = -0.12
+@export var pitch_idle: float = 0.03
+@export var pitch_lerp_speed: float = 6.0
+
 static func from_dict(data: Dictionary) -> CarStats:
 	var stats := CarStats.new()
 	stats.max_hp = data.get("max_hp", 100.0)
@@ -53,4 +62,11 @@ static func from_dict(data: Dictionary) -> CarStats:
 	stats.nitro_drain_rate = data.get("nitro_drain_rate", 25.0)
 	stats.nitro_damage = data.get("nitro_damage", 30.0)
 	stats.weapon_slots = int(data.get("weapon_slots", 4))
+	stats.roll_normal = data.get("roll_normal", 0.15)
+	stats.roll_drift = data.get("roll_drift", 0.30)
+	stats.roll_lerp_speed = data.get("roll_lerp_speed", 8.0)
+	stats.pitch_accel = data.get("pitch_accel", -0.05)
+	stats.pitch_boost = data.get("pitch_boost", -0.12)
+	stats.pitch_idle = data.get("pitch_idle", 0.03)
+	stats.pitch_lerp_speed = data.get("pitch_lerp_speed", 6.0)
 	return stats

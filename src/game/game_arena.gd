@@ -427,15 +427,15 @@ func _process(delta: float) -> void:
 	if body_wrap:
 		var vel_angle := atan2(car.velocity.z, car.velocity.x)
 		var cross := cos(car.visual_angle) * sin(vel_angle) - sin(car.visual_angle) * cos(vel_angle)
-		var roll_amount := 0.3 if car.is_drifting else 0.15
+		var roll_amount: float = car.stats.roll_drift if car.is_drifting else car.stats.roll_normal
 		var target_roll := cross * roll_amount
-		body_wrap.rotation.z = lerpf(body_wrap.rotation.z, target_roll, 8.0 * delta)
+		body_wrap.rotation.z = lerpf(body_wrap.rotation.z, target_roll, car.stats.roll_lerp_speed * delta)
 		# Pitch: nose down when accelerating
 		var accel_input := Input.get_vector("move_left", "move_right", "move_up", "move_down").length()
-		var target_pitch := -0.05 if accel_input > 0.1 else 0.03
+		var target_pitch: float = car.stats.pitch_accel if accel_input > 0.1 else car.stats.pitch_idle
 		if car.boost_power > 0:
-			target_pitch = -0.12
-		body_wrap.rotation.x = lerpf(body_wrap.rotation.x, target_pitch, 6.0 * delta)
+			target_pitch = car.stats.pitch_boost
+		body_wrap.rotation.x = lerpf(body_wrap.rotation.x, target_pitch, car.stats.pitch_lerp_speed * delta)
 
 	# --- Boost exhaust particles (both pipes) ---
 	var is_boosting := car.boost_power > 0
