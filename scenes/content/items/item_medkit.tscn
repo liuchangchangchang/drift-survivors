@@ -1,0 +1,20 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/content/item_scene.gd" id="1_ydi3x"]
+[ext_resource type="Script" path="res://src/content/stat_modifier_data.gd" id="2_q5wt7"]
+
+[sub_resource type="Resource" id="Resource_vq1xx"]
+script = ExtResource("2_q5wt7")
+stat = "hp_regen"
+value = 1.0
+
+[node name="" type="Node3D" unique_id=1967262960]
+script = ExtResource("1_ydi3x")
+id = "item_medkit"
+item_name = "Repair Kit"
+description = "+1 HP Regen"
+base_price = 30
+category = "defense"
+stat_modifiers = Array[ExtResource("2_q5wt7")]([SubResource("Resource_vq1xx")])
+
+[node name="Model" type="Node3D" parent="." unique_id=1634224741]

@@ -1,0 +1,56 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/content/weapon_scene.gd" id="1_7hgu3"]
+[ext_resource type="Script" path="res://src/content/weapon_tier_data.gd" id="2_lkr3u"]
+
+[sub_resource type="Resource" id="Resource_jmwgw"]
+script = ExtResource("2_lkr3u")
+damage = 5.0
+fire_rate = 1.0
+weapon_range = 10.0
+projectile_speed = 25.0
+projectile_count = 5
+spread_angle = 30.0
+knockback = 1.25
+
+[sub_resource type="Resource" id="Resource_b1y5w"]
+script = ExtResource("2_lkr3u")
+tier = 2
+damage = 8.0
+fire_rate = 0.9
+weapon_range = 11.0
+projectile_speed = 27.5
+projectile_count = 6
+spread_angle = 28.0
+knockback = 1.5
+
+[sub_resource type="Resource" id="Resource_e3xhv"]
+script = ExtResource("2_lkr3u")
+tier = 3
+damage = 12.0
+fire_rate = 0.8
+weapon_range = 12.5
+projectile_count = 7
+spread_angle = 25.0
+piercing = 1
+knockback = 1.75
+
+[sub_resource type="Resource" id="Resource_xj3eu"]
+script = ExtResource("2_lkr3u")
+tier = 4
+damage = 18.0
+fire_rate = 0.7
+weapon_range = 14.0
+projectile_speed = 32.5
+projectile_count = 8
+spread_angle = 22.0
+piercing = 1
+knockback = 2.25
+
+[node name="" type="Node3D" unique_id=1776959503]
+script = ExtResource("1_7hgu3")
+id = "weapon_shotgun"
+weapon_name = "Scatter Cannon"
+tiers = Array[ExtResource("2_lkr3u")]([SubResource("Resource_jmwgw"), SubResource("Resource_b1y5w"), SubResource("Resource_e3xhv"), SubResource("Resource_xj3eu")])
+
+[node name="Model" type="Node3D" parent="." unique_id=1836389226]

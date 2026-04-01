@@ -1,0 +1,32 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/content/upgrade_scene.gd" id="1_r0og2"]
+[ext_resource type="Script" path="res://src/content/stat_modifier_data.gd" id="2_xxlx2"]
+
+[sub_resource type="Resource" id="Resource_g87ab"]
+script = ExtResource("2_xxlx2")
+stat = "all_damage_mult"
+value = 0.15
+
+[sub_resource type="Resource" id="Resource_nctv3"]
+script = ExtResource("2_xxlx2")
+stat = "max_speed"
+type = "percent"
+value = 0.15
+
+[sub_resource type="Resource" id="Resource_ns0ab"]
+script = ExtResource("2_xxlx2")
+stat = "nitro_accumulation_rate"
+type = "percent"
+value = 0.3
+
+[node name="" type="Node3D" unique_id=369254174]
+script = ExtResource("1_r0og2")
+id = "upgrade_supercharged"
+upgrade_name = "Supercharged"
+description = "+15% All Damage, +15% Speed, +30% Nitro Gain"
+rarity = "legendary"
+weight = 1.0
+stat_modifiers = Array[ExtResource("2_xxlx2")]([SubResource("Resource_g87ab"), SubResource("Resource_nctv3"), SubResource("Resource_ns0ab")])
+
+[node name="Model" type="Node3D" parent="." unique_id=796132980]

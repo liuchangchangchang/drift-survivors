@@ -13,13 +13,6 @@ var _info_label: Label
 var _stats_label: Label
 var _confirm_btn: Button
 
-# Weapon colors per type
-var _weapon_colors := {
-	"weapon_pistol": Color(0.7, 0.7, 0.75),
-	"weapon_shotgun": Color(0.8, 0.5, 0.2),
-	"weapon_smg": Color(0.3, 0.7, 0.3),
-	"weapon_bumper": Color(0.9, 0.2, 0.2),
-}
 
 func _ready() -> void:
 	_setup_background()
@@ -215,20 +208,18 @@ func _select_weapon(weapon_id: String, index: int) -> void:
 			s.bg_color = Color(0.08, 0.1, 0.18, 0.9)
 	_build_weapon_preview(weapon_id, weapon_data)
 
-func _build_weapon_preview(weapon_id: String, weapon_data: Dictionary) -> void:
+func _build_weapon_preview(weapon_id: String, _weapon_data: Dictionary) -> void:
 	if _preview_model:
 		_preview_model.queue_free()
-	_preview_model = Node3D.new()
-	var w_color: Color = _weapon_colors.get(weapon_id, Color(0.5, 0.5, 0.6))
-	var w_type: String = weapon_data.get("type", "ranged")
-	var mat := StandardMaterial3D.new()
-	mat.albedo_color = w_color
-	mat.metallic = 0.7
-	mat.roughness = 0.25
-	if w_type == "melee":
-		_build_melee_preview(mat)
+	# Instance weapon scene from content directory
+	var weapon_scene: PackedScene = DataLoader.get_weapon_scene(weapon_id)
+	if weapon_scene:
+		_preview_model = weapon_scene.instantiate()
+		# Scale up for preview
+		_preview_model.scale = Vector3(3, 3, 3)
+		_preview_model.position.y = 0.3
 	else:
-		_build_ranged_preview(mat, weapon_id)
+		_preview_model = Node3D.new()
 	# Ground platform
 	var platform := MeshInstance3D.new()
 	var plat_mesh := CylinderMesh.new()
@@ -246,89 +237,6 @@ func _build_weapon_preview(weapon_id: String, weapon_data: Dictionary) -> void:
 	platform.material_override = plat_mat
 	_preview_model.add_child(platform)
 	_preview_root.add_child(_preview_model)
-
-func _build_ranged_preview(mat: StandardMaterial3D, weapon_id: String) -> void:
-	# Barrel
-	var barrel := MeshInstance3D.new()
-	var barrel_mesh := CylinderMesh.new()
-	var barrel_len := 1.2 if weapon_id != "weapon_shotgun" else 0.8
-	barrel_mesh.top_radius = 0.08
-	barrel_mesh.bottom_radius = 0.1
-	barrel_mesh.height = barrel_len
-	barrel.mesh = barrel_mesh
-	barrel.rotation_degrees = Vector3(90, 0, 0)
-	barrel.position = Vector3(0, 0.4, -barrel_len / 2.0)
-	barrel.material_override = mat
-	_preview_model.add_child(barrel)
-	# Body/receiver
-	var body := MeshInstance3D.new()
-	var body_mesh := BoxMesh.new()
-	body_mesh.size = Vector3(0.2, 0.25, 0.5)
-	body.mesh = body_mesh
-	body.position = Vector3(0, 0.4, 0.15)
-	body.material_override = mat
-	_preview_model.add_child(body)
-	# Grip
-	var grip := MeshInstance3D.new()
-	var grip_mesh := BoxMesh.new()
-	grip_mesh.size = Vector3(0.12, 0.3, 0.12)
-	grip.mesh = grip_mesh
-	grip.position = Vector3(0, 0.2, 0.25)
-	grip.rotation_degrees = Vector3(-15, 0, 0)
-	var grip_mat := StandardMaterial3D.new()
-	grip_mat.albedo_color = Color(0.15, 0.15, 0.15)
-	grip_mat.roughness = 0.8
-	grip.material_override = grip_mat
-	_preview_model.add_child(grip)
-	# Muzzle glow
-	var muzzle_mat := StandardMaterial3D.new()
-	muzzle_mat.albedo_color = Color(1, 0.7, 0.3)
-	muzzle_mat.emission_enabled = true
-	muzzle_mat.emission = Color(1, 0.6, 0.2)
-	muzzle_mat.emission_energy_multiplier = 2.0
-	var muzzle := MeshInstance3D.new()
-	var muzzle_mesh := SphereMesh.new()
-	muzzle_mesh.radius = 0.06
-	muzzle_mesh.height = 0.12
-	muzzle.mesh = muzzle_mesh
-	muzzle.position = Vector3(0, 0.4, -barrel_len)
-	muzzle.material_override = muzzle_mat
-	_preview_model.add_child(muzzle)
-
-func _build_melee_preview(mat: StandardMaterial3D) -> void:
-	# Large bumper plate
-	var plate := MeshInstance3D.new()
-	var plate_mesh := BoxMesh.new()
-	plate_mesh.size = Vector3(1.5, 0.6, 0.15)
-	plate.mesh = plate_mesh
-	plate.position = Vector3(0, 0.4, -0.4)
-	plate.material_override = mat
-	_preview_model.add_child(plate)
-	# Mounting arms
-	var arm_mat := StandardMaterial3D.new()
-	arm_mat.albedo_color = Color(0.2, 0.2, 0.2)
-	arm_mat.roughness = 0.8
-	for side in [-0.5, 0.5]:
-		var arm := MeshInstance3D.new()
-		var arm_mesh := BoxMesh.new()
-		arm_mesh.size = Vector3(0.1, 0.15, 0.4)
-		arm.mesh = arm_mesh
-		arm.position = Vector3(side, 0.35, -0.15)
-		arm.material_override = arm_mat
-		_preview_model.add_child(arm)
-	# Impact glow strip
-	var glow_mat := StandardMaterial3D.new()
-	glow_mat.albedo_color = Color(1, 0.3, 0.1)
-	glow_mat.emission_enabled = true
-	glow_mat.emission = Color(1, 0.3, 0.1)
-	glow_mat.emission_energy_multiplier = 3.0
-	var glow := MeshInstance3D.new()
-	var glow_mesh := BoxMesh.new()
-	glow_mesh.size = Vector3(1.4, 0.05, 0.05)
-	glow.mesh = glow_mesh
-	glow.position = Vector3(0, 0.4, -0.5)
-	glow.material_override = glow_mat
-	_preview_model.add_child(glow)
 
 func _on_confirm() -> void:
 	if _selected_id != "":

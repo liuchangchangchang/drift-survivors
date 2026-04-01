@@ -26,12 +26,6 @@ var selected_weapon_id: String = "weapon_pistol"
 
 const ARENA_SIZE: float = 150.0
 
-const CAR_COLORS := {
-	"car_starter": Color(0.15, 0.5, 0.95),
-	"car_speed": Color(0.95, 0.8, 0.1),
-	"car_tank": Color(0.4, 0.6, 0.4),
-	"car_drift": Color(0.9, 0.15, 0.3),
-}
 
 func _ready() -> void:
 	_create_environment()
@@ -296,168 +290,31 @@ func _create_car(base_stats: Dictionary) -> void:
 	car_collision.position = Vector3(0, 0.5, 0)
 	car.add_child(car_collision)
 
-	# Visuals node (rotates based on visual_angle)
+	# Visuals from content scene
 	var visuals := Node3D.new()
 	visuals.name = "Visuals"
-
-	# Body wrap (for roll/pitch effects)
-	var body_wrap := Node3D.new()
-	body_wrap.name = "BodyWrap"
-
-	# --- Car body (chassis) ---
-	var chassis := MeshInstance3D.new()
-	var chassis_mesh := BoxMesh.new()
-	chassis_mesh.size = Vector3(1.8, 0.5, 2.8)
-	chassis.mesh = chassis_mesh
-	chassis.position = Vector3(0, 0.35, 0)
-	var chassis_mat := StandardMaterial3D.new()
-	chassis_mat.albedo_color = CAR_COLORS.get(selected_car_id, Color(0.15, 0.5, 0.95))
-	chassis_mat.metallic = 0.6
-	chassis_mat.roughness = 0.3
-	chassis.material_override = chassis_mat
-	body_wrap.add_child(chassis)
-
-	# --- Cabin (top part) ---
-	var cabin := MeshInstance3D.new()
-	var cabin_mesh := BoxMesh.new()
-	cabin_mesh.size = Vector3(1.4, 0.4, 1.4)
-	cabin.mesh = cabin_mesh
-	cabin.position = Vector3(0, 0.75, 0.15)
-	var cabin_mat := StandardMaterial3D.new()
-	cabin_mat.albedo_color = Color(0.3, 0.7, 1.0, 0.8)
-	cabin_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	cabin_mat.metallic = 0.8
-	cabin_mat.roughness = 0.1
-	cabin.material_override = cabin_mat
-	body_wrap.add_child(cabin)
-
-	# --- Headlights (front) ---
-	var hl_mat := StandardMaterial3D.new()
-	hl_mat.albedo_color = Color(1.0, 1.0, 0.8)
-	hl_mat.emission_enabled = true
-	hl_mat.emission = Color(1.0, 1.0, 0.8)
-	hl_mat.emission_energy_multiplier = 3.0
-	for side in [-0.65, 0.65]:
-		var hl := MeshInstance3D.new()
-		var hl_mesh := BoxMesh.new()
-		hl_mesh.size = Vector3(0.3, 0.15, 0.1)
-		hl.mesh = hl_mesh
-		hl.position = Vector3(side, 0.45, -1.45)
-		hl.material_override = hl_mat
-		body_wrap.add_child(hl)
-
-	# --- Taillights (rear) ---
-	var tl_mat := StandardMaterial3D.new()
-	tl_mat.albedo_color = Color(1.0, 0.1, 0.1)
-	tl_mat.emission_enabled = true
-	tl_mat.emission = Color(1.0, 0.1, 0.1)
-	tl_mat.emission_energy_multiplier = 2.0
-	for side in [-0.7, 0.7]:
-		var tl := MeshInstance3D.new()
-		var tl_mesh := BoxMesh.new()
-		tl_mesh.size = Vector3(0.25, 0.12, 0.08)
-		tl.mesh = tl_mesh
-		tl.position = Vector3(side, 0.4, 1.45)
-		tl.material_override = tl_mat
-		body_wrap.add_child(tl)
-
-	visuals.add_child(body_wrap)
-
-	# --- Wheels (4 cylinders) ---
-	var wheel_mat := StandardMaterial3D.new()
-	wheel_mat.albedo_color = Color(0.15, 0.15, 0.15)
-	wheel_mat.roughness = 0.9
-	var wheel_positions := [
-		Vector3(-1.0, 0.2, -0.9),  # FL
-		Vector3(1.0, 0.2, -0.9),   # FR
-		Vector3(-1.0, 0.2, 0.9),   # RL
-		Vector3(1.0, 0.2, 0.9),    # RR
-	]
-	for i in wheel_positions.size():
-		var wheel := MeshInstance3D.new()
-		var cyl := CylinderMesh.new()
-		cyl.top_radius = 0.25
-		cyl.bottom_radius = 0.25
-		cyl.height = 0.2
-		wheel.mesh = cyl
-		wheel.position = wheel_positions[i]
-		wheel.rotation_degrees = Vector3(0, 0, 90)
-		wheel.material_override = wheel_mat
-		wheel.name = "Wheel_%d" % i
-		visuals.add_child(wheel)
-
-	# --- Boost exhaust (two pipes, intense fire effect) ---
-	for pipe_x in [-0.5, 0.5]:
-		var exhaust := GPUParticles3D.new()
-		exhaust.name = "BoostExhaust_L" if pipe_x < 0 else "BoostExhaust_R"
-		exhaust.emitting = false
-		exhaust.amount = 60
-		exhaust.lifetime = 0.5
-		exhaust.speed_scale = 1.5
-		exhaust.visibility_aabb = AABB(Vector3(-5, -2, -5), Vector3(10, 5, 10))
-		var ex_mat := ParticleProcessMaterial.new()
-		ex_mat.direction = Vector3(0, 0.3, 1)
-		ex_mat.spread = 12.0
-		ex_mat.initial_velocity_min = 12.0
-		ex_mat.initial_velocity_max = 22.0
-		ex_mat.gravity = Vector3(0, 3, 0)
-		ex_mat.scale_min = 0.3
-		ex_mat.scale_max = 0.8
-		ex_mat.color = Color(1.0, 0.5, 0.1)
-		exhaust.process_material = ex_mat
-		var ex_draw_mat := StandardMaterial3D.new()
-		ex_draw_mat.albedo_color = Color(1.0, 0.6, 0.1)
-		ex_draw_mat.emission_enabled = true
-		ex_draw_mat.emission = Color(1.0, 0.4, 0.05)
-		ex_draw_mat.emission_energy_multiplier = 5.0
-		ex_draw_mat.billboard_mode = BaseMaterial3D.BILLBOARD_ENABLED
-		ex_draw_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-		var ex_draw := QuadMesh.new()
-		ex_draw.size = Vector2(0.5, 0.5)
-		ex_draw.material = ex_draw_mat
-		exhaust.draw_pass_1 = ex_draw
-		exhaust.position = Vector3(pipe_x, 0.25, 1.5)
-		visuals.add_child(exhaust)
-
-	# --- Drift sparks (both rear wheels) ---
-	for spark_x in [-0.9, 0.9]:
-		var sparks := GPUParticles3D.new()
-		sparks.name = "DriftSparks_L" if spark_x < 0 else "DriftSparks_R"
-		sparks.emitting = false
-		sparks.amount = 30
-		sparks.lifetime = 0.35
-		sparks.visibility_aabb = AABB(Vector3(-4, -2, -4), Vector3(8, 5, 8))
-		var sp_mat := ParticleProcessMaterial.new()
-		sp_mat.direction = Vector3(0, 1, 0)
-		sp_mat.spread = 50.0
-		sp_mat.initial_velocity_min = 4.0
-		sp_mat.initial_velocity_max = 10.0
-		sp_mat.gravity = Vector3(0, -20, 0)
-		sp_mat.scale_min = 0.04
-		sp_mat.scale_max = 0.12
-		sp_mat.color = Color(1.0, 0.7, 0.2)
-		sparks.process_material = sp_mat
-		var sp_draw_mat := StandardMaterial3D.new()
-		sp_draw_mat.emission_enabled = true
-		sp_draw_mat.emission = Color(1.0, 0.7, 0.2)
-		sp_draw_mat.emission_energy_multiplier = 4.0
-		sp_draw_mat.billboard_mode = BaseMaterial3D.BILLBOARD_ENABLED
-		var sp_draw := QuadMesh.new()
-		sp_draw.size = Vector2(0.08, 0.08)
-		sp_draw.material = sp_draw_mat
-		sparks.draw_pass_1 = sp_draw
-		sparks.position = Vector3(spark_x, 0.1, 0.9)
-		visuals.add_child(sparks)
+	var car_scene: PackedScene = DataLoader.get_car_scene(selected_car_id)
+	if car_scene:
+		var car_model: Node3D = car_scene.instantiate()
+		# Reparent all visual children into Visuals node
+		for child in car_model.get_children():
+			car_model.remove_child(child)
+			visuals.add_child(child)
+		car_model.free()
 
 	# Weapon mount manager (inside BodyWrap so weapons rotate with car)
 	weapon_mount_mgr = WeaponMountManager.new()
 	weapon_mount_mgr.max_slots = int(base_stats.get("weapon_slots", 4))
 	weapon_mount_mgr.name = "WeaponMountManager"
-	body_wrap.add_child(weapon_mount_mgr)
+	var body_wrap: Node3D = visuals.get_node_or_null("BodyWrap")
+	if body_wrap:
+		body_wrap.add_child(weapon_mount_mgr)
+	else:
+		visuals.add_child(weapon_mount_mgr)
 
 	car.add_child(visuals)
 
-	# --- Skidmark system ---
+	# Skidmark system
 	var skidmarks := SkidmarkSystem.new()
 	skidmarks.name = "SkidmarkSystem"
 	car.add_child(skidmarks)

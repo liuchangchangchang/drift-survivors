@@ -1,0 +1,20 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/content/item_scene.gd" id="1_6fp0i"]
+[ext_resource type="Script" path="res://src/content/stat_modifier_data.gd" id="2_pibus"]
+
+[sub_resource type="Resource" id="Resource_mopis"]
+script = ExtResource("2_pibus")
+stat = "melee_damage_mult"
+value = 0.1
+
+[node name="" type="Node3D" unique_id=1200367655]
+script = ExtResource("1_6fp0i")
+id = "item_blade"
+item_name = "Sharpened Blade"
+description = "+10% Melee Damage"
+base_price = 35
+category = "offense"
+stat_modifiers = Array[ExtResource("2_pibus")]([SubResource("Resource_mopis")])
+
+[node name="Model" type="Node3D" parent="." unique_id=574919440]

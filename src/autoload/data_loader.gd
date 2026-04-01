@@ -1,5 +1,5 @@
 extends Node
-## Loads all JSON data files from data/ directory on startup.
+## Loads game data from .tscn content scenes (auto-discovery) and JSON data files.
 ## Provides typed accessors for game data.
 
 var cars: Array = []
@@ -11,20 +11,64 @@ var upgrades: Array = []
 var wave_interpolation: Dictionary = {}
 var shop_pricing: Dictionary = {}
 
+var _car_scenes: Dictionary = {}
+var _weapon_scenes: Dictionary = {}
+var _item_scenes: Dictionary = {}
+var _upgrade_scenes: Dictionary = {}
+
 func _ready() -> void:
 	_load_all_data()
 	EventBus.data_loaded.emit()
 
 func _load_all_data() -> void:
-	cars = _load_json_array("res://data/cars.json", "cars")
-	weapons = _load_json_array("res://data/weapons.json", "weapons")
+	# Content scenes (auto-discovered from directories)
+	cars = _scan_content_scenes("res://scenes/content/cars/", _car_scenes)
+	weapons = _scan_content_scenes("res://scenes/content/weapons/", _weapon_scenes)
+	items = _scan_content_scenes("res://scenes/content/items/", _item_scenes)
+	upgrades = _scan_content_scenes("res://scenes/content/upgrades/", _upgrade_scenes)
+	# JSON data (enemies and waves remain JSON-based)
 	enemies = _load_json_array("res://data/enemies.json", "enemies")
-	items = _load_json_array("res://data/items.json", "items")
-	upgrades = _load_json_array("res://data/upgrades.json", "upgrades")
 	var waves_data := _load_json("res://data/waves.json")
 	waves = waves_data.get("waves", [])
 	wave_interpolation = waves_data.get("wave_interpolation", {})
 	shop_pricing = waves_data.get("shop_pricing", {})
+
+func _scan_content_scenes(dir_path: String, scene_dict: Dictionary) -> Array:
+	var result: Array = []
+	var dir := DirAccess.open(dir_path)
+	if dir == null:
+		push_warning("DataLoader: Cannot open directory: %s" % dir_path)
+		return result
+	dir.list_dir_begin()
+	var file_name := dir.get_next()
+	while file_name != "":
+		if not dir.current_is_dir() and file_name.ends_with(".tscn"):
+			var full_path := dir_path + file_name
+			var packed: PackedScene = load(full_path)
+			if packed:
+				var instance: Node3D = packed.instantiate()
+				if instance.has_method("to_data_dict"):
+					var data: Dictionary = instance.to_data_dict()
+					var content_id: String = data.get("id", "")
+					if content_id != "":
+						result.append(data)
+						scene_dict[content_id] = packed
+				instance.free()
+		file_name = dir.get_next()
+	dir.list_dir_end()
+	return result
+
+func get_car_scene(car_id: String) -> PackedScene:
+	return _car_scenes.get(car_id)
+
+func get_weapon_scene(weapon_id: String) -> PackedScene:
+	return _weapon_scenes.get(weapon_id)
+
+func get_item_scene(item_id: String) -> PackedScene:
+	return _item_scenes.get(item_id)
+
+func get_upgrade_scene(upgrade_id: String) -> PackedScene:
+	return _upgrade_scenes.get(upgrade_id)
 
 func _load_json(path: String) -> Dictionary:
 	if not FileAccess.file_exists(path):

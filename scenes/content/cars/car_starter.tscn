@@ -1,0 +1,176 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/content/car_scene.gd" id="1_uj0eb"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a0rk7"]
+albedo_color = Color(0.15, 0.15, 0.15, 1)
+roughness = 0.9
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_2pvrm"]
+top_radius = 0.25
+bottom_radius = 0.25
+height = 0.2
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_mcm60"]
+top_radius = 0.25
+bottom_radius = 0.25
+height = 0.2
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_10ir2"]
+top_radius = 0.25
+bottom_radius = 0.25
+height = 0.2
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_uxcw5"]
+top_radius = 0.25
+bottom_radius = 0.25
+height = 0.2
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2uh8i"]
+direction = Vector3(0, 0.3, 1)
+spread = 12.0
+initial_velocity_min = 12.0
+initial_velocity_max = 22.0
+gravity = Vector3(0, 3, 0)
+scale_min = 0.3
+scale_max = 0.8
+color = Color(1, 0.5, 0.1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vcd0n"]
+transparency = 1
+albedo_color = Color(1, 0.6, 0.1, 1)
+emission_enabled = true
+emission = Color(1, 0.4, 0.05, 1)
+emission_energy_multiplier = 5.0
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_uiy0m"]
+material = SubResource("StandardMaterial3D_vcd0n")
+size = Vector2(0.5, 0.5)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_cb31c"]
+direction = Vector3(0, 0.3, 1)
+spread = 12.0
+initial_velocity_min = 12.0
+initial_velocity_max = 22.0
+gravity = Vector3(0, 3, 0)
+scale_min = 0.3
+scale_max = 0.8
+color = Color(1, 0.5, 0.1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_myent"]
+transparency = 1
+albedo_color = Color(1, 0.6, 0.1, 1)
+emission_enabled = true
+emission = Color(1, 0.4, 0.05, 1)
+emission_energy_multiplier = 5.0
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_1lct8"]
+material = SubResource("StandardMaterial3D_myent")
+size = Vector2(0.5, 0.5)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8l5kn"]
+direction = Vector3(0, 1, 0)
+spread = 50.0
+initial_velocity_min = 4.0
+initial_velocity_max = 10.0
+gravity = Vector3(0, -20, 0)
+scale_min = 0.04
+scale_max = 0.12
+color = Color(1, 0.7, 0.2, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eu0ls"]
+emission_enabled = true
+emission = Color(1, 0.7, 0.2, 1)
+emission_energy_multiplier = 4.0
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_onpsw"]
+material = SubResource("StandardMaterial3D_eu0ls")
+size = Vector2(0.08, 0.08)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ksh1u"]
+direction = Vector3(0, 1, 0)
+spread = 50.0
+initial_velocity_min = 4.0
+initial_velocity_max = 10.0
+gravity = Vector3(0, -20, 0)
+scale_min = 0.04
+scale_max = 0.12
+color = Color(1, 0.7, 0.2, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n52q2"]
+emission_enabled = true
+emission = Color(1, 0.7, 0.2, 1)
+emission_energy_multiplier = 4.0
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_vce3x"]
+material = SubResource("StandardMaterial3D_n52q2")
+size = Vector2(0.08, 0.08)
+
+[node name="" type="Node3D" unique_id=152493628]
+script = ExtResource("1_uj0eb")
+id = "car_starter"
+car_name = "Rookie Racer"
+
+[node name="BodyWrap" type="Node3D" parent="." unique_id=1284865844]
+
+[node name="WheelFL" type="MeshInstance3D" parent="." unique_id=1536301423]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, -1, 0.2, -0.9)
+material_override = SubResource("StandardMaterial3D_a0rk7")
+mesh = SubResource("CylinderMesh_2pvrm")
+
+[node name="WheelFR" type="MeshInstance3D" parent="." unique_id=643475461]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 1, 0.2, -0.9)
+material_override = SubResource("StandardMaterial3D_a0rk7")
+mesh = SubResource("CylinderMesh_mcm60")
+
+[node name="WheelRL" type="MeshInstance3D" parent="." unique_id=79936339]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, -1, 0.2, 0.9)
+material_override = SubResource("StandardMaterial3D_a0rk7")
+mesh = SubResource("CylinderMesh_10ir2")
+
+[node name="WheelRR" type="MeshInstance3D" parent="." unique_id=1683744297]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 1, 0.2, 0.9)
+material_override = SubResource("StandardMaterial3D_a0rk7")
+mesh = SubResource("CylinderMesh_uxcw5")
+
+[node name="BoostExhaustL" type="GPUParticles3D" parent="." unique_id=1377927455]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.25, 1.5)
+emitting = false
+amount = 60
+lifetime = 0.5
+speed_scale = 1.5
+visibility_aabb = AABB(-5, -2, -5, 10, 5, 10)
+process_material = SubResource("ParticleProcessMaterial_2uh8i")
+draw_pass_1 = SubResource("QuadMesh_uiy0m")
+
+[node name="BoostExhaustR" type="GPUParticles3D" parent="." unique_id=1062977016]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.25, 1.5)
+emitting = false
+amount = 60
+lifetime = 0.5
+speed_scale = 1.5
+visibility_aabb = AABB(-5, -2, -5, 10, 5, 10)
+process_material = SubResource("ParticleProcessMaterial_cb31c")
+draw_pass_1 = SubResource("QuadMesh_1lct8")
+
+[node name="DriftSparksL" type="GPUParticles3D" parent="." unique_id=452217492]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9, 0.1, 0.9)
+emitting = false
+amount = 30
+lifetime = 0.35
+visibility_aabb = AABB(-4, -2, -4, 8, 5, 8)
+process_material = SubResource("ParticleProcessMaterial_8l5kn")
+draw_pass_1 = SubResource("QuadMesh_onpsw")
+
+[node name="DriftSparksR" type="GPUParticles3D" parent="." unique_id=85083043]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 0.1, 0.9)
+emitting = false
+amount = 30
+lifetime = 0.35
+visibility_aabb = AABB(-4, -2, -4, 8, 5, 8)
+process_material = SubResource("ParticleProcessMaterial_ksh1u")
+draw_pass_1 = SubResource("QuadMesh_vce3x")

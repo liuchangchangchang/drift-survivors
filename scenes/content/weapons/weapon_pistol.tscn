@@ -1,0 +1,49 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/content/weapon_scene.gd" id="1_i2xj2"]
+[ext_resource type="Script" path="res://src/content/weapon_tier_data.gd" id="2_6wo7g"]
+
+[sub_resource type="Resource" id="Resource_s784t"]
+script = ExtResource("2_6wo7g")
+damage = 8.0
+
+[sub_resource type="Resource" id="Resource_jvng4"]
+script = ExtResource("2_6wo7g")
+tier = 2
+damage = 14.0
+fire_rate = 0.4
+weapon_range = 17.5
+projectile_speed = 35.0
+knockback = 0.75
+
+[sub_resource type="Resource" id="Resource_8meax"]
+script = ExtResource("2_6wo7g")
+tier = 3
+damage = 22.0
+fire_rate = 0.3
+weapon_range = 20.0
+projectile_speed = 40.0
+projectile_count = 2
+spread_angle = 5.0
+piercing = 1
+knockback = 1.0
+
+[sub_resource type="Resource" id="Resource_ivv2o"]
+script = ExtResource("2_6wo7g")
+tier = 4
+damage = 35.0
+fire_rate = 0.25
+weapon_range = 22.5
+projectile_speed = 45.0
+projectile_count = 2
+spread_angle = 5.0
+piercing = 2
+knockback = 1.5
+
+[node name="" type="Node3D" unique_id=821435468]
+script = ExtResource("1_i2xj2")
+id = "weapon_pistol"
+weapon_name = "Auto Pistol"
+tiers = Array[ExtResource("2_6wo7g")]([SubResource("Resource_s784t"), SubResource("Resource_jvng4"), SubResource("Resource_8meax"), SubResource("Resource_ivv2o")])
+
+[node name="Model" type="Node3D" parent="." unique_id=1885316902]

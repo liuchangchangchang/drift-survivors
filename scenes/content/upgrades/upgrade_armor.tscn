@@ -1,0 +1,18 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/content/upgrade_scene.gd" id="1_vbfjr"]
+[ext_resource type="Script" path="res://src/content/stat_modifier_data.gd" id="2_gwo5y"]
+
+[sub_resource type="Resource" id="Resource_10ufg"]
+script = ExtResource("2_gwo5y")
+stat = "armor"
+value = 3.0
+
+[node name="" type="Node3D" unique_id=101829158]
+script = ExtResource("1_vbfjr")
+id = "upgrade_armor"
+upgrade_name = "+3 Armor"
+description = "Reduce incoming damage by 3"
+stat_modifiers = Array[ExtResource("2_gwo5y")]([SubResource("Resource_10ufg")])
+
+[node name="Model" type="Node3D" parent="." unique_id=589185714]

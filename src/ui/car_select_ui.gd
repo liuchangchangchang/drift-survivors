@@ -13,13 +13,6 @@ var _info_label: Label
 var _stats_label: Label
 var _confirm_btn: Button
 
-# Car body colors per ID
-var _car_colors := {
-	"car_starter": Color(0.15, 0.5, 0.95),
-	"car_speed": Color(0.95, 0.8, 0.1),
-	"car_tank": Color(0.4, 0.6, 0.4),
-	"car_drift": Color(0.9, 0.15, 0.3),
-}
 
 func _ready() -> void:
 	_setup_background()
@@ -220,77 +213,12 @@ func _select_car(car_id: String, index: int) -> void:
 func _build_car_preview(car_id: String, _stats: Dictionary) -> void:
 	if _preview_model:
 		_preview_model.queue_free()
-	_preview_model = Node3D.new()
-	var body_color: Color = _car_colors.get(car_id, Color(0.3, 0.3, 0.8))
-	# Chassis
-	var chassis := MeshInstance3D.new()
-	var chassis_mesh := BoxMesh.new()
-	chassis_mesh.size = Vector3(1.8, 0.5, 2.8)
-	chassis.mesh = chassis_mesh
-	chassis.position = Vector3(0, 0.35, 0)
-	var chassis_mat := StandardMaterial3D.new()
-	chassis_mat.albedo_color = body_color
-	chassis_mat.metallic = 0.6
-	chassis_mat.roughness = 0.3
-	chassis.material_override = chassis_mat
-	_preview_model.add_child(chassis)
-	# Cabin
-	var cabin := MeshInstance3D.new()
-	var cabin_mesh := BoxMesh.new()
-	cabin_mesh.size = Vector3(1.4, 0.4, 1.4)
-	cabin.mesh = cabin_mesh
-	cabin.position = Vector3(0, 0.75, 0.15)
-	var cabin_mat := StandardMaterial3D.new()
-	cabin_mat.albedo_color = Color(0.3, 0.7, 1.0, 0.8)
-	cabin_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	cabin_mat.metallic = 0.8
-	cabin_mat.roughness = 0.1
-	cabin.material_override = cabin_mat
-	_preview_model.add_child(cabin)
-	# Headlights
-	var hl_mat := StandardMaterial3D.new()
-	hl_mat.albedo_color = Color(1, 1, 0.8)
-	hl_mat.emission_enabled = true
-	hl_mat.emission = Color(1, 1, 0.8)
-	hl_mat.emission_energy_multiplier = 3.0
-	for side in [-0.65, 0.65]:
-		var hl := MeshInstance3D.new()
-		var hl_mesh := BoxMesh.new()
-		hl_mesh.size = Vector3(0.3, 0.15, 0.1)
-		hl.mesh = hl_mesh
-		hl.position = Vector3(side, 0.45, -1.45)
-		hl.material_override = hl_mat
-		_preview_model.add_child(hl)
-	# Taillights
-	var tl_mat := StandardMaterial3D.new()
-	tl_mat.albedo_color = Color(1, 0.1, 0.1)
-	tl_mat.emission_enabled = true
-	tl_mat.emission = Color(1, 0.1, 0.1)
-	tl_mat.emission_energy_multiplier = 2.0
-	for side in [-0.7, 0.7]:
-		var tl := MeshInstance3D.new()
-		var tl_mesh := BoxMesh.new()
-		tl_mesh.size = Vector3(0.25, 0.12, 0.08)
-		tl.mesh = tl_mesh
-		tl.position = Vector3(side, 0.4, 1.45)
-		tl.material_override = tl_mat
-		_preview_model.add_child(tl)
-	# Wheels
-	var wheel_mat := StandardMaterial3D.new()
-	wheel_mat.albedo_color = Color(0.15, 0.15, 0.15)
-	wheel_mat.roughness = 0.9
-	for wp in [Vector3(-1, 0.2, -0.9), Vector3(1, 0.2, -0.9),
-			   Vector3(-1, 0.2, 0.9), Vector3(1, 0.2, 0.9)]:
-		var wheel := MeshInstance3D.new()
-		var cyl := CylinderMesh.new()
-		cyl.top_radius = 0.25
-		cyl.bottom_radius = 0.25
-		cyl.height = 0.2
-		wheel.mesh = cyl
-		wheel.position = wp
-		wheel.rotation_degrees = Vector3(0, 0, 90)
-		wheel.material_override = wheel_mat
-		_preview_model.add_child(wheel)
+	# Instance car scene from content directory
+	var car_scene: PackedScene = DataLoader.get_car_scene(car_id)
+	if car_scene:
+		_preview_model = car_scene.instantiate()
+	else:
+		_preview_model = Node3D.new()
 	# Ground platform
 	var platform := MeshInstance3D.new()
 	var plat_mesh := CylinderMesh.new()

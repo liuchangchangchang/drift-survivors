@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/content/item_scene.gd" id="1_gt2hk"]
+[ext_resource type="Script" path="res://src/content/stat_modifier_data.gd" id="2_48ds3"]
+
+[sub_resource type="Resource" id="Resource_4hmkn"]
+script = ExtResource("2_48ds3")
+stat = "armor"
+value = 5.0
+
+[node name="" type="Node3D" unique_id=548270411]
+script = ExtResource("1_gt2hk")
+id = "item_armor_plate"
+item_name = "Armor Plate"
+description = "+5 Armor"
+category = "defense"
+stat_modifiers = Array[ExtResource("2_48ds3")]([SubResource("Resource_4hmkn")])
+
+[node name="Model" type="Node3D" parent="." unique_id=718274695]

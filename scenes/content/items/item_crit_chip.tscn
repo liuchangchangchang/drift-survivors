@@ -1,0 +1,27 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/content/item_scene.gd" id="1_5reac"]
+[ext_resource type="Script" path="res://src/content/stat_modifier_data.gd" id="2_dc25l"]
+
+[sub_resource type="Resource" id="Resource_xecbe"]
+script = ExtResource("2_dc25l")
+stat = "crit_chance"
+value = 0.05
+
+[sub_resource type="Resource" id="Resource_3rpd4"]
+script = ExtResource("2_dc25l")
+stat = "crit_damage"
+value = 0.25
+
+[node name="" type="Node3D" unique_id=1094881340]
+script = ExtResource("1_5reac")
+id = "item_crit_chip"
+item_name = "Critical Chip"
+description = "+5% Crit Chance, +25% Crit Damage"
+rarity = "rare"
+base_price = 100
+max_stack = 3
+category = "offense"
+stat_modifiers = Array[ExtResource("2_dc25l")]([SubResource("Resource_xecbe"), SubResource("Resource_3rpd4")])
+
+[node name="Model" type="Node3D" parent="." unique_id=619822093]

@@ -1,0 +1,22 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/content/item_scene.gd" id="1_5sfci"]
+[ext_resource type="Script" path="res://src/content/stat_modifier_data.gd" id="2_84r8c"]
+
+[sub_resource type="Resource" id="Resource_fx4ln"]
+script = ExtResource("2_84r8c")
+stat = "weapon_slots"
+value = 1.0
+
+[node name="" type="Node3D" unique_id=1383847152]
+script = ExtResource("1_5sfci")
+id = "item_extra_mount"
+item_name = "Weapon Rack"
+description = "+1 Weapon Slot"
+rarity = "legendary"
+base_price = 200
+max_stack = 2
+category = "special"
+stat_modifiers = Array[ExtResource("2_84r8c")]([SubResource("Resource_fx4ln")])
+
+[node name="Model" type="Node3D" parent="." unique_id=381207286]

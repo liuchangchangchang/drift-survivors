@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/content/upgrade_scene.gd" id="1_lo2sb"]
+[ext_resource type="Script" path="res://src/content/stat_modifier_data.gd" id="2_i5j0y"]
+
+[sub_resource type="Resource" id="Resource_kvsvu"]
+script = ExtResource("2_i5j0y")
+stat = "nitro_damage"
+type = "percent"
+value = 0.2
+
+[node name="" type="Node3D" unique_id=618149831]
+script = ExtResource("1_lo2sb")
+id = "upgrade_nitro_power"
+upgrade_name = "+20% Nitro Damage"
+description = "Nitro boost deals 20% more damage"
+rarity = "uncommon"
+weight = 6.0
+stat_modifiers = Array[ExtResource("2_i5j0y")]([SubResource("Resource_kvsvu")])
+
+[node name="Model" type="Node3D" parent="." unique_id=1245208186]

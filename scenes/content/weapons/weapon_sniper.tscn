@@ -1,0 +1,52 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/content/weapon_scene.gd" id="1_nrjyf"]
+[ext_resource type="Script" path="res://src/content/weapon_tier_data.gd" id="2_ttgdj"]
+
+[sub_resource type="Resource" id="Resource_4l7g4"]
+script = ExtResource("2_ttgdj")
+damage = 30.0
+fire_rate = 2.0
+weapon_range = 30.0
+projectile_speed = 60.0
+piercing = 3
+knockback = 2.5
+
+[sub_resource type="Resource" id="Resource_oooht"]
+script = ExtResource("2_ttgdj")
+tier = 2
+damage = 50.0
+fire_rate = 1.8
+weapon_range = 32.5
+projectile_speed = 65.0
+piercing = 4
+knockback = 3.0
+
+[sub_resource type="Resource" id="Resource_psam7"]
+script = ExtResource("2_ttgdj")
+tier = 3
+damage = 75.0
+fire_rate = 1.5
+weapon_range = 35.0
+projectile_speed = 70.0
+piercing = 5
+knockback = 3.75
+
+[sub_resource type="Resource" id="Resource_78wly"]
+script = ExtResource("2_ttgdj")
+tier = 4
+damage = 110.0
+fire_rate = 1.2
+weapon_range = 40.0
+projectile_speed = 75.0
+piercing = 10
+knockback = 5.0
+
+[node name="" type="Node3D" unique_id=1869127693]
+script = ExtResource("1_nrjyf")
+id = "weapon_sniper"
+weapon_name = "Rail Gun"
+can_be_starting_weapon = false
+tiers = Array[ExtResource("2_ttgdj")]([SubResource("Resource_4l7g4"), SubResource("Resource_oooht"), SubResource("Resource_psam7"), SubResource("Resource_78wly")])
+
+[node name="Model" type="Node3D" parent="." unique_id=567802104]

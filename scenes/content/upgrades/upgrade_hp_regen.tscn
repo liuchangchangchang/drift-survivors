@@ -1,0 +1,18 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/content/upgrade_scene.gd" id="1_5cc2k"]
+[ext_resource type="Script" path="res://src/content/stat_modifier_data.gd" id="2_gseoe"]
+
+[sub_resource type="Resource" id="Resource_5rk0r"]
+script = ExtResource("2_gseoe")
+stat = "hp_regen"
+value = 2.0
+
+[node name="" type="Node3D" unique_id=1883383023]
+script = ExtResource("1_5cc2k")
+id = "upgrade_hp_regen"
+upgrade_name = "+2 HP Regen"
+description = "Regenerate 2 more HP per second"
+stat_modifiers = Array[ExtResource("2_gseoe")]([SubResource("Resource_5rk0r")])
+
+[node name="Model" type="Node3D" parent="." unique_id=1049214561]

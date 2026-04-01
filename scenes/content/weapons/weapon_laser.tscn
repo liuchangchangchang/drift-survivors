@@ -1,0 +1,57 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/content/weapon_scene.gd" id="1_mdajb"]
+[ext_resource type="Script" path="res://src/content/weapon_tier_data.gd" id="2_p8uac"]
+
+[sub_resource type="Resource" id="Resource_fnuv2"]
+script = ExtResource("2_p8uac")
+damage = 3.0
+fire_rate = 0.05
+weapon_range = 17.5
+projectile_speed = 0.0
+piercing = 99
+knockback = 0.0
+
+[sub_resource type="Resource" id="Resource_7km3b"]
+script = ExtResource("2_p8uac")
+tier = 2
+damage = 5.0
+fire_rate = 0.05
+weapon_range = 20.0
+projectile_speed = 0.0
+piercing = 99
+knockback = 0.0
+
+[sub_resource type="Resource" id="Resource_70u2n"]
+script = ExtResource("2_p8uac")
+tier = 3
+damage = 8.0
+fire_rate = 0.05
+weapon_range = 22.5
+projectile_speed = 0.0
+projectile_count = 2
+spread_angle = 15.0
+piercing = 99
+knockback = 0.0
+
+[sub_resource type="Resource" id="Resource_gmcxu"]
+script = ExtResource("2_p8uac")
+tier = 4
+damage = 12.0
+fire_rate = 0.05
+weapon_range = 25.0
+projectile_speed = 0.0
+projectile_count = 3
+spread_angle = 20.0
+piercing = 99
+knockback = 0.0
+
+[node name="" type="Node3D" unique_id=1793451717]
+script = ExtResource("1_mdajb")
+id = "weapon_laser"
+weapon_name = "Beam Emitter"
+damage_type = "elemental"
+can_be_starting_weapon = false
+tiers = Array[ExtResource("2_p8uac")]([SubResource("Resource_fnuv2"), SubResource("Resource_7km3b"), SubResource("Resource_70u2n"), SubResource("Resource_gmcxu")])
+
+[node name="Model" type="Node3D" parent="." unique_id=151984539]

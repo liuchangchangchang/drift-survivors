@@ -1,0 +1,20 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/content/upgrade_scene.gd" id="1_xi1np"]
+[ext_resource type="Script" path="res://src/content/stat_modifier_data.gd" id="2_vf2lw"]
+
+[sub_resource type="Resource" id="Resource_qssdl"]
+script = ExtResource("2_vf2lw")
+stat = "crit_chance"
+value = 0.05
+
+[node name="" type="Node3D" unique_id=443089018]
+script = ExtResource("1_xi1np")
+id = "upgrade_crit"
+upgrade_name = "+5% Crit Chance"
+description = "5% chance to deal double damage"
+rarity = "rare"
+weight = 4.0
+stat_modifiers = Array[ExtResource("2_vf2lw")]([SubResource("Resource_qssdl")])
+
+[node name="Model" type="Node3D" parent="." unique_id=444280366]

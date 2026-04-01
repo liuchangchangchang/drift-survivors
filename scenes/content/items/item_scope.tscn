@@ -1,0 +1,20 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/content/item_scene.gd" id="1_k8ts4"]
+[ext_resource type="Script" path="res://src/content/stat_modifier_data.gd" id="2_t63nb"]
+
+[sub_resource type="Resource" id="Resource_jrqpl"]
+script = ExtResource("2_t63nb")
+stat = "ranged_damage_mult"
+value = 0.1
+
+[node name="" type="Node3D" unique_id=870492026]
+script = ExtResource("1_k8ts4")
+id = "item_scope"
+item_name = "Targeting Scope"
+description = "+10% Ranged Damage"
+base_price = 35
+category = "offense"
+stat_modifiers = Array[ExtResource("2_t63nb")]([SubResource("Resource_jrqpl")])
+
+[node name="Model" type="Node3D" parent="." unique_id=1385455066]

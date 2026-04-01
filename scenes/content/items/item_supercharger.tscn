@@ -1,0 +1,28 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/content/item_scene.gd" id="1_ksvro"]
+[ext_resource type="Script" path="res://src/content/stat_modifier_data.gd" id="2_b184l"]
+
+[sub_resource type="Resource" id="Resource_euvwm"]
+script = ExtResource("2_b184l")
+stat = "all_damage_mult"
+value = 0.2
+
+[sub_resource type="Resource" id="Resource_j847a"]
+script = ExtResource("2_b184l")
+stat = "max_speed"
+type = "percent"
+value = 0.15
+
+[node name="" type="Node3D" unique_id=1494413134]
+script = ExtResource("1_ksvro")
+id = "item_supercharger"
+item_name = "Supercharger"
+description = "+20% All Damage, +15% Speed"
+rarity = "legendary"
+base_price = 180
+max_stack = 1
+category = "offense"
+stat_modifiers = Array[ExtResource("2_b184l")]([SubResource("Resource_euvwm"), SubResource("Resource_j847a")])
+
+[node name="Model" type="Node3D" parent="." unique_id=1839803263]

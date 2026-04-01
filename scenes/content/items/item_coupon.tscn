@@ -1,0 +1,20 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/content/item_scene.gd" id="1_00pgx"]
+[ext_resource type="Script" path="res://src/content/stat_modifier_data.gd" id="2_3pxen"]
+
+[sub_resource type="Resource" id="Resource_stt28"]
+script = ExtResource("2_3pxen")
+stat = "shop_price_mult"
+value = -0.05
+
+[node name="" type="Node3D" unique_id=676084077]
+script = ExtResource("1_00pgx")
+id = "item_coupon"
+item_name = "Coupon"
+description = "-5% Shop Prices"
+rarity = "uncommon"
+base_price = 40
+stat_modifiers = Array[ExtResource("2_3pxen")]([SubResource("Resource_stt28")])
+
+[node name="Model" type="Node3D" parent="." unique_id=1439113325]

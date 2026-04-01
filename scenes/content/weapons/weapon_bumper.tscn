@@ -1,0 +1,52 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/content/weapon_scene.gd" id="1_1356p"]
+[ext_resource type="Script" path="res://src/content/weapon_tier_data.gd" id="2_883u2"]
+
+[sub_resource type="Resource" id="Resource_c2j81"]
+script = ExtResource("2_883u2")
+damage = 15.0
+fire_rate = 0.8
+weapon_range = 3.0
+projectile_speed = 0.0
+spread_angle = 90.0
+knockback = 4.0
+
+[sub_resource type="Resource" id="Resource_lmt6v"]
+script = ExtResource("2_883u2")
+tier = 2
+damage = 25.0
+fire_rate = 0.7
+weapon_range = 3.5
+projectile_speed = 0.0
+spread_angle = 100.0
+knockback = 5.0
+
+[sub_resource type="Resource" id="Resource_qtcew"]
+script = ExtResource("2_883u2")
+tier = 3
+damage = 40.0
+fire_rate = 0.6
+weapon_range = 4.0
+projectile_speed = 0.0
+spread_angle = 110.0
+knockback = 6.5
+
+[sub_resource type="Resource" id="Resource_rfc0o"]
+script = ExtResource("2_883u2")
+tier = 4
+damage = 60.0
+weapon_range = 4.5
+projectile_speed = 0.0
+spread_angle = 120.0
+knockback = 8.5
+
+[node name="" type="Node3D" unique_id=1119797467]
+script = ExtResource("1_1356p")
+id = "weapon_bumper"
+weapon_name = "Bumper Ram"
+type = "melee"
+damage_type = "melee"
+tiers = Array[ExtResource("2_883u2")]([SubResource("Resource_c2j81"), SubResource("Resource_lmt6v"), SubResource("Resource_qtcew"), SubResource("Resource_rfc0o")])
+
+[node name="Model" type="Node3D" parent="." unique_id=1806537152]

@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/content/upgrade_scene.gd" id="1_it62j"]
+[ext_resource type="Script" path="res://src/content/stat_modifier_data.gd" id="2_4f72n"]
+
+[sub_resource type="Resource" id="Resource_2r7ej"]
+script = ExtResource("2_4f72n")
+stat = "nitro_max"
+value = 20.0
+
+[node name="" type="Node3D" unique_id=1987070199]
+script = ExtResource("1_it62j")
+id = "upgrade_nitro_capacity"
+upgrade_name = "+20 Max Nitro"
+description = "Increase nitro capacity by 20"
+weight = 8.0
+stat_modifiers = Array[ExtResource("2_4f72n")]([SubResource("Resource_2r7ej")])
+
+[node name="Model" type="Node3D" parent="." unique_id=319682843]

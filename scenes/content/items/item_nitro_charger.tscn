@@ -1,0 +1,29 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/content/item_scene.gd" id="1_btjje"]
+[ext_resource type="Script" path="res://src/content/stat_modifier_data.gd" id="2_23nqh"]
+
+[sub_resource type="Resource" id="Resource_rnmg1"]
+script = ExtResource("2_23nqh")
+stat = "nitro_damage"
+type = "percent"
+value = 0.3
+
+[sub_resource type="Resource" id="Resource_wry31"]
+script = ExtResource("2_23nqh")
+stat = "boost_speed"
+type = "percent"
+value = 0.1
+
+[node name="" type="Node3D" unique_id=962604362]
+script = ExtResource("1_btjje")
+id = "item_nitro_charger"
+item_name = "Nitro Charger"
+description = "+30% Nitro Damage, +10% Boost Speed"
+rarity = "rare"
+base_price = 110
+max_stack = 3
+category = "speed"
+stat_modifiers = Array[ExtResource("2_23nqh")]([SubResource("Resource_rnmg1"), SubResource("Resource_wry31")])
+
+[node name="Model" type="Node3D" parent="." unique_id=835944850]

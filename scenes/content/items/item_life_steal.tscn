@@ -1,0 +1,22 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/content/item_scene.gd" id="1_dmqsk"]
+[ext_resource type="Script" path="res://src/content/stat_modifier_data.gd" id="2_7chdk"]
+
+[sub_resource type="Resource" id="Resource_rpyuh"]
+script = ExtResource("2_7chdk")
+stat = "life_steal"
+value = 0.03
+
+[node name="" type="Node3D" unique_id=1554678856]
+script = ExtResource("1_dmqsk")
+id = "item_life_steal"
+item_name = "Vampiric Exhaust"
+description = "+3% Life Steal"
+rarity = "uncommon"
+base_price = 65
+max_stack = 5
+category = "offense"
+stat_modifiers = Array[ExtResource("2_7chdk")]([SubResource("Resource_rpyuh")])
+
+[node name="Model" type="Node3D" parent="." unique_id=821680384]

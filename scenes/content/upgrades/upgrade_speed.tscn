@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/content/upgrade_scene.gd" id="1_amxjb"]
+[ext_resource type="Script" path="res://src/content/stat_modifier_data.gd" id="2_r3gyd"]
+
+[sub_resource type="Resource" id="Resource_88fwb"]
+script = ExtResource("2_r3gyd")
+stat = "max_speed"
+type = "percent"
+value = 0.08
+
+[node name="" type="Node3D" unique_id=1416713053]
+script = ExtResource("1_amxjb")
+id = "upgrade_speed"
+upgrade_name = "+8% Speed"
+description = "Increase max speed by 8%"
+stat_modifiers = Array[ExtResource("2_r3gyd")]([SubResource("Resource_88fwb")])
+
+[node name="Model" type="Node3D" parent="." unique_id=872842857]

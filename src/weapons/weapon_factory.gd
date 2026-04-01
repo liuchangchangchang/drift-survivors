@@ -11,7 +11,14 @@ static func create_weapon(weapon_id: String, tier: int = 1) -> WeaponBase:
 	var tier_index := tier - 1  # tiers array is 0-indexed
 	var weapon_data := WeaponData.from_json(weapon_json, tier_index)
 	var weapon := WeaponBase.new()
-	weapon.setup(weapon_data)
+	# Instance visual model from content scene
+	var weapon_scene: PackedScene = DataLoader.get_weapon_scene(weapon_id)
+	var visual_model: Node3D = null
+	if weapon_scene:
+		visual_model = weapon_scene.instantiate()
+	weapon.setup(weapon_data, visual_model)
+	if visual_model:
+		visual_model.free()
 	weapon.name = weapon_id
 	return weapon
 
