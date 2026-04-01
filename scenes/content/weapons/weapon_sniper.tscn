@@ -42,11 +42,49 @@ projectile_speed = 75.0
 piercing = 10
 knockback = 5.0
 
-[node name="" type="Node3D" unique_id=1869127693]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tu6rq"]
+albedo_color = Color(0.2, 0.3, 0.6, 1)
+metallic = 0.5
+roughness = 0.4
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_6voxh"]
+top_radius = 0.06
+bottom_radius = 0.06
+height = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_ud7l6"]
+size = Vector3(0.18, 0.16, 0.3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_35kyu"]
+albedo_color = Color(1, 0.9, 0.3, 1)
+emission_enabled = true
+emission = Color(1, 0.8, 0.2, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_ruq45"]
+radius = 0.05
+height = 0.1
+
+[node name="" type="Node3D" unique_id=1253836226]
 script = ExtResource("1_nrjyf")
 id = "weapon_sniper"
 weapon_name = "Rail Gun"
 can_be_starting_weapon = false
 tiers = Array[ExtResource("2_ttgdj")]([SubResource("Resource_4l7g4"), SubResource("Resource_oooht"), SubResource("Resource_psam7"), SubResource("Resource_78wly")])
 
-[node name="Model" type="Node3D" parent="." unique_id=567802104]
+[node name="Model" type="Node3D" parent="." unique_id=1279282151]
+
+[node name="Barrel" type="MeshInstance3D" parent="Model" unique_id=139416400]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.05, -0.35)
+material_override = SubResource("StandardMaterial3D_tu6rq")
+mesh = SubResource("CylinderMesh_6voxh")
+
+[node name="Body" type="MeshInstance3D" parent="Model" unique_id=1356814941]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0.05)
+material_override = SubResource("StandardMaterial3D_tu6rq")
+mesh = SubResource("BoxMesh_ud7l6")
+
+[node name="Muzzle" type="MeshInstance3D" parent="Model" unique_id=1669763316]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, -0.7)
+material_override = SubResource("StandardMaterial3D_35kyu")
+mesh = SubResource("SphereMesh_ruq45")

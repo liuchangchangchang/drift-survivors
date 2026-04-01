@@ -9,7 +9,23 @@ stat = "nitro_damage"
 type = "percent"
 value = 0.2
 
-[node name="" type="Node3D" unique_id=618149831]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w8ki2"]
+albedo_color = Color(0.2, 0.8, 0.3, 1)
+emission_enabled = true
+emission = Color(0.2, 0.8, 0.3, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_a56pk"]
+top_radius = 0.0
+bottom_radius = 0.2
+height = 0.3
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_fs2y1"]
+top_radius = 0.12
+bottom_radius = 0.12
+height = 0.3
+
+[node name="" type="Node3D" unique_id=1537484978]
 script = ExtResource("1_lo2sb")
 id = "upgrade_nitro_power"
 upgrade_name = "+20% Nitro Damage"
@@ -18,4 +34,14 @@ rarity = "uncommon"
 weight = 6.0
 stat_modifiers = Array[ExtResource("2_i5j0y")]([SubResource("Resource_kvsvu")])
 
-[node name="Model" type="Node3D" parent="." unique_id=1245208186]
+[node name="Model" type="Node3D" parent="." unique_id=1649449445]
+
+[node name="Arrow" type="MeshInstance3D" parent="Model" unique_id=1254395001]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+material_override = SubResource("StandardMaterial3D_w8ki2")
+mesh = SubResource("CylinderMesh_a56pk")
+
+[node name="Base" type="MeshInstance3D" parent="Model" unique_id=1776998268]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+material_override = SubResource("StandardMaterial3D_w8ki2")
+mesh = SubResource("CylinderMesh_fs2y1")

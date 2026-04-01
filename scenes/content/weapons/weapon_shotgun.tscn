@@ -47,10 +47,48 @@ spread_angle = 22.0
 piercing = 1
 knockback = 2.25
 
-[node name="" type="Node3D" unique_id=1776959503]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q4d1s"]
+albedo_color = Color(0.8, 0.5, 0.2, 1)
+metallic = 0.5
+roughness = 0.4
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_kxv34"]
+top_radius = 0.06
+bottom_radius = 0.06
+height = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_bqo6y"]
+size = Vector3(0.18, 0.16, 0.3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ejci3"]
+albedo_color = Color(1, 0.9, 0.3, 1)
+emission_enabled = true
+emission = Color(1, 0.8, 0.2, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_tqs8h"]
+radius = 0.05
+height = 0.1
+
+[node name="" type="Node3D" unique_id=651315558]
 script = ExtResource("1_7hgu3")
 id = "weapon_shotgun"
 weapon_name = "Scatter Cannon"
 tiers = Array[ExtResource("2_lkr3u")]([SubResource("Resource_jmwgw"), SubResource("Resource_b1y5w"), SubResource("Resource_e3xhv"), SubResource("Resource_xj3eu")])
 
-[node name="Model" type="Node3D" parent="." unique_id=1836389226]
+[node name="Model" type="Node3D" parent="." unique_id=381803726]
+
+[node name="Barrel" type="MeshInstance3D" parent="Model" unique_id=2101506610]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.05, -0.35)
+material_override = SubResource("StandardMaterial3D_q4d1s")
+mesh = SubResource("CylinderMesh_kxv34")
+
+[node name="Body" type="MeshInstance3D" parent="Model" unique_id=822352047]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0.05)
+material_override = SubResource("StandardMaterial3D_q4d1s")
+mesh = SubResource("BoxMesh_bqo6y")
+
+[node name="Muzzle" type="MeshInstance3D" parent="Model" unique_id=10901288]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, -0.7)
+material_override = SubResource("StandardMaterial3D_ejci3")
+mesh = SubResource("SphereMesh_tqs8h")

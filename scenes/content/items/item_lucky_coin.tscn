@@ -8,11 +8,37 @@ script = ExtResource("2_a8oep")
 stat = "luck"
 value = 0.08
 
-[node name="" type="Node3D" unique_id=204243600]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m8evg"]
+albedo_color = Color(0.8, 0.7, 0.2, 1)
+metallic = 0.5
+roughness = 0.3
+
+[sub_resource type="BoxMesh" id="BoxMesh_2qpwc"]
+size = Vector3(0.3, 0.3, 0.3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_esiej"]
+emission_enabled = true
+emission = Color(0.8, 0.7, 0.2, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_3yg14"]
+radius = 0.1
+height = 0.2
+
+[node name="" type="Node3D" unique_id=2134136482]
 script = ExtResource("1_euhnf")
 id = "item_lucky_coin"
 item_name = "Lucky Coin"
 description = "+8% Luck"
 stat_modifiers = Array[ExtResource("2_a8oep")]([SubResource("Resource_s450x")])
 
-[node name="Model" type="Node3D" parent="." unique_id=2010833632]
+[node name="Model" type="Node3D" parent="." unique_id=1308050101]
+
+[node name="Crystal" type="MeshInstance3D" parent="Model" unique_id=1438334846]
+transform = Transform3D(0.70710677, -0.70710677, 0, 0.49999997, 0.49999997, -0.70710677, 0.49999997, 0.49999997, 0.70710677, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_m8evg")
+mesh = SubResource("BoxMesh_2qpwc")
+
+[node name="InnerGlow" type="MeshInstance3D" parent="Model" unique_id=1888883247]
+material_override = SubResource("StandardMaterial3D_esiej")
+mesh = SubResource("SphereMesh_3yg14")

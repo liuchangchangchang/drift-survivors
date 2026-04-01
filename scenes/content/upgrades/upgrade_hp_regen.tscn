@@ -8,11 +8,37 @@ script = ExtResource("2_gseoe")
 stat = "hp_regen"
 value = 2.0
 
-[node name="" type="Node3D" unique_id=1883383023]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5iv4u"]
+albedo_color = Color(0.6, 0.6, 0.7, 1)
+emission_enabled = true
+emission = Color(0.6, 0.6, 0.7, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_xwqxk"]
+top_radius = 0.0
+bottom_radius = 0.2
+height = 0.3
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_r5ecb"]
+top_radius = 0.12
+bottom_radius = 0.12
+height = 0.3
+
+[node name="" type="Node3D" unique_id=875160871]
 script = ExtResource("1_5cc2k")
 id = "upgrade_hp_regen"
 upgrade_name = "+2 HP Regen"
 description = "Regenerate 2 more HP per second"
 stat_modifiers = Array[ExtResource("2_gseoe")]([SubResource("Resource_5rk0r")])
 
-[node name="Model" type="Node3D" parent="." unique_id=1049214561]
+[node name="Model" type="Node3D" parent="." unique_id=1957739755]
+
+[node name="Arrow" type="MeshInstance3D" parent="Model" unique_id=1429703775]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+material_override = SubResource("StandardMaterial3D_5iv4u")
+mesh = SubResource("CylinderMesh_xwqxk")
+
+[node name="Base" type="MeshInstance3D" parent="Model" unique_id=1347669910]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+material_override = SubResource("StandardMaterial3D_5iv4u")
+mesh = SubResource("CylinderMesh_r5ecb")

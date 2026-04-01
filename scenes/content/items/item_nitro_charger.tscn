@@ -15,7 +15,34 @@ stat = "boost_speed"
 type = "percent"
 value = 0.1
 
-[node name="" type="Node3D" unique_id=962604362]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bq5nl"]
+albedo_color = Color(0.2, 0.9, 0.4, 1)
+emission_enabled = true
+emission = Color(0.2, 0.9, 0.4, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_n6h03"]
+size = Vector3(0.1, 0.15, 0.06)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0vucf"]
+size = Vector3(0.1, 0.15, 0.06)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bnios"]
+size = Vector3(0.1, 0.15, 0.06)
+
+[sub_resource type="BoxMesh" id="BoxMesh_syroc"]
+size = Vector3(0.1, 0.15, 0.06)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fnw5o"]
+emission_enabled = true
+emission = Color(0.2, 0.9, 0.4, 1)
+emission_energy_multiplier = 4.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_wlvdp"]
+radius = 0.08
+height = 0.16
+
+[node name="" type="Node3D" unique_id=353846796]
 script = ExtResource("1_btjje")
 id = "item_nitro_charger"
 item_name = "Nitro Charger"
@@ -26,4 +53,28 @@ max_stack = 3
 category = "speed"
 stat_modifiers = Array[ExtResource("2_23nqh")]([SubResource("Resource_rnmg1"), SubResource("Resource_wry31")])
 
-[node name="Model" type="Node3D" parent="." unique_id=835944850]
+[node name="Model" type="Node3D" parent="." unique_id=393690605]
+
+[node name="Bolt_0" type="MeshInstance3D" parent="Model" unique_id=308323195]
+transform = Transform3D(0.9659258, 0.25881904, 0, -0.25881904, 0.9659258, 0, 0, 0, 1, 0, 0.2, 0)
+material_override = SubResource("StandardMaterial3D_bq5nl")
+mesh = SubResource("BoxMesh_n6h03")
+
+[node name="Bolt_1" type="MeshInstance3D" parent="Model" unique_id=322281290]
+transform = Transform3D(0.9396926, -0.34202012, 0, 0.34202012, 0.9396926, 0, 0, 0, 1, 0.12, 0.05, 0)
+material_override = SubResource("StandardMaterial3D_bq5nl")
+mesh = SubResource("BoxMesh_0vucf")
+
+[node name="Bolt_2" type="MeshInstance3D" parent="Model" unique_id=743563763]
+transform = Transform3D(0.9659258, 0.25881904, 0, -0.25881904, 0.9659258, 0, 0, 0, 1, -0.05, -0.1, 0)
+material_override = SubResource("StandardMaterial3D_bq5nl")
+mesh = SubResource("BoxMesh_bnios")
+
+[node name="Bolt_3" type="MeshInstance3D" parent="Model" unique_id=1461407493]
+transform = Transform3D(0.9396926, -0.34202012, 0, 0.34202012, 0.9396926, 0, 0, 0, 1, 0.08, -0.25, 0)
+material_override = SubResource("StandardMaterial3D_bq5nl")
+mesh = SubResource("BoxMesh_syroc")
+
+[node name="GlowSphere" type="MeshInstance3D" parent="Model" unique_id=1025850295]
+material_override = SubResource("StandardMaterial3D_fnw5o")
+mesh = SubResource("SphereMesh_wlvdp")

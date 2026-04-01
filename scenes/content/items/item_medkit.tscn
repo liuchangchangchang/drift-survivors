@@ -8,7 +8,26 @@ script = ExtResource("2_q5wt7")
 stat = "hp_regen"
 value = 1.0
 
-[node name="" type="Node3D" unique_id=1967262960]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ss43e"]
+albedo_color = Color(0.3, 0.5, 0.9, 1)
+metallic = 0.7
+roughness = 0.3
+
+[sub_resource type="BoxMesh" id="BoxMesh_hdcka"]
+size = Vector3(0.5, 0.6, 0.08)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8dop2"]
+emission_enabled = true
+emission = Color(0.3, 0.5, 0.9, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_4tds3"]
+size = Vector3(0.35, 0.06, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_b665v"]
+size = Vector3(0.06, 0.4, 0.1)
+
+[node name="" type="Node3D" unique_id=831314336]
 script = ExtResource("1_ydi3x")
 id = "item_medkit"
 item_name = "Repair Kit"
@@ -17,4 +36,17 @@ base_price = 30
 category = "defense"
 stat_modifiers = Array[ExtResource("2_q5wt7")]([SubResource("Resource_vq1xx")])
 
-[node name="Model" type="Node3D" parent="." unique_id=1634224741]
+[node name="Model" type="Node3D" parent="." unique_id=1487854181]
+
+[node name="Shield" type="MeshInstance3D" parent="Model" unique_id=844263541]
+material_override = SubResource("StandardMaterial3D_ss43e")
+mesh = SubResource("BoxMesh_hdcka")
+
+[node name="CrossH" type="MeshInstance3D" parent="Model" unique_id=1820601384]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+material_override = SubResource("StandardMaterial3D_8dop2")
+mesh = SubResource("BoxMesh_4tds3")
+
+[node name="CrossV" type="MeshInstance3D" parent="Model" unique_id=601290243]
+material_override = SubResource("StandardMaterial3D_8dop2")
+mesh = SubResource("BoxMesh_b665v")

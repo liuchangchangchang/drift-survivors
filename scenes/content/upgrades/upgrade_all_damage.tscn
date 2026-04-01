@@ -8,7 +8,23 @@ script = ExtResource("2_4hr4j")
 stat = "all_damage_mult"
 value = 0.08
 
-[node name="" type="Node3D" unique_id=1644337228]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rb3lp"]
+albedo_color = Color(0.3, 0.5, 1, 1)
+emission_enabled = true
+emission = Color(0.3, 0.5, 1, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_hab8j"]
+top_radius = 0.0
+bottom_radius = 0.2
+height = 0.3
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_wbgwc"]
+top_radius = 0.12
+bottom_radius = 0.12
+height = 0.3
+
+[node name="" type="Node3D" unique_id=1963397130]
 script = ExtResource("1_ovtug")
 id = "upgrade_all_damage"
 upgrade_name = "+8% All Damage"
@@ -17,4 +33,14 @@ rarity = "rare"
 weight = 4.0
 stat_modifiers = Array[ExtResource("2_4hr4j")]([SubResource("Resource_k8j6g")])
 
-[node name="Model" type="Node3D" parent="." unique_id=2010512912]
+[node name="Model" type="Node3D" parent="." unique_id=548583068]
+
+[node name="Arrow" type="MeshInstance3D" parent="Model" unique_id=1100897886]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+material_override = SubResource("StandardMaterial3D_rb3lp")
+mesh = SubResource("CylinderMesh_hab8j")
+
+[node name="Base" type="MeshInstance3D" parent="Model" unique_id=621202775]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+material_override = SubResource("StandardMaterial3D_rb3lp")
+mesh = SubResource("CylinderMesh_wbgwc")

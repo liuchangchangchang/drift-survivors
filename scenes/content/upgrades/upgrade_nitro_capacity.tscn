@@ -8,7 +8,23 @@ script = ExtResource("2_4f72n")
 stat = "nitro_max"
 value = 20.0
 
-[node name="" type="Node3D" unique_id=1987070199]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8nwje"]
+albedo_color = Color(0.6, 0.6, 0.7, 1)
+emission_enabled = true
+emission = Color(0.6, 0.6, 0.7, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_16tvl"]
+top_radius = 0.0
+bottom_radius = 0.2
+height = 0.3
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_6i4xe"]
+top_radius = 0.12
+bottom_radius = 0.12
+height = 0.3
+
+[node name="" type="Node3D" unique_id=1237093592]
 script = ExtResource("1_it62j")
 id = "upgrade_nitro_capacity"
 upgrade_name = "+20 Max Nitro"
@@ -16,4 +32,14 @@ description = "Increase nitro capacity by 20"
 weight = 8.0
 stat_modifiers = Array[ExtResource("2_4f72n")]([SubResource("Resource_2r7ej")])
 
-[node name="Model" type="Node3D" parent="." unique_id=319682843]
+[node name="Model" type="Node3D" parent="." unique_id=764559899]
+
+[node name="Arrow" type="MeshInstance3D" parent="Model" unique_id=1301860973]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+material_override = SubResource("StandardMaterial3D_8nwje")
+mesh = SubResource("CylinderMesh_16tvl")
+
+[node name="Base" type="MeshInstance3D" parent="Model" unique_id=1677499366]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+material_override = SubResource("StandardMaterial3D_8nwje")
+mesh = SubResource("CylinderMesh_6i4xe")

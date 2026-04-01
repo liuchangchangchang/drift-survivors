@@ -8,7 +8,23 @@ script = ExtResource("2_u0kem")
 stat = "life_steal"
 value = 0.03
 
-[node name="" type="Node3D" unique_id=844803254]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0drki"]
+albedo_color = Color(0.3, 0.5, 1, 1)
+emission_enabled = true
+emission = Color(0.3, 0.5, 1, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_0y7or"]
+top_radius = 0.0
+bottom_radius = 0.2
+height = 0.3
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_mlnu5"]
+top_radius = 0.12
+bottom_radius = 0.12
+height = 0.3
+
+[node name="" type="Node3D" unique_id=1335721403]
 script = ExtResource("1_ulap5")
 id = "upgrade_life_steal"
 upgrade_name = "+3% Life Steal"
@@ -17,4 +33,14 @@ rarity = "rare"
 weight = 4.0
 stat_modifiers = Array[ExtResource("2_u0kem")]([SubResource("Resource_nq4c6")])
 
-[node name="Model" type="Node3D" parent="." unique_id=199138997]
+[node name="Model" type="Node3D" parent="." unique_id=1728964380]
+
+[node name="Arrow" type="MeshInstance3D" parent="Model" unique_id=640742350]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+material_override = SubResource("StandardMaterial3D_0drki")
+mesh = SubResource("CylinderMesh_0y7or")
+
+[node name="Base" type="MeshInstance3D" parent="Model" unique_id=1548659756]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+material_override = SubResource("StandardMaterial3D_0drki")
+mesh = SubResource("CylinderMesh_mlnu5")

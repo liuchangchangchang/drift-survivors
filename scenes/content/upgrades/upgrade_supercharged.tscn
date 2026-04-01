@@ -20,7 +20,23 @@ stat = "nitro_accumulation_rate"
 type = "percent"
 value = 0.3
 
-[node name="" type="Node3D" unique_id=369254174]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5h1gi"]
+albedo_color = Color(1, 0.7, 0.1, 1)
+emission_enabled = true
+emission = Color(1, 0.7, 0.1, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_6fh15"]
+top_radius = 0.0
+bottom_radius = 0.2
+height = 0.3
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_hins8"]
+top_radius = 0.12
+bottom_radius = 0.12
+height = 0.3
+
+[node name="" type="Node3D" unique_id=10283165]
 script = ExtResource("1_r0og2")
 id = "upgrade_supercharged"
 upgrade_name = "Supercharged"
@@ -29,4 +45,14 @@ rarity = "legendary"
 weight = 1.0
 stat_modifiers = Array[ExtResource("2_xxlx2")]([SubResource("Resource_g87ab"), SubResource("Resource_nctv3"), SubResource("Resource_ns0ab")])
 
-[node name="Model" type="Node3D" parent="." unique_id=796132980]
+[node name="Model" type="Node3D" parent="." unique_id=124393841]
+
+[node name="Arrow" type="MeshInstance3D" parent="Model" unique_id=439626846]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+material_override = SubResource("StandardMaterial3D_5h1gi")
+mesh = SubResource("CylinderMesh_6fh15")
+
+[node name="Base" type="MeshInstance3D" parent="Model" unique_id=1942617876]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+material_override = SubResource("StandardMaterial3D_5h1gi")
+mesh = SubResource("CylinderMesh_hins8")

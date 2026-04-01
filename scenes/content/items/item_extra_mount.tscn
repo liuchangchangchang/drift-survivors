@@ -8,7 +8,29 @@ script = ExtResource("2_84r8c")
 stat = "weapon_slots"
 value = 1.0
 
-[node name="" type="Node3D" unique_id=1383847152]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oam1m"]
+albedo_color = Color(0.9, 0.6, 1, 1)
+emission_enabled = true
+emission = Color(0.9, 0.6, 1, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_rk58o"]
+radius = 0.12
+height = 0.24
+
+[sub_resource type="BoxMesh" id="BoxMesh_yinrt"]
+size = Vector3(0.04, 0.3, 0.04)
+
+[sub_resource type="BoxMesh" id="BoxMesh_t3gun"]
+size = Vector3(0.04, 0.3, 0.04)
+
+[sub_resource type="BoxMesh" id="BoxMesh_sjib2"]
+size = Vector3(0.04, 0.3, 0.04)
+
+[sub_resource type="BoxMesh" id="BoxMesh_s8hjf"]
+size = Vector3(0.04, 0.3, 0.04)
+
+[node name="" type="Node3D" unique_id=1175067521]
 script = ExtResource("1_5sfci")
 id = "item_extra_mount"
 item_name = "Weapon Rack"
@@ -19,4 +41,27 @@ max_stack = 2
 category = "special"
 stat_modifiers = Array[ExtResource("2_84r8c")]([SubResource("Resource_fx4ln")])
 
-[node name="Model" type="Node3D" parent="." unique_id=381207286]
+[node name="Model" type="Node3D" parent="." unique_id=891156177]
+
+[node name="Center" type="MeshInstance3D" parent="Model" unique_id=1843239708]
+material_override = SubResource("StandardMaterial3D_oam1m")
+mesh = SubResource("SphereMesh_rk58o")
+
+[node name="Spike_0" type="MeshInstance3D" parent="Model" unique_id=2143450545]
+material_override = SubResource("StandardMaterial3D_oam1m")
+mesh = SubResource("BoxMesh_yinrt")
+
+[node name="Spike_1" type="MeshInstance3D" parent="Model" unique_id=1614633531]
+transform = Transform3D(0.70710677, -0.70710677, 0, 0.70710677, 0.70710677, 0, 0, 0, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_oam1m")
+mesh = SubResource("BoxMesh_t3gun")
+
+[node name="Spike_2" type="MeshInstance3D" parent="Model" unique_id=1264938916]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_oam1m")
+mesh = SubResource("BoxMesh_sjib2")
+
+[node name="Spike_3" type="MeshInstance3D" parent="Model" unique_id=255868472]
+transform = Transform3D(-0.70710677, -0.70710677, 0, 0.70710677, -0.70710677, 0, 0, 0, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_oam1m")
+mesh = SubResource("BoxMesh_s8hjf")

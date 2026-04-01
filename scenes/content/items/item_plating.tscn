@@ -8,7 +8,26 @@ script = ExtResource("2_njt8s")
 stat = "max_hp"
 value = 10.0
 
-[node name="" type="Node3D" unique_id=415419721]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cuevm"]
+albedo_color = Color(0.3, 0.5, 0.9, 1)
+metallic = 0.7
+roughness = 0.3
+
+[sub_resource type="BoxMesh" id="BoxMesh_pagto"]
+size = Vector3(0.5, 0.6, 0.08)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ey78r"]
+emission_enabled = true
+emission = Color(0.3, 0.5, 0.9, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_kshj5"]
+size = Vector3(0.35, 0.06, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_okr8p"]
+size = Vector3(0.06, 0.4, 0.1)
+
+[node name="" type="Node3D" unique_id=691186950]
 script = ExtResource("1_oc754")
 id = "item_plating"
 item_name = "Reinforced Plating"
@@ -17,4 +36,17 @@ base_price = 30
 category = "defense"
 stat_modifiers = Array[ExtResource("2_njt8s")]([SubResource("Resource_ruebn")])
 
-[node name="Model" type="Node3D" parent="." unique_id=819441536]
+[node name="Model" type="Node3D" parent="." unique_id=1703079891]
+
+[node name="Shield" type="MeshInstance3D" parent="Model" unique_id=1796657761]
+material_override = SubResource("StandardMaterial3D_cuevm")
+mesh = SubResource("BoxMesh_pagto")
+
+[node name="CrossH" type="MeshInstance3D" parent="Model" unique_id=2120317592]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+material_override = SubResource("StandardMaterial3D_ey78r")
+mesh = SubResource("BoxMesh_kshj5")
+
+[node name="CrossV" type="MeshInstance3D" parent="Model" unique_id=302583289]
+material_override = SubResource("StandardMaterial3D_ey78r")
+mesh = SubResource("BoxMesh_okr8p")

@@ -44,10 +44,48 @@ spread_angle = 5.0
 piercing = 1
 knockback = 0.6
 
-[node name="" type="Node3D" unique_id=392508787]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8b6tk"]
+albedo_color = Color(0.3, 0.35, 0.4, 1)
+metallic = 0.5
+roughness = 0.4
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_k0poj"]
+top_radius = 0.06
+bottom_radius = 0.06
+height = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_b0xm7"]
+size = Vector3(0.18, 0.16, 0.3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6aawr"]
+albedo_color = Color(1, 0.9, 0.3, 1)
+emission_enabled = true
+emission = Color(1, 0.8, 0.2, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_mga8k"]
+radius = 0.05
+height = 0.1
+
+[node name="" type="Node3D" unique_id=149778315]
 script = ExtResource("1_d8y7x")
 id = "weapon_smg"
 weapon_name = "Rapid Fire"
 tiers = Array[ExtResource("2_26uw6")]([SubResource("Resource_ojjku"), SubResource("Resource_iukdl"), SubResource("Resource_og1jn"), SubResource("Resource_axbv8")])
 
-[node name="Model" type="Node3D" parent="." unique_id=515632510]
+[node name="Model" type="Node3D" parent="." unique_id=2051867483]
+
+[node name="Barrel" type="MeshInstance3D" parent="Model" unique_id=467657162]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.05, -0.35)
+material_override = SubResource("StandardMaterial3D_8b6tk")
+mesh = SubResource("CylinderMesh_k0poj")
+
+[node name="Body" type="MeshInstance3D" parent="Model" unique_id=1195263944]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0.05)
+material_override = SubResource("StandardMaterial3D_8b6tk")
+mesh = SubResource("BoxMesh_b0xm7")
+
+[node name="Muzzle" type="MeshInstance3D" parent="Model" unique_id=859598775]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, -0.7)
+material_override = SubResource("StandardMaterial3D_6aawr")
+mesh = SubResource("SphereMesh_mga8k")

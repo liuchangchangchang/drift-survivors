@@ -41,7 +41,24 @@ projectile_speed = 0.0
 spread_angle = 120.0
 knockback = 8.5
 
-[node name="" type="Node3D" unique_id=1119797467]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vxdbj"]
+albedo_color = Color(0.5, 0.5, 0.55, 1)
+metallic = 0.7
+roughness = 0.3
+
+[sub_resource type="BoxMesh" id="BoxMesh_neo63"]
+size = Vector3(0.7, 0.22, 0.08)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sg7sy"]
+albedo_color = Color(1, 0.5, 0.2, 1)
+emission_enabled = true
+emission = Color(1, 0.4, 0.1, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_dr2bv"]
+size = Vector3(0.65, 0.06, 0.04)
+
+[node name="" type="Node3D" unique_id=755853697]
 script = ExtResource("1_1356p")
 id = "weapon_bumper"
 weapon_name = "Bumper Ram"
@@ -49,4 +66,14 @@ type = "melee"
 damage_type = "melee"
 tiers = Array[ExtResource("2_883u2")]([SubResource("Resource_c2j81"), SubResource("Resource_lmt6v"), SubResource("Resource_qtcew"), SubResource("Resource_rfc0o")])
 
-[node name="Model" type="Node3D" parent="." unique_id=1806537152]
+[node name="Model" type="Node3D" parent="." unique_id=1535790383]
+
+[node name="Plate" type="MeshInstance3D" parent="Model" unique_id=702961500]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, -0.15)
+material_override = SubResource("StandardMaterial3D_vxdbj")
+mesh = SubResource("BoxMesh_neo63")
+
+[node name="GlowStrip" type="MeshInstance3D" parent="Model" unique_id=453382345]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, -0.2)
+material_override = SubResource("StandardMaterial3D_sg7sy")
+mesh = SubResource("BoxMesh_dr2bv")

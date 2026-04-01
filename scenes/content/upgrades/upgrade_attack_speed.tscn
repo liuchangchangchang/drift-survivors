@@ -8,7 +8,23 @@ script = ExtResource("2_qg6a1")
 stat = "attack_speed_mult"
 value = 0.1
 
-[node name="" type="Node3D" unique_id=540600171]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g3pyq"]
+albedo_color = Color(0.2, 0.8, 0.3, 1)
+emission_enabled = true
+emission = Color(0.2, 0.8, 0.3, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_x8hrd"]
+top_radius = 0.0
+bottom_radius = 0.2
+height = 0.3
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_3hqqk"]
+top_radius = 0.12
+bottom_radius = 0.12
+height = 0.3
+
+[node name="" type="Node3D" unique_id=1396174148]
 script = ExtResource("1_ljmnc")
 id = "upgrade_attack_speed"
 upgrade_name = "+10% Attack Speed"
@@ -17,4 +33,14 @@ rarity = "uncommon"
 weight = 7.0
 stat_modifiers = Array[ExtResource("2_qg6a1")]([SubResource("Resource_bjsry")])
 
-[node name="Model" type="Node3D" parent="." unique_id=1008273947]
+[node name="Model" type="Node3D" parent="." unique_id=1949944060]
+
+[node name="Arrow" type="MeshInstance3D" parent="Model" unique_id=1706458715]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+material_override = SubResource("StandardMaterial3D_g3pyq")
+mesh = SubResource("CylinderMesh_x8hrd")
+
+[node name="Base" type="MeshInstance3D" parent="Model" unique_id=847093992]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+material_override = SubResource("StandardMaterial3D_g3pyq")
+mesh = SubResource("CylinderMesh_3hqqk")

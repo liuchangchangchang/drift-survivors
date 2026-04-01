@@ -46,7 +46,30 @@ spread_angle = 20.0
 piercing = 99
 knockback = 0.0
 
-[node name="" type="Node3D" unique_id=1793451717]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rr32c"]
+albedo_color = Color(0.2, 0.8, 0.4, 1)
+metallic = 0.5
+roughness = 0.4
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_wfe4h"]
+top_radius = 0.06
+bottom_radius = 0.06
+height = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_dc3gb"]
+size = Vector3(0.18, 0.16, 0.3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_klcth"]
+albedo_color = Color(1, 0.9, 0.3, 1)
+emission_enabled = true
+emission = Color(1, 0.8, 0.2, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_4x6kr"]
+radius = 0.05
+height = 0.1
+
+[node name="" type="Node3D" unique_id=2043073259]
 script = ExtResource("1_mdajb")
 id = "weapon_laser"
 weapon_name = "Beam Emitter"
@@ -54,4 +77,19 @@ damage_type = "elemental"
 can_be_starting_weapon = false
 tiers = Array[ExtResource("2_p8uac")]([SubResource("Resource_fnuv2"), SubResource("Resource_7km3b"), SubResource("Resource_70u2n"), SubResource("Resource_gmcxu")])
 
-[node name="Model" type="Node3D" parent="." unique_id=151984539]
+[node name="Model" type="Node3D" parent="." unique_id=4920424]
+
+[node name="Barrel" type="MeshInstance3D" parent="Model" unique_id=1901128733]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.05, -0.35)
+material_override = SubResource("StandardMaterial3D_rr32c")
+mesh = SubResource("CylinderMesh_wfe4h")
+
+[node name="Body" type="MeshInstance3D" parent="Model" unique_id=1560814929]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0.05)
+material_override = SubResource("StandardMaterial3D_rr32c")
+mesh = SubResource("BoxMesh_dc3gb")
+
+[node name="Muzzle" type="MeshInstance3D" parent="Model" unique_id=891163214]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, -0.7)
+material_override = SubResource("StandardMaterial3D_klcth")
+mesh = SubResource("SphereMesh_4x6kr")

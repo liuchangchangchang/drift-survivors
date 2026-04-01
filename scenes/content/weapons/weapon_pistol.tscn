@@ -40,10 +40,48 @@ spread_angle = 5.0
 piercing = 2
 knockback = 1.5
 
-[node name="" type="Node3D" unique_id=821435468]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k76lo"]
+albedo_color = Color(0.6, 0.6, 0.65, 1)
+metallic = 0.5
+roughness = 0.4
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_vsv4h"]
+top_radius = 0.06
+bottom_radius = 0.06
+height = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_n1nk3"]
+size = Vector3(0.18, 0.16, 0.3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pvfup"]
+albedo_color = Color(1, 0.9, 0.3, 1)
+emission_enabled = true
+emission = Color(1, 0.8, 0.2, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_8dn86"]
+radius = 0.05
+height = 0.1
+
+[node name="" type="Node3D" unique_id=1685812803]
 script = ExtResource("1_i2xj2")
 id = "weapon_pistol"
 weapon_name = "Auto Pistol"
 tiers = Array[ExtResource("2_6wo7g")]([SubResource("Resource_s784t"), SubResource("Resource_jvng4"), SubResource("Resource_8meax"), SubResource("Resource_ivv2o")])
 
-[node name="Model" type="Node3D" parent="." unique_id=1885316902]
+[node name="Model" type="Node3D" parent="." unique_id=1046999790]
+
+[node name="Barrel" type="MeshInstance3D" parent="Model" unique_id=1741784575]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.05, -0.35)
+material_override = SubResource("StandardMaterial3D_k76lo")
+mesh = SubResource("CylinderMesh_vsv4h")
+
+[node name="Body" type="MeshInstance3D" parent="Model" unique_id=231514458]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0.05)
+material_override = SubResource("StandardMaterial3D_k76lo")
+mesh = SubResource("BoxMesh_n1nk3")
+
+[node name="Muzzle" type="MeshInstance3D" parent="Model" unique_id=274631633]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, -0.7)
+material_override = SubResource("StandardMaterial3D_pvfup")
+mesh = SubResource("SphereMesh_8dn86")

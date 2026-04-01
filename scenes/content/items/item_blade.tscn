@@ -8,7 +8,33 @@ script = ExtResource("2_pibus")
 stat = "melee_damage_mult"
 value = 0.1
 
-[node name="" type="Node3D" unique_id=1200367655]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8u0ec"]
+albedo_color = Color(0.9, 0.3, 0.2, 1)
+metallic = 0.8
+roughness = 0.2
+
+[sub_resource type="BoxMesh" id="BoxMesh_vwrfi"]
+size = Vector3(0.08, 0.6, 0.04)
+
+[sub_resource type="BoxMesh" id="BoxMesh_unnjc"]
+size = Vector3(0.3, 0.06, 0.06)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gpgnp"]
+albedo_color = Color(0.3, 0.2, 0.1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_h20dk"]
+size = Vector3(0.06, 0.2, 0.06)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1pshw"]
+emission_enabled = true
+emission = Color(0.9, 0.3, 0.2, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_smg73"]
+radius = 0.04
+height = 0.08
+
+[node name="" type="Node3D" unique_id=2042480498]
 script = ExtResource("1_6fp0i")
 id = "item_blade"
 item_name = "Sharpened Blade"
@@ -17,4 +43,24 @@ base_price = 35
 category = "offense"
 stat_modifiers = Array[ExtResource("2_pibus")]([SubResource("Resource_mopis")])
 
-[node name="Model" type="Node3D" parent="." unique_id=574919440]
+[node name="Model" type="Node3D" parent="." unique_id=1621221421]
+
+[node name="Blade" type="MeshInstance3D" parent="Model" unique_id=1317093769]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+material_override = SubResource("StandardMaterial3D_8u0ec")
+mesh = SubResource("BoxMesh_vwrfi")
+
+[node name="Guard" type="MeshInstance3D" parent="Model" unique_id=938874004]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15, 0)
+material_override = SubResource("StandardMaterial3D_8u0ec")
+mesh = SubResource("BoxMesh_unnjc")
+
+[node name="Grip" type="MeshInstance3D" parent="Model" unique_id=2072388816]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.28, 0)
+material_override = SubResource("StandardMaterial3D_gpgnp")
+mesh = SubResource("BoxMesh_h20dk")
+
+[node name="TipGlow" type="MeshInstance3D" parent="Model" unique_id=539415701]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+material_override = SubResource("StandardMaterial3D_1pshw")
+mesh = SubResource("SphereMesh_smg73")

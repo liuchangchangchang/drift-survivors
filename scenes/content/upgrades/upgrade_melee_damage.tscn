@@ -8,7 +8,23 @@ script = ExtResource("2_ugsqf")
 stat = "melee_damage_mult"
 value = 0.12
 
-[node name="" type="Node3D" unique_id=1012317548]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ovdr1"]
+albedo_color = Color(0.2, 0.8, 0.3, 1)
+emission_enabled = true
+emission = Color(0.2, 0.8, 0.3, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_l72d2"]
+top_radius = 0.0
+bottom_radius = 0.2
+height = 0.3
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_8gntu"]
+top_radius = 0.12
+bottom_radius = 0.12
+height = 0.3
+
+[node name="" type="Node3D" unique_id=79868556]
 script = ExtResource("1_wrsbf")
 id = "upgrade_melee_damage"
 upgrade_name = "+12% Melee Damage"
@@ -17,4 +33,14 @@ rarity = "uncommon"
 weight = 7.0
 stat_modifiers = Array[ExtResource("2_ugsqf")]([SubResource("Resource_fwsqk")])
 
-[node name="Model" type="Node3D" parent="." unique_id=1731685920]
+[node name="Model" type="Node3D" parent="." unique_id=348980016]
+
+[node name="Arrow" type="MeshInstance3D" parent="Model" unique_id=347483188]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+material_override = SubResource("StandardMaterial3D_ovdr1")
+mesh = SubResource("CylinderMesh_l72d2")
+
+[node name="Base" type="MeshInstance3D" parent="Model" unique_id=1582819143]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+material_override = SubResource("StandardMaterial3D_ovdr1")
+mesh = SubResource("CylinderMesh_8gntu")

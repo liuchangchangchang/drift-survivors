@@ -9,11 +9,37 @@ stat = "max_speed"
 type = "percent"
 value = 0.08
 
-[node name="" type="Node3D" unique_id=1416713053]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_scv3q"]
+albedo_color = Color(0.6, 0.6, 0.7, 1)
+emission_enabled = true
+emission = Color(0.6, 0.6, 0.7, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_4lff6"]
+top_radius = 0.0
+bottom_radius = 0.2
+height = 0.3
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_sasbu"]
+top_radius = 0.12
+bottom_radius = 0.12
+height = 0.3
+
+[node name="" type="Node3D" unique_id=185844936]
 script = ExtResource("1_amxjb")
 id = "upgrade_speed"
 upgrade_name = "+8% Speed"
 description = "Increase max speed by 8%"
 stat_modifiers = Array[ExtResource("2_r3gyd")]([SubResource("Resource_88fwb")])
 
-[node name="Model" type="Node3D" parent="." unique_id=872842857]
+[node name="Model" type="Node3D" parent="." unique_id=1252731959]
+
+[node name="Arrow" type="MeshInstance3D" parent="Model" unique_id=1919385832]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+material_override = SubResource("StandardMaterial3D_scv3q")
+mesh = SubResource("CylinderMesh_4lff6")
+
+[node name="Base" type="MeshInstance3D" parent="Model" unique_id=518683655]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+material_override = SubResource("StandardMaterial3D_scv3q")
+mesh = SubResource("CylinderMesh_sasbu")

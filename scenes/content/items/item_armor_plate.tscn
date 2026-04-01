@@ -8,7 +8,26 @@ script = ExtResource("2_48ds3")
 stat = "armor"
 value = 5.0
 
-[node name="" type="Node3D" unique_id=548270411]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k5vyk"]
+albedo_color = Color(0.3, 0.5, 0.9, 1)
+metallic = 0.7
+roughness = 0.3
+
+[sub_resource type="BoxMesh" id="BoxMesh_avrof"]
+size = Vector3(0.5, 0.6, 0.08)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8bfdn"]
+emission_enabled = true
+emission = Color(0.3, 0.5, 0.9, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_6b2st"]
+size = Vector3(0.35, 0.06, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ibhpe"]
+size = Vector3(0.06, 0.4, 0.1)
+
+[node name="" type="Node3D" unique_id=1862390331]
 script = ExtResource("1_gt2hk")
 id = "item_armor_plate"
 item_name = "Armor Plate"
@@ -16,4 +35,17 @@ description = "+5 Armor"
 category = "defense"
 stat_modifiers = Array[ExtResource("2_48ds3")]([SubResource("Resource_4hmkn")])
 
-[node name="Model" type="Node3D" parent="." unique_id=718274695]
+[node name="Model" type="Node3D" parent="." unique_id=229094923]
+
+[node name="Shield" type="MeshInstance3D" parent="Model" unique_id=656513956]
+material_override = SubResource("StandardMaterial3D_k5vyk")
+mesh = SubResource("BoxMesh_avrof")
+
+[node name="CrossH" type="MeshInstance3D" parent="Model" unique_id=690140632]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+material_override = SubResource("StandardMaterial3D_8bfdn")
+mesh = SubResource("BoxMesh_6b2st")
+
+[node name="CrossV" type="MeshInstance3D" parent="Model" unique_id=985160449]
+material_override = SubResource("StandardMaterial3D_8bfdn")
+mesh = SubResource("BoxMesh_ibhpe")

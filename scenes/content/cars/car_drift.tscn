@@ -3,30 +3,71 @@
 [ext_resource type="Script" path="res://src/content/car_scene.gd" id="1_8wlwm"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tbw4c"]
+albedo_color = Color(0.9, 0.15, 0.3, 1)
+metallic = 0.6
+roughness = 0.3
+
+[sub_resource type="BoxMesh" id="BoxMesh_phncd"]
+size = Vector3(1.8, 0.5, 2.8)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qgjug"]
+transparency = 1
+albedo_color = Color(0.3, 0.7, 1, 0.8)
+metallic = 0.8
+roughness = 0.1
+
+[sub_resource type="BoxMesh" id="BoxMesh_a4v3o"]
+size = Vector3(1.4, 0.4, 1.4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hgi87"]
+albedo_color = Color(1, 1, 0.8, 1)
+emission_enabled = true
+emission = Color(1, 1, 0.8, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_82wj8"]
+size = Vector3(0.3, 0.15, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bkiex"]
+size = Vector3(0.3, 0.15, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r8ptt"]
+albedo_color = Color(1, 0.1, 0.1, 1)
+emission_enabled = true
+emission = Color(1, 0.1, 0.1, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_evdf5"]
+size = Vector3(0.25, 0.12, 0.08)
+
+[sub_resource type="BoxMesh" id="BoxMesh_7gef7"]
+size = Vector3(0.25, 0.12, 0.08)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_66afn"]
 albedo_color = Color(0.15, 0.15, 0.15, 1)
 roughness = 0.9
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_phncd"]
+[sub_resource type="CylinderMesh" id="CylinderMesh_xd0xk"]
 top_radius = 0.25
 bottom_radius = 0.25
 height = 0.2
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_qgjug"]
+[sub_resource type="CylinderMesh" id="CylinderMesh_gtxwa"]
 top_radius = 0.25
 bottom_radius = 0.25
 height = 0.2
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_a4v3o"]
+[sub_resource type="CylinderMesh" id="CylinderMesh_8xgbv"]
 top_radius = 0.25
 bottom_radius = 0.25
 height = 0.2
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_hgi87"]
+[sub_resource type="CylinderMesh" id="CylinderMesh_dywq5"]
 top_radius = 0.25
 bottom_radius = 0.25
 height = 0.2
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_82wj8"]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_m2wi0"]
 direction = Vector3(0, 0.3, 1)
 spread = 12.0
 initial_velocity_min = 12.0
@@ -36,7 +77,7 @@ scale_min = 0.3
 scale_max = 0.8
 color = Color(1, 0.5, 0.1, 1)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bkiex"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cofm8"]
 transparency = 1
 albedo_color = Color(1, 0.6, 0.1, 1)
 emission_enabled = true
@@ -44,11 +85,11 @@ emission = Color(1, 0.4, 0.05, 1)
 emission_energy_multiplier = 5.0
 billboard_mode = 1
 
-[sub_resource type="QuadMesh" id="QuadMesh_r8ptt"]
-material = SubResource("StandardMaterial3D_bkiex")
+[sub_resource type="QuadMesh" id="QuadMesh_r6dxy"]
+material = SubResource("StandardMaterial3D_cofm8")
 size = Vector2(0.5, 0.5)
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_evdf5"]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_um5n2"]
 direction = Vector3(0, 0.3, 1)
 spread = 12.0
 initial_velocity_min = 12.0
@@ -58,7 +99,7 @@ scale_min = 0.3
 scale_max = 0.8
 color = Color(1, 0.5, 0.1, 1)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7gef7"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vlqdd"]
 transparency = 1
 albedo_color = Color(1, 0.6, 0.1, 1)
 emission_enabled = true
@@ -66,11 +107,11 @@ emission = Color(1, 0.4, 0.05, 1)
 emission_energy_multiplier = 5.0
 billboard_mode = 1
 
-[sub_resource type="QuadMesh" id="QuadMesh_66afn"]
-material = SubResource("StandardMaterial3D_7gef7")
+[sub_resource type="QuadMesh" id="QuadMesh_a86ge"]
+material = SubResource("StandardMaterial3D_vlqdd")
 size = Vector2(0.5, 0.5)
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_xd0xk"]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_rpwvs"]
 direction = Vector3(0, 1, 0)
 spread = 50.0
 initial_velocity_min = 4.0
@@ -80,17 +121,17 @@ scale_min = 0.04
 scale_max = 0.12
 color = Color(1, 0.7, 0.2, 1)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gtxwa"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8xoap"]
 emission_enabled = true
 emission = Color(1, 0.7, 0.2, 1)
 emission_energy_multiplier = 4.0
 billboard_mode = 1
 
-[sub_resource type="QuadMesh" id="QuadMesh_8xgbv"]
-material = SubResource("StandardMaterial3D_gtxwa")
+[sub_resource type="QuadMesh" id="QuadMesh_p0dmn"]
+material = SubResource("StandardMaterial3D_8xoap")
 size = Vector2(0.08, 0.08)
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dywq5"]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ws2bj"]
 direction = Vector3(0, 1, 0)
 spread = 50.0
 initial_velocity_min = 4.0
@@ -100,17 +141,17 @@ scale_min = 0.04
 scale_max = 0.12
 color = Color(1, 0.7, 0.2, 1)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m2wi0"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ieb5y"]
 emission_enabled = true
 emission = Color(1, 0.7, 0.2, 1)
 emission_energy_multiplier = 4.0
 billboard_mode = 1
 
-[sub_resource type="QuadMesh" id="QuadMesh_cofm8"]
-material = SubResource("StandardMaterial3D_m2wi0")
+[sub_resource type="QuadMesh" id="QuadMesh_edd7v"]
+material = SubResource("StandardMaterial3D_ieb5y")
 size = Vector2(0.08, 0.08)
 
-[node name="" type="Node3D" unique_id=1155134979]
+[node name="" type="Node3D" unique_id=1871625973]
 script = ExtResource("1_8wlwm")
 id = "car_drift"
 car_name = "Drift King"
@@ -131,62 +172,92 @@ nitro_accumulation_rate = 20.0
 nitro_drain_rate = 35.0
 nitro_damage = 40.0
 
-[node name="BodyWrap" type="Node3D" parent="." unique_id=386068129]
+[node name="BodyWrap" type="Node3D" parent="." unique_id=855663421]
 
-[node name="WheelFL" type="MeshInstance3D" parent="." unique_id=1043520859]
+[node name="Chassis" type="MeshInstance3D" parent="BodyWrap" unique_id=1408577489]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
+material_override = SubResource("StandardMaterial3D_tbw4c")
+mesh = SubResource("BoxMesh_phncd")
+
+[node name="Cabin" type="MeshInstance3D" parent="BodyWrap" unique_id=1609597311]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0.15)
+material_override = SubResource("StandardMaterial3D_qgjug")
+mesh = SubResource("BoxMesh_a4v3o")
+
+[node name="HeadlightL" type="MeshInstance3D" parent="BodyWrap" unique_id=80363581]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.65, 0.45, -1.45)
+material_override = SubResource("StandardMaterial3D_hgi87")
+mesh = SubResource("BoxMesh_82wj8")
+
+[node name="HeadlightR" type="MeshInstance3D" parent="BodyWrap" unique_id=1420126066]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.65, 0.45, -1.45)
+material_override = SubResource("StandardMaterial3D_hgi87")
+mesh = SubResource("BoxMesh_bkiex")
+
+[node name="TaillightL" type="MeshInstance3D" parent="BodyWrap" unique_id=1361344909]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 0.4, 1.45)
+material_override = SubResource("StandardMaterial3D_r8ptt")
+mesh = SubResource("BoxMesh_evdf5")
+
+[node name="TaillightR" type="MeshInstance3D" parent="BodyWrap" unique_id=1073944512]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 0.4, 1.45)
+material_override = SubResource("StandardMaterial3D_r8ptt")
+mesh = SubResource("BoxMesh_7gef7")
+
+[node name="WheelFL" type="MeshInstance3D" parent="." unique_id=1244131761]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, -1, 0.2, -0.9)
-material_override = SubResource("StandardMaterial3D_tbw4c")
-mesh = SubResource("CylinderMesh_phncd")
+material_override = SubResource("StandardMaterial3D_66afn")
+mesh = SubResource("CylinderMesh_xd0xk")
 
-[node name="WheelFR" type="MeshInstance3D" parent="." unique_id=942204814]
+[node name="WheelFR" type="MeshInstance3D" parent="." unique_id=2042804911]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 1, 0.2, -0.9)
-material_override = SubResource("StandardMaterial3D_tbw4c")
-mesh = SubResource("CylinderMesh_qgjug")
+material_override = SubResource("StandardMaterial3D_66afn")
+mesh = SubResource("CylinderMesh_gtxwa")
 
-[node name="WheelRL" type="MeshInstance3D" parent="." unique_id=1365032241]
+[node name="WheelRL" type="MeshInstance3D" parent="." unique_id=1212841867]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, -1, 0.2, 0.9)
-material_override = SubResource("StandardMaterial3D_tbw4c")
-mesh = SubResource("CylinderMesh_a4v3o")
+material_override = SubResource("StandardMaterial3D_66afn")
+mesh = SubResource("CylinderMesh_8xgbv")
 
-[node name="WheelRR" type="MeshInstance3D" parent="." unique_id=1086176180]
+[node name="WheelRR" type="MeshInstance3D" parent="." unique_id=325884804]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 1, 0.2, 0.9)
-material_override = SubResource("StandardMaterial3D_tbw4c")
-mesh = SubResource("CylinderMesh_hgi87")
+material_override = SubResource("StandardMaterial3D_66afn")
+mesh = SubResource("CylinderMesh_dywq5")
 
-[node name="BoostExhaustL" type="GPUParticles3D" parent="." unique_id=1822746041]
+[node name="BoostExhaustL" type="GPUParticles3D" parent="." unique_id=1655753918]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.25, 1.5)
 emitting = false
 amount = 60
 lifetime = 0.5
 speed_scale = 1.5
 visibility_aabb = AABB(-5, -2, -5, 10, 5, 10)
-process_material = SubResource("ParticleProcessMaterial_82wj8")
-draw_pass_1 = SubResource("QuadMesh_r8ptt")
+process_material = SubResource("ParticleProcessMaterial_m2wi0")
+draw_pass_1 = SubResource("QuadMesh_r6dxy")
 
-[node name="BoostExhaustR" type="GPUParticles3D" parent="." unique_id=694798817]
+[node name="BoostExhaustR" type="GPUParticles3D" parent="." unique_id=1731524771]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.25, 1.5)
 emitting = false
 amount = 60
 lifetime = 0.5
 speed_scale = 1.5
 visibility_aabb = AABB(-5, -2, -5, 10, 5, 10)
-process_material = SubResource("ParticleProcessMaterial_evdf5")
-draw_pass_1 = SubResource("QuadMesh_66afn")
+process_material = SubResource("ParticleProcessMaterial_um5n2")
+draw_pass_1 = SubResource("QuadMesh_a86ge")
 
-[node name="DriftSparksL" type="GPUParticles3D" parent="." unique_id=471245511]
+[node name="DriftSparksL" type="GPUParticles3D" parent="." unique_id=1054044480]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9, 0.1, 0.9)
 emitting = false
 amount = 30
 lifetime = 0.35
 visibility_aabb = AABB(-4, -2, -4, 8, 5, 8)
-process_material = SubResource("ParticleProcessMaterial_xd0xk")
-draw_pass_1 = SubResource("QuadMesh_8xgbv")
+process_material = SubResource("ParticleProcessMaterial_rpwvs")
+draw_pass_1 = SubResource("QuadMesh_p0dmn")
 
-[node name="DriftSparksR" type="GPUParticles3D" parent="." unique_id=54738886]
+[node name="DriftSparksR" type="GPUParticles3D" parent="." unique_id=1070126468]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 0.1, 0.9)
 emitting = false
 amount = 30
 lifetime = 0.35
 visibility_aabb = AABB(-4, -2, -4, 8, 5, 8)
-process_material = SubResource("ParticleProcessMaterial_dywq5")
-draw_pass_1 = SubResource("QuadMesh_cofm8")
+process_material = SubResource("ParticleProcessMaterial_ws2bj")
+draw_pass_1 = SubResource("QuadMesh_edd7v")

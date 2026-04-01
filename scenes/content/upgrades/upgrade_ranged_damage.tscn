@@ -8,7 +8,23 @@ script = ExtResource("2_o8h7f")
 stat = "ranged_damage_mult"
 value = 0.12
 
-[node name="" type="Node3D" unique_id=46670160]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ywfj0"]
+albedo_color = Color(0.2, 0.8, 0.3, 1)
+emission_enabled = true
+emission = Color(0.2, 0.8, 0.3, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_rc5lk"]
+top_radius = 0.0
+bottom_radius = 0.2
+height = 0.3
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_3df7v"]
+top_radius = 0.12
+bottom_radius = 0.12
+height = 0.3
+
+[node name="" type="Node3D" unique_id=1883761875]
 script = ExtResource("1_6jaie")
 id = "upgrade_ranged_damage"
 upgrade_name = "+12% Ranged Damage"
@@ -17,4 +33,14 @@ rarity = "uncommon"
 weight = 7.0
 stat_modifiers = Array[ExtResource("2_o8h7f")]([SubResource("Resource_t37ff")])
 
-[node name="Model" type="Node3D" parent="." unique_id=1736758109]
+[node name="Model" type="Node3D" parent="." unique_id=1154264230]
+
+[node name="Arrow" type="MeshInstance3D" parent="Model" unique_id=2028797898]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+material_override = SubResource("StandardMaterial3D_ywfj0")
+mesh = SubResource("CylinderMesh_rc5lk")
+
+[node name="Base" type="MeshInstance3D" parent="Model" unique_id=774264810]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+material_override = SubResource("StandardMaterial3D_ywfj0")
+mesh = SubResource("CylinderMesh_3df7v")

@@ -68,7 +68,6 @@ func _build_car_visual(root: Node3D, body_color: Color) -> void:
 	chassis_mat.roughness = 0.3
 	chassis.material_override = chassis_mat
 	body_wrap.add_child(chassis)
-	chassis.owner = root
 
 	# Cabin
 	var cabin := MeshInstance3D.new()
@@ -84,7 +83,6 @@ func _build_car_visual(root: Node3D, body_color: Color) -> void:
 	cabin_mat.roughness = 0.1
 	cabin.material_override = cabin_mat
 	body_wrap.add_child(cabin)
-	cabin.owner = root
 
 	# Headlights
 	var hl_mat := StandardMaterial3D.new()
@@ -102,7 +100,6 @@ func _build_car_visual(root: Node3D, body_color: Color) -> void:
 		hl.position = Vector3(side_x, 0.45, -1.45)
 		hl.material_override = hl_mat
 		body_wrap.add_child(hl)
-		hl.owner = root
 
 	# Taillights
 	var tl_mat := StandardMaterial3D.new()
@@ -120,10 +117,8 @@ func _build_car_visual(root: Node3D, body_color: Color) -> void:
 		tl.position = Vector3(side_x, 0.4, 1.45)
 		tl.material_override = tl_mat
 		body_wrap.add_child(tl)
-		tl.owner = root
 
 	root.add_child(body_wrap)
-	body_wrap.owner = root
 
 	# Wheels
 	var wheel_mat := StandardMaterial3D.new()
@@ -148,7 +143,6 @@ func _build_car_visual(root: Node3D, body_color: Color) -> void:
 		wheel.rotation_degrees = Vector3(0, 0, 90)
 		wheel.material_override = wheel_mat
 		root.add_child(wheel)
-		wheel.owner = root
 
 	# Boost exhaust particles
 	for pipe_i in 2:
@@ -183,7 +177,6 @@ func _build_car_visual(root: Node3D, body_color: Color) -> void:
 		exhaust.draw_pass_1 = ex_draw
 		exhaust.position = Vector3(pipe_x, 0.25, 1.5)
 		root.add_child(exhaust)
-		exhaust.owner = root
 
 	# Drift sparks
 	for spark_i in 2:
@@ -215,7 +208,6 @@ func _build_car_visual(root: Node3D, body_color: Color) -> void:
 		sparks.draw_pass_1 = sp_draw
 		sparks.position = Vector3(spark_x, 0.1, 0.9)
 		root.add_child(sparks)
-		sparks.owner = root
 
 # ─── WEAPONS ──────────────────────────────────────────────────
 
@@ -281,7 +273,6 @@ func _build_ranged_weapon_visual(root: Node3D, color: Color) -> void:
 	barrel.position = Vector3(0, 0.05, -0.35)
 	barrel.material_override = mat
 	model.add_child(barrel)
-	barrel.owner = root
 
 	# Body
 	var body := MeshInstance3D.new()
@@ -292,7 +283,6 @@ func _build_ranged_weapon_visual(root: Node3D, color: Color) -> void:
 	body.position = Vector3(0, 0.05, 0.05)
 	body.material_override = mat
 	model.add_child(body)
-	body.owner = root
 
 	# Muzzle flash
 	var muzzle := MeshInstance3D.new()
@@ -309,10 +299,8 @@ func _build_ranged_weapon_visual(root: Node3D, color: Color) -> void:
 	muz_mat.emission_energy_multiplier = 3.0
 	muzzle.material_override = muz_mat
 	model.add_child(muzzle)
-	muzzle.owner = root
 
 	root.add_child(model)
-	model.owner = root
 
 func _build_melee_weapon_visual(root: Node3D, color: Color) -> void:
 	var model := Node3D.new()
@@ -331,7 +319,6 @@ func _build_melee_weapon_visual(root: Node3D, color: Color) -> void:
 	mat.roughness = 0.3
 	plate.material_override = mat
 	model.add_child(plate)
-	plate.owner = root
 
 	# Impact glow strip
 	var glow := MeshInstance3D.new()
@@ -347,10 +334,8 @@ func _build_melee_weapon_visual(root: Node3D, color: Color) -> void:
 	glow_mat.emission_energy_multiplier = 3.0
 	glow.material_override = glow_mat
 	model.add_child(glow)
-	glow.owner = root
 
 	root.add_child(model)
-	model.owner = root
 
 # ─── ITEMS ──────────────────────────────────────────────────
 
@@ -401,7 +386,6 @@ func _build_item_visual(root: Node3D, color: Color, category: String) -> void:
 		_:
 			_add_crystal_model(model, root, color)
 	root.add_child(model)
-	model.owner = root
 
 func _add_shield_model(model: Node3D, root: Node3D, color: Color) -> void:
 	var mat := StandardMaterial3D.new()
@@ -415,7 +399,6 @@ func _add_shield_model(model: Node3D, root: Node3D, color: Color) -> void:
 	shield.mesh = smesh
 	shield.material_override = mat
 	model.add_child(shield)
-	shield.owner = root
 	# Cross detail
 	var cross_h := MeshInstance3D.new()
 	cross_h.name = "CrossH"
@@ -430,7 +413,6 @@ func _add_shield_model(model: Node3D, root: Node3D, color: Color) -> void:
 	gmat.emission_energy_multiplier = 2.0
 	cross_h.material_override = gmat
 	model.add_child(cross_h)
-	cross_h.owner = root
 	var cross_v := MeshInstance3D.new()
 	cross_v.name = "CrossV"
 	var cv_mesh := BoxMesh.new()
@@ -439,7 +421,6 @@ func _add_shield_model(model: Node3D, root: Node3D, color: Color) -> void:
 	cross_v.position = Vector3(0, 0, 0)
 	cross_v.material_override = gmat
 	model.add_child(cross_v)
-	cross_v.owner = root
 
 func _add_sword_model(model: Node3D, root: Node3D, color: Color) -> void:
 	var mat := StandardMaterial3D.new()
@@ -454,7 +435,6 @@ func _add_sword_model(model: Node3D, root: Node3D, color: Color) -> void:
 	blade.position = Vector3(0, 0.15, 0)
 	blade.material_override = mat
 	model.add_child(blade)
-	blade.owner = root
 	# Guard
 	var guard := MeshInstance3D.new()
 	guard.name = "Guard"
@@ -464,7 +444,6 @@ func _add_sword_model(model: Node3D, root: Node3D, color: Color) -> void:
 	guard.position = Vector3(0, -0.15, 0)
 	guard.material_override = mat
 	model.add_child(guard)
-	guard.owner = root
 	# Grip
 	var grip := MeshInstance3D.new()
 	grip.name = "Grip"
@@ -476,7 +455,6 @@ func _add_sword_model(model: Node3D, root: Node3D, color: Color) -> void:
 	grip_mat.albedo_color = Color(0.3, 0.2, 0.1)
 	grip.material_override = grip_mat
 	model.add_child(grip)
-	grip.owner = root
 	# Tip glow
 	var tip := MeshInstance3D.new()
 	tip.name = "TipGlow"
@@ -491,7 +469,6 @@ func _add_sword_model(model: Node3D, root: Node3D, color: Color) -> void:
 	tmat.emission_energy_multiplier = 3.0
 	tip.material_override = tmat
 	model.add_child(tip)
-	tip.owner = root
 
 func _add_bolt_model(model: Node3D, root: Node3D, color: Color) -> void:
 	var mat := StandardMaterial3D.new()
@@ -513,7 +490,6 @@ func _add_bolt_model(model: Node3D, root: Node3D, color: Color) -> void:
 		seg.rotation_degrees.z = [-15, 20, -15, 20][i]
 		seg.material_override = mat
 		model.add_child(seg)
-		seg.owner = root
 	# Glow sphere
 	var glow := MeshInstance3D.new()
 	glow.name = "GlowSphere"
@@ -527,7 +503,6 @@ func _add_bolt_model(model: Node3D, root: Node3D, color: Color) -> void:
 	gmat.emission_energy_multiplier = 4.0
 	glow.material_override = gmat
 	model.add_child(glow)
-	glow.owner = root
 
 func _add_star_model(model: Node3D, root: Node3D, color: Color) -> void:
 	var mat := StandardMaterial3D.new()
@@ -544,7 +519,6 @@ func _add_star_model(model: Node3D, root: Node3D, color: Color) -> void:
 	center.mesh = cmesh
 	center.material_override = mat
 	model.add_child(center)
-	center.owner = root
 	# Spikes
 	for i in 4:
 		var spike := MeshInstance3D.new()
@@ -555,7 +529,6 @@ func _add_star_model(model: Node3D, root: Node3D, color: Color) -> void:
 		spike.rotation_degrees.z = i * 45.0
 		spike.material_override = mat
 		model.add_child(spike)
-		spike.owner = root
 
 func _add_crystal_model(model: Node3D, root: Node3D, color: Color) -> void:
 	var mat := StandardMaterial3D.new()
@@ -571,7 +544,6 @@ func _add_crystal_model(model: Node3D, root: Node3D, color: Color) -> void:
 	crystal.rotation_degrees = Vector3(45, 0, 45)
 	crystal.material_override = mat
 	model.add_child(crystal)
-	crystal.owner = root
 	# Inner glow
 	var glow := MeshInstance3D.new()
 	glow.name = "InnerGlow"
@@ -585,7 +557,6 @@ func _add_crystal_model(model: Node3D, root: Node3D, color: Color) -> void:
 	gmat.emission_energy_multiplier = 3.0
 	glow.material_override = gmat
 	model.add_child(glow)
-	glow.owner = root
 
 # ─── UPGRADES ──────────────────────────────────────────────────
 
@@ -637,7 +608,6 @@ func _build_upgrade_visual(root: Node3D, color: Color) -> void:
 	mat.emission_energy_multiplier = 2.0
 	arrow.material_override = mat
 	model.add_child(arrow)
-	arrow.owner = root
 	# Base cylinder
 	var base := MeshInstance3D.new()
 	base.name = "Base"
@@ -649,9 +619,7 @@ func _build_upgrade_visual(root: Node3D, color: Color) -> void:
 	base.position = Vector3(0, -0.05, 0)
 	base.material_override = mat
 	model.add_child(base)
-	base.owner = root
 	root.add_child(model)
-	model.owner = root
 
 # ─── UTILITIES ──────────────────────────────────────────────────
 
@@ -662,6 +630,13 @@ func _load_json(path: String) -> Dictionary:
 	return JSON.parse_string(text)
 
 func _save_scene(root: Node, path: String) -> void:
+	# Set owner on all descendants (must happen after full tree is built)
+	_set_owner_recursive(root, root)
 	var scene := PackedScene.new()
 	scene.pack(root)
 	ResourceSaver.save(scene, path)
+
+func _set_owner_recursive(node: Node, owner: Node) -> void:
+	for child in node.get_children():
+		child.owner = owner
+		_set_owner_recursive(child, owner)
