@@ -51,9 +51,9 @@ func _physics_process(delta: float) -> void:
 	if not visuals:
 		return
 
-	# Rear wheels are Wheel_2 (RL) and Wheel_3 (RR) in Visuals
-	var rl := visuals.get_node_or_null("Wheel_2")
-	var rr := visuals.get_node_or_null("Wheel_3")
+	# Rear wheels
+	var rl := visuals.get_node_or_null("WheelRL")
+	var rr := visuals.get_node_or_null("WheelRR")
 	if not rl or not rr:
 		return
 

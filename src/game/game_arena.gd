@@ -439,7 +439,7 @@ func _process(delta: float) -> void:
 
 	# --- Boost exhaust particles (both pipes) ---
 	var is_boosting := car.boost_power > 0
-	for ex_name in ["BoostExhaust_L", "BoostExhaust_R"]:
+	for ex_name in ["BoostExhaustL", "BoostExhaustR"]:
 		var ex := visuals.get_node_or_null(ex_name)
 		if ex and ex is GPUParticles3D:
 			ex.emitting = is_boosting
@@ -454,7 +454,7 @@ func _process(delta: float) -> void:
 		spark_color = Color(0.3, 0.8, 1.0)
 	else:
 		spark_color = Color(1.0, 0.7, 0.2)
-	for sp_name in ["DriftSparks_L", "DriftSparks_R"]:
+	for sp_name in ["DriftSparksL", "DriftSparksR"]:
 		var sp := visuals.get_node_or_null(sp_name)
 		if sp and sp is GPUParticles3D:
 			sp.emitting = is_spark
