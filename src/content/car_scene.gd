@@ -38,9 +38,9 @@ extends Node3D
 @export var roll_normal: float = 0.15
 @export var roll_drift: float = 0.30
 @export var roll_lerp_speed: float = 8.0
-@export var pitch_accel: float = -0.05
-@export var pitch_boost: float = -0.12
-@export var pitch_idle: float = 0.03
+@export var pitch_accel: float = -0.025
+@export var pitch_boost: float = -0.06
+@export var pitch_idle: float = 0.015
 @export var pitch_lerp_speed: float = 6.0
 
 func to_stats_dict() -> Dictionary:

@@ -175,9 +175,9 @@ nitro_damage = 45.0
 roll_normal = 0.12
 roll_drift = 0.25
 roll_lerp_speed = 7.0
-pitch_accel = -0.2
-pitch_boost = -0.4
-pitch_idle = 0.12
+pitch_accel = -0.1
+pitch_boost = -0.2
+pitch_idle = 0.06
 pitch_lerp_speed = 10.0
 
 [node name="BodyWrap" type="Node3D" parent="." unique_id=2078465580]
